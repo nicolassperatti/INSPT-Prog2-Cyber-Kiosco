@@ -70,6 +70,9 @@ public class ProductoService {
     public Page<Producto> obtenerProductosPorMarca(Marca marca, Pageable pageable){
         return this.productoRepository.findByMarca(marca, pageable);
     }
+    public Page<Producto> obtenerProductosPorCategoria(Categoria categoria, Pageable pageable){
+        return this.productoRepository.findByCategoria(categoria, pageable);
+    }
     
     public Page<Producto> obtenerProductosPorMarca_Id(Long id_marca,int page, int size) {
         Marca marca = marcaService.encontrarPorId(id_marca);
@@ -77,13 +80,15 @@ public class ProductoService {
         return this.obtenerProductosPorMarca(marca, pageable);
     }
     
-    public List<Producto> obtenerProductosPorCategoria(Categoria categoria) {
+    public Page<Producto> obtenerProductosPorCategoria(Categoria categoria, int page, int size) {
         Validacion.validarNotNull(categoria, "Categoria");
-        return productoRepository.findByCategoria(categoria);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        return productoRepository.findByCategoria(categoria,pageable);
     }
     
-    public List<Producto> obtenerProductosPorCategoria_Id(Long id_categoria) {
+    public Page<Producto> obtenerProductosPorCategoria_Id(Long id_categoria, int page, int size) {
         Categoria categoria = categoriaService.encontrarPorId(id_categoria);
-        return productoRepository.findByCategoria(categoria);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        return productoRepository.findByCategoria(categoria,pageable);
     }
 }

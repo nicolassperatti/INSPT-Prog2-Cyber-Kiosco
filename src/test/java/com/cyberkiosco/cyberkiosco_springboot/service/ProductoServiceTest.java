@@ -107,7 +107,7 @@ class ProductoServiceTest {
     @Order(4) //porque luego si se agregan o eliminan registros con los otros tests falla
     void testEncontrarPorCategoria() {
         Long id_categoria = 1L; 
-        List<Producto> listaProductos = productoService.obtenerProductosPorCategoria_Id(id_categoria);
+        List<Producto> listaProductos = productoService.obtenerProductosPorCategoria_Id(id_categoria,0,8).getContent();
         assertEquals(8, listaProductos.size()); //en principio a 8 productos de la categoira con id 1
     }
     
