@@ -98,7 +98,7 @@ class ProductoServiceTest {
     @Order(3) //porque luego si se agregan o eliminan registros con los otros tests falla
     void testEncontrarPorMarca() {
         Long id_marca = 1L; 
-        List<Producto> listaProductos = productoService.obtenerProductosPorMarca_Id(id_marca);
+        List<Producto> listaProductos = productoService.obtenerProductosPorMarca_Id(id_marca,0,4).getContent();
         assertEquals(4, listaProductos.size()); //en principio a 4 productos de la marca con id 1
     }
     
