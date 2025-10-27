@@ -8,6 +8,10 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.auxiliar.Validacion;
 import com.cyberkiosco.cyberkiosco_springboot.repository.ProductoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 
@@ -24,10 +28,14 @@ public class ProductoService {
     private CategoriaService categoriaService;
     
     
-    public List<Producto> obtenerTodosLosProductos() {
-        return productoRepository.findAll();
+    public Page<Producto> obtenerTodosLosProductos(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        return obtenerTodosLosProductos(pageable);
     }
     
+    public Page<Producto> obtenerTodosLosProductos(Pageable pageable){
+        return this.productoRepository.findAll(pageable);
+    }
     public Producto encontrarPorId(long id) {
         return productoRepository.findById(id).orElse(null);
     }

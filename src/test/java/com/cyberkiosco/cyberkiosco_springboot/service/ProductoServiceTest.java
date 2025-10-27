@@ -74,14 +74,15 @@ class ProductoServiceTest {
     @Test
     @Order(1) //porque luego si se agregan o eliminan registros con los otros tests falla
     void testObtenerTodosLosProductos() {
-        ArrayList<Producto> listaProductos;
-        listaProductos = (ArrayList<Producto>) this.productoService.obtenerTodosLosProductos();
+        List<Producto> listaProductos;
+        listaProductos = this.productoService.obtenerTodosLosProductos(0,5).getContent();
         
         for(Producto producto : listaProductos) {
             System.out.println(producto.toString());
         }
         
-        assertEquals(15, listaProductos.size()); //en principio son 15 productos en total
+        // assertEquals(15, listaProductos.size()); //en principio son 15 productos en total
+        assertEquals(5, listaProductos.size());//para probar la paginacion
     }
     
     
