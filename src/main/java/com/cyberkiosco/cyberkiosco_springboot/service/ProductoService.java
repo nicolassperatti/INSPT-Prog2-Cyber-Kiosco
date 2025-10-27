@@ -8,6 +8,10 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.auxiliar.Validacion;
 import com.cyberkiosco.cyberkiosco_springboot.repository.ProductoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 
@@ -24,10 +28,14 @@ public class ProductoService {
     private CategoriaService categoriaService;
     
     
-    public List<Producto> obtenerTodosLosProductos() {
-        return productoRepository.findAll();
+    public Page<Producto> obtenerTodosLosProductos(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        return obtenerTodosLosProductos(pageable);
     }
     
+    public Page<Producto> obtenerTodosLosProductos(Pageable pageable){
+        return this.productoRepository.findAll(pageable);
+    }
     public Producto encontrarPorId(long id) {
         return productoRepository.findById(id).orElse(null);
     }
@@ -53,23 +61,34 @@ public class ProductoService {
         productoRepository.saveAll(listaProductos);
     }
     
-    public List<Producto> obtenerProductosPorMarca(Marca marca) {
+    public Page<Producto> obtenerProductosPorMarca(Marca marca, int page, int size) {
         Validacion.validarNotNull(marca, "Marca");
-        return productoRepository.findByMarca(marca);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        return this.obtenerProductosPorMarca(marca, pageable);
+    }
+
+    public Page<Producto> obtenerProductosPorMarca(Marca marca, Pageable pageable){
+        return this.productoRepository.findByMarca(marca, pageable);
+    }
+    public Page<Producto> obtenerProductosPorCategoria(Categoria categoria, Pageable pageable){
+        return this.productoRepository.findByCategoria(categoria, pageable);
     }
     
-    public List<Producto> obtenerProductosPorMarca_Id(Long id_marca) {
+    public Page<Producto> obtenerProductosPorMarca_Id(Long id_marca,int page, int size) {
         Marca marca = marcaService.encontrarPorId(id_marca);
-        return productoRepository.findByMarca(marca);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        return this.obtenerProductosPorMarca(marca, pageable);
     }
     
-    public List<Producto> obtenerProductosPorCategoria(Categoria categoria) {
+    public Page<Producto> obtenerProductosPorCategoria(Categoria categoria, int page, int size) {
         Validacion.validarNotNull(categoria, "Categoria");
-        return productoRepository.findByCategoria(categoria);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        return productoRepository.findByCategoria(categoria,pageable);
     }
     
-    public List<Producto> obtenerProductosPorCategoria_Id(Long id_categoria) {
+    public Page<Producto> obtenerProductosPorCategoria_Id(Long id_categoria, int page, int size) {
         Categoria categoria = categoriaService.encontrarPorId(id_categoria);
-        return productoRepository.findByCategoria(categoria);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        return productoRepository.findByCategoria(categoria,pageable);
     }
 }
