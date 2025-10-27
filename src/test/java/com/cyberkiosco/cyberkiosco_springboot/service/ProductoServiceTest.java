@@ -74,14 +74,15 @@ class ProductoServiceTest {
     @Test
     @Order(1) //porque luego si se agregan o eliminan registros con los otros tests falla
     void testObtenerTodosLosProductos() {
-        ArrayList<Producto> listaProductos;
-        listaProductos = (ArrayList<Producto>) this.productoService.obtenerTodosLosProductos();
+        List<Producto> listaProductos;
+        listaProductos = this.productoService.obtenerTodosLosProductos(0,5).getContent();
         
         for(Producto producto : listaProductos) {
             System.out.println(producto.toString());
         }
         
-        assertEquals(15, listaProductos.size()); //en principio son 15 productos en total
+        // assertEquals(15, listaProductos.size()); //en principio son 15 productos en total
+        assertEquals(5, listaProductos.size());//para probar la paginacion
     }
     
     
@@ -97,7 +98,7 @@ class ProductoServiceTest {
     @Order(3) //porque luego si se agregan o eliminan registros con los otros tests falla
     void testEncontrarPorMarca() {
         Long id_marca = 1L; 
-        List<Producto> listaProductos = productoService.obtenerProductosPorMarca_Id(id_marca);
+        List<Producto> listaProductos = productoService.obtenerProductosPorMarca_Id(id_marca,0,4).getContent();
         assertEquals(4, listaProductos.size()); //en principio a 4 productos de la marca con id 1
     }
     
@@ -106,7 +107,7 @@ class ProductoServiceTest {
     @Order(4) //porque luego si se agregan o eliminan registros con los otros tests falla
     void testEncontrarPorCategoria() {
         Long id_categoria = 1L; 
-        List<Producto> listaProductos = productoService.obtenerProductosPorCategoria_Id(id_categoria);
+        List<Producto> listaProductos = productoService.obtenerProductosPorCategoria_Id(id_categoria,0,8).getContent();
         assertEquals(8, listaProductos.size()); //en principio a 8 productos de la categoira con id 1
     }
     
