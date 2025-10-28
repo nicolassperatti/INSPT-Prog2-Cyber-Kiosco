@@ -110,6 +110,32 @@ class ProductoServiceTest {
         List<Producto> listaProductos = productoService.obtenerProductosPorCategoria_Id(id_categoria,0,8).getContent();
         assertEquals(8, listaProductos.size()); //en principio a 8 productos de la categoira con id 1
     }
+
+    @Test
+    void testEncontrarPorSimilitudANombre(){
+        String nombre = "frita";
+        List<Producto> productos = this.productoService.obetenerProductosQueContinienen("%" + nombre + "%");//funciona
+        for (Producto producto : productos) {
+            System.out.println(producto.toString());
+        }
+        productos = this.productoService.obetenerProductosQueContinienen(nombre + "%");//no funciona
+        for (Producto producto : productos) {
+            System.out.println(producto.toString());
+        }
+        productos = this.productoService.obetenerProductosQueContinienen("%" + nombre);//no funciona
+        for (Producto producto : productos) {
+            System.out.println(producto.toString());
+        }
+        //hace falta poner % tanto al final como al principio de la cadena, con el nombre en medio para que funcione
+        nombre = "papa fritas";//no funciona
+        nombre = "papas fritas";//si funciona con % a los dos lados o solamente al final, no al principio
+        nombre = "papas frita"; // funciona igual que arriba.
+        
+        nombre = "papa"; //funciona con % a los dos lados o solamente al final
+        nombre = "papas"; //idem arriba.
+
+        //con fritas y frita solamente funciona si esta entre %, no puede funcionar de otra manera.
+    }
     
     
     @Test

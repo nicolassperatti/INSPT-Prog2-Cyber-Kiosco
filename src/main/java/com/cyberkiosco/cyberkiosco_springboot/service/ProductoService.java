@@ -73,6 +73,10 @@ public class ProductoService {
     public Page<Producto> obtenerProductosPorCategoria(Categoria categoria, Pageable pageable){
         return this.productoRepository.findByCategoria(categoria, pageable);
     }
+
+    public List<Producto> obetenerProductosQueContinienen(String nombre){
+        return this.productoRepository.findByNombreLikeIgnoreCase(nombre);
+    }
     
     public Page<Producto> obtenerProductosPorMarca_Id(Long id_marca,int page, int size) {
         Marca marca = marcaService.encontrarPorId(id_marca);
