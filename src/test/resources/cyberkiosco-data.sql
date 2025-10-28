@@ -20,7 +20,7 @@ INSERT INTO `producto` (`nombre`, `stock`, `precio`, `imagen`, `descripcion`, `i
 ('Barra de Cereal', 50, 2.29, 'barra_cereal.png', 'Barra energética de avena y frutas', 1, 3),
 ('Gaseosa Cola', 180, 1.29, 'gaseosa_cola.png', 'Refresco cola, sabor clásico', 2, 1),
 ('Chicles Mentolados', 200, 0.79, 'chicles_mentolados.png', 'Chicles con sabor refrescante a menta', 1, 4),
-('Café Instantáneo', 60, 2.99, 'cafe_instantaneo.png', 'Café soluble para preparar rápidamente', 2, 3),
+('Café', 60, 2.99, 'cafe.png', 'Café para llevar', 2, 3),
 ('Pebete', 150, 1.49, 'pebete.png', 'Pebete con jamon y queso', 1, 2),
 ('Leche', 100, 1.59, 'leche.png', 'Leche con calcio y proteinas', 2, 4),
 ('Nueces', 50, 2.99, 'nueces.png', 'Nueces nutritivas', 1, 1),
