@@ -1,6 +1,9 @@
 :root {
     --color-principal: rgb(255, 174, 120);
     --color-secundario: rgb(255, 249, 242);
+    --color-terciario: rgb(41, 24, 8);
+    --prod-card-size: 250px;
+    --prod-grid-max: calc((var(--prod-card-max) * 4));
 }
 
 * {
@@ -16,7 +19,7 @@ body {
 }
 
 header, footer {
-    color: rgb(41, 24, 8);
+    color: var(--color-terciario);
     background-color: var(--color-secundario);
     text-align: center;
     padding-bottom: 1rem;
@@ -34,6 +37,7 @@ footer p {
 main {
     background-color: var(--color-principal);
     color: #fff;
+    display: flex;
 }
 
 nav ul {
@@ -47,7 +51,7 @@ nav li {
 }
 
 nav a {
-    color: rgb(41, 24, 8);
+    color: var(--color-terciario);
     text-decoration: none;
     font-weight: bold;
     font-size: 1.1rem;
@@ -66,5 +70,65 @@ nav a:hover {
     max-width: 20rem;
 }
 
+.container {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.prod-grid {
+    background-color: var(--color-secundario);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--prod-card-size), 1fr));
+    gap: 1rem;
+    width: 85%;
+    /*max-width: calc((var(--prod-card-size) + 4rem) * 4);*/
+}
+
+.prod-card {
+   background-color: var(--color-principal);
+   border-radius: 10px;
+   display: grid;
+   grid-template-rows: 2fr 1fr;
+}
+
+.prod-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.prod-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.prod-card-info {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+    color: var(--color-terciario);
+    display: grid;
+    grid-template-rows: 1.5fr 1fr;
+}
+
+.prod-card-info h3 {
+    font-size: 2rem;
+}
+
+.prod-card-info h2 {
+    font-size: 2rem;
+}
+
+.prod-card p {
+    font-size: 0.9rem;
+    color: #666;
+    padding: 0 15px 15px;
+    margin: 0;
+}
 
