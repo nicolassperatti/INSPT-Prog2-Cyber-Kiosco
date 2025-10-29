@@ -122,6 +122,7 @@ nav a:hover {
 }
 
 .prod-card-info h2 {
+    margin-top: 0.5rem;
     font-size: 2rem;
 }
 

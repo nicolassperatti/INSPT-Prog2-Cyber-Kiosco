@@ -10,10 +10,6 @@
 
     <body>
         
-        <!--
-        <h1 class="Bienvenida">¡¡¡Bienvenido al Cyberkiosco!!!</h1>
-        -->
-        
         <header th:replace="fragments/header :: header-nav"></header>
         
         <main>
@@ -22,11 +18,15 @@
                 <div class="prod-grid">
                     
                     <div th:each="producto: ${productos}" class="prod-card">
-                        <!--
-                        <img th:if="${producto.imagen}" th:src="@{'/images/productos/' + ${producto.imagen}}" alt="Imagen de + ${producto.nombre}">
-                        <img th:unless="${producto.imagen}" th:src="@{/images/productos/producto_placeholder.jpg}" alt="Imagen de + ${producto.nombre} no disponible">
-                        -->
-                        <img th:src="@{/images/productos/producto_placeholder.jpg}" alt="Imagen de + ${producto.nombre} no disponible">
+                        
+                        <img th:if="${producto.imagen}" 
+                             th:src="|/images/productos/${producto.imagen}|"
+                             th:alt="|Imagen de ${producto.nombre}|">
+                       
+                        <img th:unless="${producto.imagen}"
+                             th:src="|/images/productos/producto_placeholder.jpg|"
+                             th:alt="|Imagen de ${producto.nombre} no disponible|">
+                        
                         <div class="prod-card-info">
                             <h3 th:text="${producto.nombre}">Nombre del Producto</h3>
                             <h2 th:text="'$' + ${producto.precio}">Precio</h2>
@@ -35,6 +35,7 @@
                     </div>
                     
                 </div>
+                
             </div>
         </main>
         
