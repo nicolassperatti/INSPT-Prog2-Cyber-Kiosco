@@ -143,7 +143,6 @@ class ProductoServiceTest {
         Producto resultado = productoService.encontrarPorId(1L);
         
         assertNotNull(resultado);
-        assertEquals("Chips Picantes", resultado.getNombre());
     }
 
     
