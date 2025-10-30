@@ -47,13 +47,13 @@ public class CompraController {
         int cantidad2 = 3;
         Producto producto = productoService.encontrarPorId(idproducto);
         Producto producto2 = productoService.encontrarPorId(idproducto2);
-        // producto.restarStock(cantidad1);
-        // producto2.restarStock(cantidad2);
-        // productoService.guardarProducto(producto);
-        // productoService.guardarProducto(producto2);
+        producto.restarStock(cantidad1);
+        producto2.restarStock(cantidad2);
+        productoService.guardarProducto(producto);
+        productoService.guardarProducto(producto2);
         // restar el stock del producto funciona sin problemas
 
-        //probando carrito ahora
+        //probando carrito ahora, funciona
         List<CarritoItemDTO> cItemDTOs = new ArrayList<>();
         cItemDTOs.add(new CarritoItemDTO(idproducto, cantidad1, producto.getPrecio()));
         cItemDTOs.add(new CarritoItemDTO(idproducto2, cantidad2, producto2.getPrecio()));
