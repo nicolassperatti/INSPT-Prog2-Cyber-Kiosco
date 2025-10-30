@@ -38,6 +38,7 @@ main {
     background-color: var(--color-principal);
     color: #fff;
     display: flex;
+    justify-content: center;
 }
 
 nav ul {
@@ -77,6 +78,7 @@ nav a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 980px;
 }
 
 .prod-grid {
@@ -106,6 +108,7 @@ nav a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px 10px 0 0;
 }
 
 .prod-card-info {
