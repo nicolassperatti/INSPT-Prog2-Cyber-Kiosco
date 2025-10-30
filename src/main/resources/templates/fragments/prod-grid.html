@@ -1,0 +1,20 @@
+
+
+<div th:fragment="prod-grid" class="prod-grid">
+    <div th:each="producto : ${paginaProductos.content}" class="prod-card">
+        <img th:if="${producto.imagen}" 
+             th:src="|/images/productos/${producto.imagen}|"
+             th:alt="|Imagen de ${producto.nombre}|">
+                       
+        <img th:unless="${producto.imagen}"
+             th:src="|/images/productos/producto_placeholder.jpg|"
+             th:alt="|Imagen de ${producto.nombre} no disponible|">
+                        
+        <div class="prod-card-info">
+            <p th:text="${producto.nombre}" class="nombre-producto">Nombre del Producto</p>
+            <p th:text="'$' + ${producto.precio}" class="precio">Precio</p>
+        </div>
+    </div>
+</div>
+
+

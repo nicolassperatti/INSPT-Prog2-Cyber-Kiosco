@@ -1,0 +1,17 @@
+
+<div th:fragment="pagination-container" class="pagination-container" th:if="${paginaProductos.totalPages > 0}">
+    <ul>
+        <li th:class="${paginaProductos.first} ? 'disabled' : ''">
+            <a th:href="@{/productos(page=${paginaProductos.number - 1}, size=${paginaProductos.size})}">Anterior</a>
+        </li>
+                    
+        <li th:each="i : ${#numbers.sequence(0, paginaProductos.totalPages - 1)}" th:class="${i == paginaProductos.number ? 'active' : ''}">
+            <a th:href="@{/productos(page=${i}, size=${paginaProductos.size})}" th:text="${i + 1}">1</a>
+        </li>
+                    
+        <li th:class="${paginaProductos.last} ? 'disabled' : ''">
+            <a th:href="@{/productos(page=${paginaProductos.number + 1}, size=${paginaProductos.size})}">Siguiente</a>
+        </li>
+    </ul>
+</div>
+

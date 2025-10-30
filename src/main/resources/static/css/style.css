@@ -178,12 +178,14 @@ nav a:hover {
     background-color: var(--color-principal);
     color: var(--color-secundario);
     border-color: var(--color-terciario);
+    font-weight: bold;
 }
 
 .pagination-container li.active a {
     background-color: var(--color-terciario);
     color: var(--color-secundario);
     border-color: var(--gris-claro);
+    font-weight: bold;
 }
 
 .pagination-container li.disabled a {
