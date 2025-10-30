@@ -41,9 +41,9 @@ public class CompraController {
     public String getMethodName() {
 
         //manejando producto primero
-        long idproducto = 1l;
+        long idproducto = 1l;//se simula que llegan estos ids desde la pagina web
         long idproducto2 = 2l;
-        int cantidad1 = 2;
+        int cantidad1 = 2;//idem que con los ids
         int cantidad2 = 3;
         Producto producto = productoService.encontrarPorId(idproducto);
         Producto producto2 = productoService.encontrarPorId(idproducto2);
@@ -63,6 +63,7 @@ public class CompraController {
         carrito.setPrecio_total(precio_total);
         carrito.setUsuario(usuarioService.encontrarPorId(1l));
         this.carritoService.guardarCarrito(carrito);
+        this.guardarCarritoProducto(carrito, cItemDTOs);
         return "hola mundo";
     }
     
@@ -74,5 +75,11 @@ public class CompraController {
             acum += carritoItemDTO.getCantidad() * carritoItemDTO.getPrecio();
         }
         return Math.round((acum * 100.0)) / 100.0;
+    }
+
+    private void guardarCarritoProducto(Carrito carrito, List<CarritoItemDTO> carritoItemDTOs){
+        for (CarritoItemDTO carritoItemDTO : carritoItemDTOs) {
+            this.carritoProductoService.guardar(carrito.getId(), carritoItemDTO.getIdproducto(), carritoItemDTO.getCantidad(), carritoItemDTO.getPrecio());
+        }
     }
 }
