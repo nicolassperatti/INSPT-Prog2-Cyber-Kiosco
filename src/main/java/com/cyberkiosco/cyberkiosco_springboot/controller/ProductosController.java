@@ -6,6 +6,10 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +21,11 @@ public class ProductosController {
     private ProductoService productoService;
     
     @GetMapping("/productos")
-    public String index(Model model) { 
+    public String index(Model model, @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) { 
         
-        List<Producto> listaProductos = productoService.obtenerTodosLosProductos();
+        Page<Producto> paginaProductos = productoService.obtenerTodosLosProductos(pageable);
         
-        model.addAttribute("productos", listaProductos);
+        model.addAttribute("paginaProductos", paginaProductos);
         
         return "index";
     }

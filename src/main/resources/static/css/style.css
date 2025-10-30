@@ -2,6 +2,8 @@
     --color-principal: rgb(255, 174, 120);
     --color-secundario: rgb(255, 249, 242);
     --color-terciario: rgb(41, 24, 8);
+    --gris-oscuro: rgb(130, 129, 129);
+    --gris-claro: rgb(209, 207, 207);
     --prod-card-size: 250px;
     --prod-grid-max: calc((var(--prod-card-max) * 4));
 }
@@ -39,6 +41,8 @@ main {
     color: #fff;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 nav ul {
@@ -72,13 +76,13 @@ nav a:hover {
 }
 
 .container {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 980px;
+    max-width: 1000px;
 }
 
 .prod-grid {
@@ -115,24 +119,76 @@ nav a:hover {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     margin-left: 0.5rem;
+    margin-right: 0.5rem;
     color: var(--color-terciario);
     display: grid;
     grid-template-rows: 1.5fr 1fr;
+    color: var(--color-secundario);
 }
 
-.prod-card-info h3 {
-    font-size: 2rem;
+.prod-card-info .nombre-producto {
+    font-size: 2.25rem;
+    font-weight: bold;
 }
 
-.prod-card-info h2 {
+.prod-card-info .precio {
     margin-top: 0.5rem;
     font-size: 2rem;
 }
 
+/*
 .prod-card p {
     font-size: 0.9rem;
     color: #666;
     padding: 0 15px 15px;
     margin: 0;
+}
+*/
+
+.pagination-container {
+    text-align: center;
+    border-radius: 10px;
+    background-color: var(--color-secundario);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.pagination-container ul {
+    list-style: none;
+    padding: 0;
+    display: inline-flex;
+    gap: 5px;
+}
+
+.pagination-container li {
+    display: inline;
+    color: var(--color-terciario);
+}
+
+.pagination-container a {
+    text-decoration: none;
+    padding: 8px 15px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+    color: var(--color-terciario); 
+}
+
+.pagination-container a:hover {
+    background-color: var(--color-principal);
+    color: var(--color-secundario);
+    border-color: var(--color-terciario);
+}
+
+.pagination-container li.active a {
+    background-color: var(--color-terciario);
+    color: var(--color-secundario);
+    border-color: var(--gris-claro);
+}
+
+.pagination-container li.disabled a {
+    color: var(--color-terciario);
+    pointer-events: none;
+    background-color: var(--gris-claro);
 }
 

@@ -14,11 +14,8 @@
         
         <main>
             <div class="container">
-               
                 <div class="prod-grid">
-                    
-                    <div th:each="producto: ${productos}" class="prod-card">
-                        
+                    <div th:each="producto : ${paginaProductos.content}" class="prod-card">
                         <img th:if="${producto.imagen}" 
                              th:src="|/images/productos/${producto.imagen}|"
                              th:alt="|Imagen de ${producto.nombre}|">
@@ -28,15 +25,29 @@
                              th:alt="|Imagen de ${producto.nombre} no disponible|">
                         
                         <div class="prod-card-info">
-                            <h3 th:text="${producto.nombre}">Nombre del Producto</h3>
-                            <h2 th:text="'$' + ${producto.precio}">Precio</h2>
+                            <p th:text="${producto.nombre}" class="nombre-producto">Nombre del Producto</p>
+                            <p th:text="'$' + ${producto.precio}" class="precio">Precio</p>
                         </div>
-                        
                     </div>
-                    
                 </div>
-                
             </div>
+            
+            <div th:if="${paginaProductos.totalPages > 0}" class="pagination-container">
+                <ul>
+                    <li th:class="${paginaProductos.first} ? 'disabled' : ''">
+                        <a th:href="@{/productos(page=${paginaProductos.number - 1}, size=${paginaProductos.size})}">Anterior</a>
+                    </li>
+                    
+                    <li th:each="i : ${#numbers.sequence(0, paginaProductos.totalPages - 1)}" th:class="${i == paginaProductos.number ? 'active' : ''}">
+                        <a th:href="@{/productos(page=${i}, size=${paginaProductos.size})}" th:text="${i + 1}">1</a>
+                    </li>
+                    
+                    <li th:class="${paginaProductos.last} ? 'disabled' : ''">
+                        <a th:href="@{/productos(page=${paginaProductos.number + 1}, size=${paginaProductos.size})}">Siguiente</a>
+                    </li>
+                </ul>
+            </div>
+            
         </main>
         
         <footer th:replace="fragments/footer :: footer"></footer>
