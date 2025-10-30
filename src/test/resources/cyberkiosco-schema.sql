@@ -21,8 +21,8 @@ CREATE TABLE `producto` (
 	`nombre` VARCHAR(50) NOT NULL,
 	`stock` INTEGER NOT NULL,
 	`precio` DOUBLE NOT NULL,
-	`imagen` VARCHAR(255) NOT NULL,
-	`descripcion` VARCHAR(255),     -- modificacion para que acepte valores nulos
+	`imagen` VARCHAR(255) DEFAULT NULL,
+	`descripcion` VARCHAR(255) DEFAULT NULL,     -- modificacion para que acepte valores nulos
 	`id_categoria` INTEGER NOT NULL,
 	`id_marca` INTEGER NOT NULL,
 	PRIMARY KEY(`id_producto`)
