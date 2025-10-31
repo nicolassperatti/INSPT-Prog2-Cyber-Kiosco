@@ -31,6 +31,7 @@ public class Producto {
     private int stock;
     private double precio;
     private String imagen;
+    private String descripcion;
     
     @ManyToOne
     @JoinColumn(name = "id_marca")
@@ -115,6 +116,11 @@ public class Producto {
         return "Producto{" + "id=" + id + ", nombre=" + nombre + ", stock=" + stock + ", precio=" + precio + ", imagen=" + imagen + ", marca=" + marca + ", categoria=" + categoria + '}';
     }
 
+    public void setDescripcion(String descripcion) {
+        Validacion.validarString(descripcion, "descripcion de producto");
+        this.descripcion = descripcion;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -139,6 +145,9 @@ public class Producto {
         if (!Objects.equals(this.imagen, other.imagen)) {
             return false;
         }
+        if (!Objects.equals(this.descripcion, other.descripcion)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -147,5 +156,5 @@ public class Producto {
         }
         return Objects.equals(this.categoria, other.categoria);
     }
-
+    
 }
