@@ -83,6 +83,15 @@ public class ProductoService {
         return this.productoRepository.findByNombreLikeIgnoreCase(nombre);
     }
     
+    public Page<Producto> obetenerProductosQueContinienen(String nombre, Pageable pageable){
+        return this.productoRepository.findByNombreLikeIgnoreCase(nombre, pageable);
+    }
+    
+    public Page<Producto> obetenerProductosQueContinienen(String nombre, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        return obetenerProductosQueContinienen(nombre, pageable);
+    }
+    
     public Page<Producto> obtenerProductosPorMarca_Id(Long id_marca,int page, int size) {
         Marca marca = marcaService.encontrarPorId(id_marca);
         Pageable pageable = PageRequest.of(page, size, Sort.by("id"));

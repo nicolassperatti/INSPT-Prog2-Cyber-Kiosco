@@ -13,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class ProductosController {
@@ -21,11 +23,23 @@ public class ProductosController {
     private ProductoService productoService;
     
     @GetMapping("/productos")
-    public String index(Model model, @PageableDefault(size = 9, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) { 
+    public String index(Model model,
+            @PageableDefault(size = 9, sort = "id", 
+            direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam(required = false) String nombre) { 
         
-        Page<Producto> paginaProductos = productoService.obtenerTodosLosProductos(pageable);
+        Page<Producto> paginaProductos;
         
-        model.addAttribute("paginaProductos", paginaProductos);
+        if((nombre == null) || (nombre.trim().isBlank())) { //si no hay nombre de producto para busqueda
+            paginaProductos = productoService.obtenerTodosLosProductos(pageable);
+        } else {
+            paginaProductos = productoService.obetenerProductosQueContinienen(nombre, pageable);
+        }
+        
+        model.addAttribute("paginaProductos", paginaProductos);        
+        
+        // Mantiene el texto en la barra
+        model.addAttribute("nombre", nombre);
         
         return "index";
     }
