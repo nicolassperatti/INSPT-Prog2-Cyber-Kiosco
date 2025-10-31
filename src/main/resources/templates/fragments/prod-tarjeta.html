@@ -20,8 +20,8 @@
             </p>
 
             <p th:unless="${producto.descripcion}" 
-               th:text="No hay descipcion disponible para este producto.">
-                Descripcion del Producto
+               class="prod-descripcion">
+                No hay descripcion disponible para este producto.
             </p>
 
             <p th:text="'Precio: $' + ${producto.precio}" class="precio">Precio</p>
