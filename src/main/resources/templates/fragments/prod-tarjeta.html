@@ -1,0 +1,34 @@
+
+
+<div th:fragment="prod-tarjeta" class="prod-tarjeta">
+    <img th:if="${producto.imagen}" 
+        th:src="|/images/productos/${producto.imagen}|"
+        th:alt="|Imagen de ${producto.nombre}|">
+                       
+    <img th:unless="${producto.imagen}"
+        th:src="|/images/productos/producto_placeholder.jpg|"
+        th:alt="|Imagen de ${producto.nombre} no disponible|">
+    
+    <div class="prod-tarjeta-panel">
+        <div class="prod-tarjeta-info">
+            <p th:text="${producto.nombre}" class="nombre-producto">Nombre del Producto</p>
+
+            <p th:if="${producto.descripcion}" 
+               th:text="${producto.descripcion}"
+               class="prod-descripcion">
+                Descripcion del Producto
+            </p>
+
+            <p th:unless="${producto.descripcion}" 
+               th:text="No hay descipcion disponible para este producto.">
+                Descripcion del Producto
+            </p>
+
+            <p th:text="'Precio: $' + ${producto.precio}" class="precio">Precio</p>
+
+            <p th:text="|Stock: ${producto.stock}|" class="stock">Stock</p>
+        </div>
+    </div>
+    
+</div>
+

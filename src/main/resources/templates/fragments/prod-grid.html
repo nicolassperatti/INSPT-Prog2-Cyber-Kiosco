@@ -1,7 +1,9 @@
 
 
 <div th:fragment="prod-grid" class="prod-grid">
-    <div th:each="producto : ${paginaProductos.content}" class="prod-card">
+    <a th:each="producto : ${paginaProductos.content}" 
+       th:href="@{|/producto_detalle/${producto.id}|}" 
+       class="prod-card">
         <img th:if="${producto.imagen}" 
              th:src="|/images/productos/${producto.imagen}|"
              th:alt="|Imagen de ${producto.nombre}|">
@@ -14,7 +16,7 @@
             <p th:text="${producto.nombre}" class="nombre-producto">Nombre del Producto</p>
             <p th:text="'$' + ${producto.precio}" class="precio">Precio</p>
         </div>
-    </div>
+    </a>
 </div>
 
 

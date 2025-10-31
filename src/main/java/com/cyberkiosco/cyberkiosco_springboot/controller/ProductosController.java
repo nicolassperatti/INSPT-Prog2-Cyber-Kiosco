@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -22,7 +23,7 @@ public class ProductosController {
     @Autowired
     private ProductoService productoService;
     
-    @GetMapping("/productos")
+    @GetMapping("/productos") // significa: Este método del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
     public String index(Model model,
             @PageableDefault(size = 9, sort = "id", 
             direction = Sort.Direction.ASC) Pageable pageable,
@@ -43,6 +44,20 @@ public class ProductosController {
         
         return "index";
     }
-}
+    
+    @GetMapping("/producto_detalle/{id}")
+    public String verProducto(@PathVariable Long id, Model model) {
+        Producto producto = productoService.encontrarPorId(id);
+        String redireccion;
 
+        if (producto == null) {
+            redireccion =  "redirect:/productos"; // Si no existe
+        } else {
+            model.addAttribute("producto", producto); 
+            redireccion = "producto_detalle"; // nombre del archivo HTML 
+        }
+
+        return redireccion; // nombre del template HTML que mostrarás
+    }
+}
 
