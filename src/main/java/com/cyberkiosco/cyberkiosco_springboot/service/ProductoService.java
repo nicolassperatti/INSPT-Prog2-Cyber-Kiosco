@@ -80,11 +80,11 @@ public class ProductoService {
     }
 
     public List<Producto> obetenerProductosQueContinienen(String nombre){
-        return this.productoRepository.findByNombreLikeIgnoreCase(nombre);
+        return this.productoRepository.findByNombreLikeIgnoreCase("%" + nombre + "%");
     }
     
     public Page<Producto> obetenerProductosQueContinienen(String nombre, Pageable pageable){
-        return this.productoRepository.findByNombreLikeIgnoreCase(nombre, pageable);
+        return this.productoRepository.findByNombreLikeIgnoreCase("%" + nombre + "%", pageable);
     }
     
     public Page<Producto> obetenerProductosQueContinienen(String nombre, int page, int size) {
