@@ -2,6 +2,7 @@ package com.cyberkiosco.cyberkiosco_springboot.service;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
+import com.cyberkiosco.cyberkiosco_springboot.repository.CarritoRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +31,9 @@ class CarritoServiceTest {
     @Autowired
     private UsuarioService usuarioService;
     
+    @Autowired
+    private CarritoRepository carritoRepository;
+
     
     private Carrito crearCarritoEjemplo1() {
         Carrito carrito = new Carrito();
@@ -97,6 +101,47 @@ class CarritoServiceTest {
             assertEquals(usr, listaCarritos.get(i).getUsuario());
         }
     }
+    
+    @Test
+    @Order(4)
+    void obtenerCarritoAbiertoPorUsuarioExistente() {
+        Usuario usr;
+        Carrito car1, car2;
+        
+        usr = usuarioService.encontrarPorId(1L);
+        
+        //crear carrito abierto
+        car1 = carritoService.obtenerCarritoAbiertoPorUsuario(usr);        
+        
+        //la misma funcion lo deveria devolver ya que ahora existe uno abierto
+        car2 = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
+                
+        assertEquals(car1, car2);
+    }
+    
+    
+    @Test
+    @Order(5)
+    void obtenerCarritoAbiertoPorUsuarioNuevo() {
+        Usuario usr;
+        Carrito car1, car2;
+        int cantidadCarritos;
+        List<Carrito> listaCarritos;
+        
+        usr = usuarioService.encontrarPorId(2L);
+        
+        car1 = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
+        
+        listaCarritos = carritoRepository.findAllByUsuarioAndFechaCompraIsNull(usr);
+                
+        car2 = listaCarritos.get(0);
+        
+        cantidadCarritos = listaCarritos.size();
+        
+        assertEquals(car1, car2);
+        assertEquals(cantidadCarritos, 1);
+    }
+    
     
     @Test
     void testEncontrarPorIdExistente() {

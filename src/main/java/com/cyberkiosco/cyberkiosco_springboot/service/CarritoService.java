@@ -64,4 +64,34 @@ public class CarritoService {
         return listaCarritos;
     }
     
+    //es privada para que solo sea llamada cuando no exista otro carrito abierto
+    private Carrito abrirCarritoParaUsuario(Usuario usr) {
+        Carrito carrito = new Carrito();
+        carrito.setUsuario(usr);
+        
+        carritoRepository.save(carrito);
+        
+        return carrito;
+    }
+    
+    public Carrito obtenerCarritoAbiertoPorUsuario (Usuario usr) {
+        List<Carrito> listaCarritos = carritoRepository.findAllByUsuarioAndFechaCompraIsNull(usr);
+        Carrito carritoAbierto;
+        
+        if(listaCarritos.isEmpty()) {
+            carritoAbierto = this.abrirCarritoParaUsuario(usr);
+        } else {
+            carritoAbierto = listaCarritos.get(0);
+            
+            //elimina los carritos abiertos de mas en caso que existan
+            if(listaCarritos.size() > 1) {
+                for(int i=1; i<listaCarritos.size(); i++) {
+                    carritoRepository.delete(listaCarritos.get(i));
+                }
+            }
+        }
+        
+        return carritoAbierto;
+    }
+    
 }

@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface CarritoRepository extends JpaRepository<Carrito, Long> {
     List<Carrito> findByUsuario(Usuario usuario);
     
+    //para obtener carritos abiertos y no cerrados
+    List<Carrito> findAllByUsuarioAndFechaCompraIsNull(Usuario usuario);
 }

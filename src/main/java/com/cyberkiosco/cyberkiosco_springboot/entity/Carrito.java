@@ -27,8 +27,12 @@ public class Carrito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_carrito")
     private Long id;
-    private double precio_total;
-    private LocalDateTime fecha_compra;
+    
+    @Column(name = "precio_total")
+    private double precioTotal;
+    
+    @Column(name = "fecha_compra")
+    private LocalDateTime fechaCompra;
     
     @ManyToOne
     @JoinColumn(name = "id_usuario")
@@ -42,31 +46,31 @@ public class Carrito {
         this.id = id;
     }
     
-    public void setPrecio_total (double precio_total) {
-        if (precio_total < 0) {
+    public void setPrecio_total (double precioTotal) {
+        if (precioTotal < 0) {
             throw new IllegalArgumentException("El precio_total no puede ser menor a cero.");
         }
-        this.precio_total = precio_total;
+        this.precioTotal = precioTotal;
     }
 
-    public void setFecha_compra(LocalDateTime fecha_compra) {
-        if(fecha_compra == null) {
+    public void setFecha_compra(LocalDateTime fechaCompra) {
+        if(fechaCompra == null) {
             throw new IllegalArgumentException("La fecha_compra no puede ser null.");
         }
-        if (fecha_compra.isAfter(LocalDateTime.now())) {
+        if (fechaCompra.isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException("La fecha_compra no puede ser en el futuro.");
         }
-        this.fecha_compra = fecha_compra;
-    }
-
-    @Override
-    public String toString() {
-        return "Carrito{" + "id=" + id + ", precio_total=" + precio_total + ", fecha_compra=" + fecha_compra + '}';
+        this.fechaCompra = fechaCompra;
     }
 
     public void setUsuario(Usuario usuario) {
         Validacion.validarNotNull(usuario, "usuario");
         this.usuario = usuario;
+    }
+
+    @Override
+    public String toString() {
+        return "Carrito{" + "id=" + id + ", precioTotal=" + precioTotal + ", fechaCompra=" + fechaCompra + ", usuario=" + usuario + '}';
     }
 
     @Override
@@ -81,17 +85,16 @@ public class Carrito {
             return false;
         }
         final Carrito other = (Carrito) obj;
-        if (Double.doubleToLongBits(this.precio_total) != Double.doubleToLongBits(other.precio_total)) {
+        if (Double.doubleToLongBits(this.precioTotal) != Double.doubleToLongBits(other.precioTotal)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.fecha_compra, other.fecha_compra)) {
+        if (!Objects.equals(this.fechaCompra, other.fechaCompra)) {
             return false;
         }
         return Objects.equals(this.usuario, other.usuario);
     }
 
-   
 }
