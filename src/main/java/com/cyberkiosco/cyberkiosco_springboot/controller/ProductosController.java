@@ -24,7 +24,7 @@ public class ProductosController {
     private ProductoService productoService;
     
     @GetMapping("/productos") // significa: Este método del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
-    public String index(Model model,
+    public String verSeccionProductos(Model model,
             @PageableDefault(size = 9, sort = "id", 
             direction = Sort.Direction.ASC) Pageable pageable,
             @RequestParam(required = false) String nombre) { 

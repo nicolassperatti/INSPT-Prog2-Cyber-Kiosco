@@ -248,7 +248,8 @@ nav a:hover {
 
 .prod-tarjeta-panel {
     width: 90%;
-    height: 90%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     margin: auto;
     justify-self: center;
 }
@@ -272,8 +273,9 @@ nav a:hover {
     margin-bottom: 1rem;
 }
 
-.prod-tarjeta-info .precio, .prod-tarjeta-info .stock {
+.prod-tarjeta-info .prod-atributo {
     font-size: 1.5rem;
+    margin-bottom: 0.25rem;
 }
 
 /*

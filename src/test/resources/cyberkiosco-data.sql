@@ -1,6 +1,6 @@
 INSERT INTO `categoria` (`nombre`) VALUES
-('snack'),
-('bebida')
+('Comestible'),
+('Bebida')
 ;
 
 INSERT INTO `marca` (`nombre`) VALUES

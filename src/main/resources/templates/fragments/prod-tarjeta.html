@@ -24,9 +24,13 @@
                 No hay descripcion disponible para este producto.
             </p>
 
-            <p th:text="'Precio: $' + ${producto.precio}" class="precio">Precio</p>
+            <p th:text="'Categoria: ' + ${producto.categoria.nombre}" class="prod-atributo">Categoria</p>
+            
+            <p th:text="'Marca: ' + ${producto.marca.nombre}" class="prod-atributo">Marca</p>
+            
+            <p th:text="'Precio: $' + ${producto.precio}" class="prod-atributo">Precio</p>
 
-            <p th:text="|Stock: ${producto.stock}|" class="stock">Stock</p>
+            <p th:text="|Stock: ${producto.stock}|" class="prod-atributo">Stock</p>
         </div>
     </div>
     
