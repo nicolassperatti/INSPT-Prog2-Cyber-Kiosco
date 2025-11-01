@@ -14,5 +14,10 @@ public class IndexController {
        
         return "redirect:/productos";
     }
+    
+    @GetMapping("/contacto")
+    public String verPaginaContacto(Model model) {
+        return "contacto";
+    }
 }
 

@@ -107,7 +107,7 @@ nav a:hover {
    background-color: var(--color-principal);
    border-radius: 10px;
    display: grid;
-   grid-template-rows: 2fr 1fr;
+   grid-template-rows: 1.5fr 1fr;
    text-decoration: none;
    /*
    max-width: var(--prod-card-max-size);
@@ -242,7 +242,7 @@ nav a:hover {
 
 .prod-tarjeta img {
     border-radius: 10px 0 0 10px;
-    height: 400px;
+    height: 100%;
     width: 300px;
 }
 
@@ -276,6 +276,56 @@ nav a:hover {
     font-size: 1.5rem;
 }
 
+/*
+    Contacto:
+*/
 
+.contacto-tarjeta {
+    background-color: var(--color-secundario);
+    border-radius: 10px;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;    
+}
+
+.contacto-tarjeta img {
+    border-radius: 10px 0 0 10px;
+    max-width: 400px;
+    height: 100%;
+}
+
+.red-contacto {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.contacto-tarjeta-panel {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    justify-self: center;
+}
+
+.contacto-tarjeta-panel img {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.contacto-tarjeta-panel p {
+    color: var(--color-terciario);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+.contacto-tarjeta-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;   
+    justify-content: space-between;
+}
 
 
