@@ -25,6 +25,13 @@
             <p th:text="'Total: $' + ${cp.cantidad_producto * cp.precio_producto}">Total</p>
         </div>
         
+        <form th:action="@{/carrito/sacar}" method="post" class="btn-sacar-form">
+            <input type="hidden" name="idProducto" th:value="${cp.producto.id}"/>
+            <button type="submit" class="btn-sacar">
+                <img src="/images/iconos/icono-eliminar.png" alt="tacho eliminar">
+            </button>
+        </form>
+        
     </div>
     
 </div>

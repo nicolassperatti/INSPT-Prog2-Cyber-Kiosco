@@ -400,6 +400,8 @@ nav a:hover {
     padding-left: 1rem;
     padding-right: 1rem;
     font-size: 1.25rem;
+    text-align: center;
+    text-: center;
 }
 
 
@@ -418,4 +420,26 @@ nav a:hover {
 
 .carrito-vacio h2 {
     font-size: 2rem;
+}
+
+.btn-sacar-form {
+    display: flex;
+    height: 90%;
+    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-sacar {
+    height: 100%;
+    border-width: 0;
+    border-radius: 10px;
+    justify-content: center;
+    justify-items: center;
+}
+
+.btn-sacar img {
+    height: 90%;
+    border-radius: 10px;
+    width: 50px;
 }
