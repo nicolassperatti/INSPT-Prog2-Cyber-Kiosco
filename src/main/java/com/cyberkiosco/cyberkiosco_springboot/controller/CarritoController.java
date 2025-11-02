@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
+import com.cyberkiosco.cyberkiosco_springboot.entity.CarritoProducto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
 import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.StockInsuficienteException;
@@ -44,9 +45,18 @@ public class CarritoController {
         Usuario usr = usuarioService.encontrarPorId(1L); 
         //obtiene o crea el carrito abierto
         Carrito carrito = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
+        //obtiene el CarritoProducto si ya existe, sino null
+        CarritoProducto carritoProducto = carritoProductoService.encontrarPorId(carrito.getId(), producto.getId());
                 
         try {
-            carritoProductoService.crearGuardar(carrito, producto, cantidad, producto.getPrecio());
+            //si el producto ya estaba en el carrito sumar la nueva cantidad
+            if(carritoProducto != null) {
+                carritoProducto.sumarCantidad_producto(cantidad);
+                carritoProductoService.guardar(carritoProducto);
+            } else {
+                carritoProductoService.guardar(carrito, producto, cantidad, producto.getPrecio());
+            }
+            
             valido = true;
         } catch (IllegalArgumentException ilae) {
             System.out.println("ERROR: " + ilae.getMessage());

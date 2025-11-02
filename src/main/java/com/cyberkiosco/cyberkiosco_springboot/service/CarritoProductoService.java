@@ -82,7 +82,7 @@ public class CarritoProductoService {
         carritoProductoRepository.save(carritoProducto);    //guarda y actualiza si ya existe
     }
     
-    public void crearGuardar(Carrito carrito, Producto producto, int cantidad_producto, double precio_producto) {
+    public void guardar(Carrito carrito, Producto producto, int cantidad_producto, double precio_producto) {
         CarritoProducto carritoProducto = this.crearCarritoProdcuto(carrito, producto, cantidad_producto, precio_producto);
         this.guardar(carritoProducto);
     }
