@@ -1,0 +1,31 @@
+
+<div th:fragment="seccion-carrito" class="seccion-carrito">
+    
+    <div th:if="${#lists.isEmpty(carritoProductos)}" class='carrito-vacio'>
+        <h2>El carrito está vacío</h2>
+        <p>Agregá productos para comenzar tu compra.</p>
+    </div>
+    
+    <div th:unless="${#lists.isEmpty(carritoProductos)}"
+        th:each="cp : ${carritoProductos}" 
+        class="carrito-prod-card">
+        
+        <img th:if="${cp.producto.imagen}" 
+             th:src="|/images/productos/${cp.producto.imagen}|"
+             th:alt="|Imagen de ${cp.producto.nombre}|">
+                       
+        <img th:unless="${cp.producto.imagen}"
+             th:src="|/images/productos/producto_placeholder.jpg|"
+             th:alt="|Imagen de ${cp.producto.nombre} no disponible|">
+                        
+        <div class="carrito-prod-card-info">
+            <p th:text="${cp.producto.nombre}" class="nombre-producto">Nombre del Producto</p>
+            <p th:text="'Precio: $' + ${cp.precio_producto}" class="precio">Precio</p>
+            <p th:text="|Unidades: ${cp.cantidad_producto}|">Unidades</p>
+            <p th:text="'Total: $' + ${cp.cantidad_producto * cp.precio_producto}">Total</p>
+        </div>
+        
+    </div>
+    
+</div>
+
