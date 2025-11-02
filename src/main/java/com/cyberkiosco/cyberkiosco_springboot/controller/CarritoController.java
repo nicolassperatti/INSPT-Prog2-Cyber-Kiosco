@@ -97,4 +97,29 @@ public class CarritoController {
         return "carrito";
     }
     
+    
+    @PostMapping("/carrito/sacar")
+    public String sacarProducto(@RequestParam long idProducto) {        
+        
+        //usuario hardcodeado
+        Usuario usr = usuarioService.encontrarPorId(1L); 
+        //obtiene o crea el carrito abierto
+        Carrito carrito = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
+               
+        try {
+            if(carritoProductoService.existePorId(carrito.getId(), idProducto)) {
+                carritoProductoService.eliminarPorId(carrito.getId(), idProducto);
+            }            
+        } catch (IllegalArgumentException ilae) {
+            System.out.println("ERROR: " + ilae.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("ERROR: " + re.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error desconocido");
+        }
+        
+        return "redirect:/carrito";
+    }
+    
+    
 }
