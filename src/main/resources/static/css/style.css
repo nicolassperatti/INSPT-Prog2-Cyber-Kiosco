@@ -330,4 +330,21 @@ nav a:hover {
     justify-content: space-between;
 }
 
+.error-image {
+    height: 200px;
+    width: 100pox;
+    margin-top: 10%;
+}
+
+.error-text {
+    color: black;
+    font-size: larger;
+    margin-top: 1%;
+}
+
+.autoria-imagen{
+    color: blueviolet;
+    border-radius: 5px;
+    font-size: larger;
+}
 
