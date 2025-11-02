@@ -184,4 +184,26 @@ public class CarritoProductoService {
         return listaCarritosConProducto;
     }
     
+    public void sumarCantidad_producto (CarritoProducto carritoProducto, int cantidadExtra) {
+        int nuevaCantidad, cantidadStockProd;
+        
+        if(cantidadExtra < 0) {
+            throw new IllegalArgumentException("La cantidad_producto no puede ser menor a cero.");
+        }
+
+        if(carritoProducto == null) {
+            throw new IllegalArgumentException("CarritoProducto no puede ser null.");
+        }
+        
+        nuevaCantidad = carritoProducto.getCantidad_producto() + cantidadExtra;
+        cantidadStockProd = carritoProducto.getProducto().getStock();
+        
+        if(nuevaCantidad > cantidadStockProd) {
+            throw new StockInsuficienteException("La cantidad demandada del producto es mayor al stock.");
+        }
+        
+        carritoProducto.setCantidad_producto(nuevaCantidad);
+        guardar(carritoProducto);
+    }
+  
 }

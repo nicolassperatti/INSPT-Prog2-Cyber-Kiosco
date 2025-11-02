@@ -51,8 +51,7 @@ public class CarritoController {
         try {
             //si el producto ya estaba en el carrito sumar la nueva cantidad
             if(carritoProducto != null) {
-                carritoProducto.sumarCantidad_producto(cantidad);
-                carritoProductoService.guardar(carritoProducto);
+                carritoProductoService.sumarCantidad_producto(carritoProducto, cantidad);
             } else {
                 carritoProductoService.guardar(carrito, producto, cantidad, producto.getPrecio());
             }

@@ -69,13 +69,6 @@ public class CarritoProducto {
         }
         this.precio_producto = precio_producto;
     }
-
-    public void sumarCantidad_producto (int cantidadExtra) {
-        if(cantidadExtra < 0) {
-            throw new IllegalArgumentException("La cantidad_producto no puede ser menor a cero.");
-        }        
-        this.setCantidad_producto(this.cantidad_producto + cantidadExtra);
-    }
     
     @Override
     public boolean equals(Object obj) {
