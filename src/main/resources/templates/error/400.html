@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/iconos/favicon.png}">
+</head>
+
+<body>
+    <header th:replace="fragments/header :: header-nav"></header>
+    <main>
+        <div class="container">
+            <img th:src="|/images/cubiertos_cruzados.jpg|" class="error-image">
+            <a
+                href="https://www.freepik.es/foto-gratis/vista-superior-plato-rosado-tenedor-cuchillo-fondo-oscuro_14267091.htm#fromView=keyword&page=3&position=7&uuid=c4fdeb7d-8d5f-4f46-b9c4-74db5ff1387f&query=Cubiertos+cruzados"
+                class="autoria-imagen">Imagen
+                de mdjaff en Freepik
+            </a>
+            <p class="error-text">No puedes buscar un producto ingresando un caracter o numero con coma. </p>
+            <p class="error-text"> Por favor vuelve a intentar ingresando un numero entero positivo</p>
+        </div>
+    </main>
+
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+
+</html>
