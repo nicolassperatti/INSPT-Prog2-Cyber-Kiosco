@@ -5,6 +5,7 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
 import com.cyberkiosco.cyberkiosco_springboot.entity.CarritoProducto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.embeddable.CarritoProductoKey;
+import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.StockInsuficienteException;
 import com.cyberkiosco.cyberkiosco_springboot.repository.CarritoProductoRepository;
 import com.cyberkiosco.cyberkiosco_springboot.repository.CarritoRepository;
 import com.cyberkiosco.cyberkiosco_springboot.repository.ProductoRepository;
@@ -50,11 +51,13 @@ public class CarritoProductoService {
     }
     
     
-    public CarritoProducto crearCarritoProducto(Long id_carrito, Long id_producto, int cantidad_producto, double precio_producto) {
-        Producto producto = encontrarProductoPorId(id_producto);
-        Carrito carrito = encontrarCarritoPorId(id_carrito);
+    public CarritoProducto crearCarritoProdcuto(Carrito carrito, Producto producto, int cantidad_producto, double precio_producto) {
+
+        if(cantidad_producto > producto.getStock()) {
+            throw new StockInsuficienteException("La cantidad demandada del producto es mayor al stock.");
+        }
         
-        CarritoProductoKey key = new CarritoProductoKey(id_carrito, id_producto);
+        CarritoProductoKey key = new CarritoProductoKey(carrito.getId(), producto.getId());
         
         CarritoProducto carritoProducto = new CarritoProducto();
         carritoProducto.setId(key);
@@ -67,8 +70,21 @@ public class CarritoProductoService {
     }
     
     
+    public CarritoProducto crearCarritoProducto(Long id_carrito, Long id_producto, int cantidad_producto, double precio_producto) {
+        Carrito carrito = encontrarCarritoPorId(id_carrito);
+        Producto producto = encontrarProductoPorId(id_producto);
+        
+        return crearCarritoProdcuto(carrito, producto, cantidad_producto, precio_producto);
+    }
+    
+    
     public void guardar(CarritoProducto carritoProducto) {
         carritoProductoRepository.save(carritoProducto);    //guarda y actualiza si ya existe
+    }
+    
+    public void crearGuardar(Carrito carrito, Producto producto, int cantidad_producto, double precio_producto) {
+        CarritoProducto carritoProducto = this.crearCarritoProdcuto(carrito, producto, cantidad_producto, precio_producto);
+        this.guardar(carritoProducto);
     }
     
     

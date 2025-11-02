@@ -278,6 +278,36 @@ nav a:hover {
     margin-bottom: 0.25rem;
 }
 
+.tarjeta-menu-compra {
+    height: 2rem;
+}
+
+.tarjeta-menu-compra form {
+    height: 100%;
+}
+
+.tarjeta-menu-compra form input {
+    max-width: 4rem;
+    height: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.tarjeta-menu-compra form button {
+    background-color: var(--color-principal);
+    color: var(--color-secundario);
+    border-color: var(--color-terciario);
+    border-radius: 10px;
+    border-width: 2px;
+    height: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+
 /*
     Contacto:
 */

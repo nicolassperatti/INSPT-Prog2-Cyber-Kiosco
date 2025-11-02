@@ -23,7 +23,7 @@ public class ProductosController {
     @Autowired
     private ProductoService productoService;
     
-    @GetMapping("/productos") // significa: Este método del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
+    @GetMapping("/productos") // significa: Este metodo del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
     public String verSeccionProductos(Model model,
             @PageableDefault(size = 9, sort = "id", 
             direction = Sort.Direction.ASC) Pageable pageable,
@@ -57,7 +57,7 @@ public class ProductosController {
             redireccion = "producto_detalle"; // nombre del archivo HTML 
         }
 
-        return redireccion; // nombre del template HTML que mostrarás
+        return redireccion;
     }
 }
 

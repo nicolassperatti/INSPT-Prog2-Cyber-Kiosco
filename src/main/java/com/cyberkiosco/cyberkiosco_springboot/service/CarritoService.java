@@ -83,7 +83,7 @@ public class CarritoService {
         } else {
             carritoAbierto = listaCarritos.get(0);
             
-            //elimina los carritos abiertos de mas en caso que existan
+            //elimina los carritos abiertos de mas de la bdd en caso que existan
             if(listaCarritos.size() > 1) {
                 for(int i=1; i<listaCarritos.size(); i++) {
                     carritoRepository.delete(listaCarritos.get(i));
