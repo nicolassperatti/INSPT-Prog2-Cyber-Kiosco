@@ -57,9 +57,7 @@ public class Carrito {
         if(fechaCompra == null) {
             throw new IllegalArgumentException("La fecha_compra no puede ser null.");
         }
-        if (fechaCompra.isAfter(LocalDateTime.now())) {
-            throw new IllegalArgumentException("La fecha_compra no puede ser en el futuro.");
-        }
+       
         this.fechaCompra = fechaCompra;
     }
 

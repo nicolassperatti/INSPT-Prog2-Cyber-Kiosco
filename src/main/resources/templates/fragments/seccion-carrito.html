@@ -22,7 +22,7 @@
             <p th:text="${cp.producto.nombre}" class="nombre-producto">Nombre del Producto</p>
             <p th:text="'Precio: $' + ${cp.precio_producto}" class="precio">Precio</p>
             <p th:text="|Unidades: ${cp.cantidad_producto}|">Unidades</p>
-            <p th:text="'Total: $' + ${cp.cantidad_producto * cp.precio_producto}">Total</p>
+            <p th:text="'Total: $' + ${#numbers.formatDecimal(cp.cantidad_producto * cp.precio_producto, 1, 2)}">Total</p>
         </div>
         
         <form th:action="@{/carrito/sacar}" method="post" class="btn-sacar-form">
@@ -32,6 +32,16 @@
             </button>
         </form>
         
+    </div>
+    
+    <div th:unless="${#lists.isEmpty(carritoProductos)}" class="compra-carrito-panel">
+        <p th:text="'Precio Total: $' + ${#numbers.formatDecimal(precioTotalCarrito, 1, 2)}">Precio Total</p>
+        <form th:action="@{/carrito/comprar}" method="post" class="comprar-carrito-form">
+            <input type="hidden" name="idCarrito" th:value="${carrito.id}"/>
+            <button type="submit" class="btn-comprar-carrito">
+                Comprar Carrito
+            </button>
+        </form>
     </div>
     
 </div>

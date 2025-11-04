@@ -7,11 +7,9 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.embeddable.CarritoProductoKey;
 import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.StockInsuficienteException;
 import com.cyberkiosco.cyberkiosco_springboot.repository.CarritoProductoRepository;
-import com.cyberkiosco.cyberkiosco_springboot.repository.CarritoRepository;
-import com.cyberkiosco.cyberkiosco_springboot.repository.ProductoRepository;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,35 +21,37 @@ public class CarritoProductoService {
     private CarritoProductoRepository carritoProductoRepository;
     
     @Autowired
-    private CarritoRepository carritoRepository;
+    private CarritoService carritoService;
     
     @Autowired
-    private ProductoRepository productoRepository;
+    private ProductoService productoService;
 
     
     private Carrito encontrarCarritoPorId(Long id_carrito) {
-        Optional<Carrito> carrito = carritoRepository.findById(id_carrito);
+        //Optional<Carrito> carrito = carritoService.encontrarPorId(id_carrito);
+        Carrito carrito = carritoService.encontrarPorId(id_carrito);
         
-        if(carrito.isEmpty()) {
+        if(carrito == null) {
             throw new RuntimeException("No se encontro un carrito con id: " + id_carrito);
         }
         
-        return carrito.get();
+        return carrito;
     }
     
     
     private Producto encontrarProductoPorId(Long id_producto) {
-        Optional<Producto> producto = productoRepository.findById(id_producto);
+        //Optional<Producto> producto = productoRepository.findById(id_producto);
+        Producto producto = productoService.encontrarPorId(id_producto);
         
-        if(producto.isEmpty()) {
+        if(producto == null) {
             throw new RuntimeException("No se encontro un producto con id: " + id_producto);
         }
         
-        return producto.get();
+        return producto;
     }
     
     
-    public CarritoProducto crearCarritoProdcuto(Carrito carrito, Producto producto, int cantidad_producto, double precio_producto) {
+    public CarritoProducto crearCarritoProducto(Carrito carrito, Producto producto, int cantidad_producto, double precio_producto) {
 
         if(cantidad_producto > producto.getStock()) {
             throw new StockInsuficienteException("La cantidad demandada del producto es mayor al stock.");
@@ -74,7 +74,7 @@ public class CarritoProductoService {
         Carrito carrito = encontrarCarritoPorId(id_carrito);
         Producto producto = encontrarProductoPorId(id_producto);
         
-        return crearCarritoProdcuto(carrito, producto, cantidad_producto, precio_producto);
+        return crearCarritoProducto(carrito, producto, cantidad_producto, precio_producto);
     }
     
     
@@ -83,7 +83,7 @@ public class CarritoProductoService {
     }
     
     public void guardar(Carrito carrito, Producto producto, int cantidad_producto, double precio_producto) {
-        CarritoProducto carritoProducto = this.crearCarritoProdcuto(carrito, producto, cantidad_producto, precio_producto);
+        CarritoProducto carritoProducto = this.crearCarritoProducto(carrito, producto, cantidad_producto, precio_producto);
         this.guardar(carritoProducto);
     }
     
@@ -115,6 +115,7 @@ public class CarritoProductoService {
         return this.encontrarPorId(key);
     }
     
+    
     public void eliminarPorId(CarritoProductoKey key) {
         
         if(!this.existePorId(key)) {
@@ -131,15 +132,18 @@ public class CarritoProductoService {
         this.eliminarPorId(key);
     }
     
+    
     //obtiene todos los Objetos CarritoProducto que tienen un id_carrito
     public List<CarritoProducto> listaDeCarritoProductoPorId_carrito(Long id_carrito) {
         return carritoProductoRepository.findByCarrito_Id(id_carrito);
     }
     
+    
     //obtiene todos los Objetos CarritoProducto que tienen un id_producto
     public List<CarritoProducto> listaDeCarritoProductoPorId_producto(Long id_producto) {
         return carritoProductoRepository.findByProducto_Id(id_producto);
     }
+    
     
     //obtiene todos los productos de una lista de CarritoProducto
     public List<Producto> listaDeProductosDeListaCarritoProducto(List<CarritoProducto> listaCarritoProducto) {
@@ -168,6 +172,7 @@ public class CarritoProductoService {
         return carritos;
     }
     
+    
     //obtiene todos los productos que se encuentran en un carrito
     public List<Producto> obtenerTodosLosProductosEnCarrito(Long id_carrito) {
         List<CarritoProducto> listaCarritoProducto = listaDeCarritoProductoPorId_carrito(id_carrito);
@@ -176,6 +181,7 @@ public class CarritoProductoService {
         return listaProductosEnCarrito;
     }
     
+    
     //obtiene todos los carritos que contienen un producto especifico
     public List<Carrito> obtenerTodosLosCarritosConProducto(Long id_producto) {
         List<CarritoProducto> listaCarritoProducto = listaDeCarritoProductoPorId_producto(id_producto);
@@ -183,6 +189,7 @@ public class CarritoProductoService {
     
         return listaCarritosConProducto;
     }
+    
     
     public void sumarCantidad_producto (CarritoProducto carritoProducto, int cantidadExtra) {
         int nuevaCantidad, cantidadStockProd;
@@ -205,5 +212,106 @@ public class CarritoProductoService {
         carritoProducto.setCantidad_producto(nuevaCantidad);
         guardar(carritoProducto);
     }
-  
+    
+    
+    public boolean stockValidoParaCompra(CarritoProducto carritoProducto) {
+        if(carritoProducto == null) {
+            throw new IllegalArgumentException("el carritoProducto es null.");
+        }
+        
+        return carritoProducto.getCantidad_producto() <= carritoProducto.getProducto().getStock();
+    }
+    
+    
+    public boolean stockValidoParaCompra(long idCarrito, long idProducto) {
+        CarritoProducto carProd = this.encontrarPorId(idCarrito, idProducto);
+        
+        if(carProd == null) {
+            throw new RuntimeException("no se encontro carritoProducto con idCarrito: " + idCarrito + " idProducto: " + idProducto);
+        }
+        
+        return stockValidoParaCompra(carProd);
+    }
+    
+    
+    public boolean stocksDeCarritoValidosParaCompra(long idCarrito) {
+        List<CarritoProducto> carProds;
+        int cantCarProds, i;
+        boolean stocksValidos;
+        
+        if(!carritoService.existePorId(idCarrito)) {
+            throw new IllegalArgumentException("el carrito ingresado no existe."); 
+        }
+        
+        carProds = this.listaDeCarritoProductoPorId_carrito(idCarrito);
+        
+        if(carProds.isEmpty()) {
+            throw new RuntimeException("el carrito no tiene productos");
+        }
+        
+        cantCarProds = carProds.size();
+        i = 0;
+        stocksValidos = true;
+        
+        while((i < cantCarProds) && stocksValidos) {
+            stocksValidos = this.stockValidoParaCompra(carProds.get(i));
+            i++;
+        }
+        
+        return stocksValidos;
+    }
+    
+    
+    public void comprarProdEnCarrito(CarritoProducto carProd) {
+        Producto prod;
+        
+        if(carProd == null) {
+            throw new IllegalArgumentException("el carritoProducto es null.");
+        }
+        
+        prod = carProd.getProducto();
+        prod.restarStock(carProd.getCantidad_producto());
+        productoService.guardarProducto(prod);
+    }
+    
+    
+    public void comprarProdEnCarrito(long idCarrito, long idProducto) {
+        CarritoProducto carProd = this.encontrarPorId(idCarrito, idProducto);
+        
+        if(carProd == null) {
+            throw new RuntimeException("no se encontro carritoProducto con idCarrito: " + idCarrito + " idProducto: " + idProducto);
+        }
+        
+        comprarProdEnCarrito(carProd);
+    }
+    
+    //para que se use el que pide la id como argumento
+    private void comprarCarritoEntero(Carrito car) {
+        List<CarritoProducto> carProds;
+        int cantProdsEnCar;
+        
+        if(car == null) {
+            throw new IllegalArgumentException("el Carrito es null.");
+        }
+        
+        carProds = this.listaDeCarritoProductoPorId_carrito(car.getId());
+        cantProdsEnCar = carProds.size();
+        
+        if(!carProds.isEmpty()) {
+            for(int i = 0; i < cantProdsEnCar; i++) {
+                comprarProdEnCarrito(carProds.get(i));
+            }
+        } 
+    }
+    
+    
+    public void comprarCarritoEntero(long idCarrito) {
+        Carrito car = carritoService.encontrarPorId(idCarrito);
+        
+        comprarCarritoEntero(car);
+        car.setFecha_compra(LocalDateTime.now());
+        carritoService.guardarCarrito(car);
+    }
+    
+    
 }

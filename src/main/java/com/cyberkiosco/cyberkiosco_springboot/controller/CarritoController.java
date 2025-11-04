@@ -2,7 +2,6 @@ package com.cyberkiosco.cyberkiosco_springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
@@ -92,6 +91,7 @@ public class CarritoController {
         }
         
         model.addAttribute("carritoProductos", carritoProductos);
+        model.addAttribute("carrito", carrito);
         model.addAttribute("precioTotalCarrito", precioTotalCarrito);
         
         return "carrito";
@@ -121,5 +121,37 @@ public class CarritoController {
         return "redirect:/carrito";
     }
     
+    
+    @PostMapping("/carrito/comprar")
+    public String comprarCarrito(@RequestParam long idCarrito) {
+        boolean stocksValidos, compraExitosa;
+        String redireccion;
+        
+        compraExitosa = false;
+        redireccion = "redirect:/carrito";
+        
+        try {
+            stocksValidos = carritoProductoService.stocksDeCarritoValidosParaCompra(idCarrito);
+            
+            if(stocksValidos) {
+                carritoProductoService.comprarCarritoEntero(idCarrito);
+                compraExitosa = true;
+            }      
+        } catch (IllegalArgumentException ilae) {
+            System.out.println("ERROR: " + ilae.getMessage());
+        }  catch (StockInsuficienteException sie) {
+            System.out.println("ERROR: " + sie.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("ERROR: " + re.getMessage());
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        
+        if(compraExitosa) {
+            redireccion = "redirect:/productos";
+        }
+        
+        return redireccion;
+    }
     
 }
