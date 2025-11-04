@@ -101,12 +101,8 @@ public class CarritoController {
     
     
     @PostMapping("/carrito/sacar")
-    public String sacarProducto(@RequestParam long idProducto) {        
-        
-        //usuario hardcodeado
-        Usuario usr = usuarioService.encontrarPorId(1L); 
-        //obtiene o crea el carrito abierto
-        Carrito carrito = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
+    public String sacarProducto(@RequestParam long idProducto, @RequestParam long idCarrito) {        
+        Carrito carrito = carritoService.encontrarPorId(idCarrito);
                
         try {
             if(carritoProductoService.existePorId(carrito.getId(), idProducto)) {

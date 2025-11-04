@@ -27,6 +27,7 @@
         
         <form th:action="@{/carrito/sacar}" method="post" class="btn-sacar-form">
             <input type="hidden" name="idProducto" th:value="${cp.producto.id}"/>
+            <input type="hidden" name="idCarrito" th:value="${cp.carrito.id}"/>
             <button type="submit" class="btn-sacar">
                 <img src="/images/iconos/icono-eliminar.png" alt="tacho eliminar">
             </button>
