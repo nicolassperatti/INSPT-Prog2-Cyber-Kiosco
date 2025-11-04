@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'404 | ' + ${error}"></title> <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/iconos/favicon.png}">
+</head>
+
+<body>
+    <header th:replace="fragments/header :: header-nav"></header>
+    
+    <main>
+        <div th:replace="fragments/error-content :: error-main (
+            title='¡Error 4xx!', 
+            errorCode='Error de la clase 4xx', 
+            message='Parece que ocurrio un problema en la aplicacion. No se preocupe, no es grave.'
+        )">
+        </div>
+    </main>
+
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+
+</html>
