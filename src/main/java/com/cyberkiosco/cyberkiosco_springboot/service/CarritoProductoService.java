@@ -305,11 +305,16 @@ public class CarritoProductoService {
     }
     
     
-    public void comprarCarritoEntero(long idCarrito) {
+    public void comprarCarritoEntero(long idCarrito, double precioTotalCarrito) {
         Carrito car = carritoService.encontrarPorId(idCarrito);
+        
+        if(precioTotalCarrito <= 0) {
+            throw new RuntimeException("el precio_total de la compra del carrito no es mayor a cero.");            
+        }
         
         comprarCarritoEntero(car);
         car.setFecha_compra(LocalDateTime.now());
+        car.setPrecio_total(precioTotalCarrito);
         carritoService.guardarCarrito(car);
     }
     

@@ -38,6 +38,7 @@
         <p th:text="'Precio Total: $' + ${#numbers.formatDecimal(precioTotalCarrito, 1, 2)}">Precio Total</p>
         <form th:action="@{/carrito/comprar}" method="post" class="comprar-carrito-form">
             <input type="hidden" name="idCarrito" th:value="${carrito.id}"/>
+            <input type="hidden" name="precioTotalCarrito" th:value="${precioTotalCarrito}"/>
             <button type="submit" class="btn-comprar-carrito">
                 Comprar Carrito
             </button>

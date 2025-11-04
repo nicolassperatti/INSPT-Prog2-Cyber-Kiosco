@@ -90,6 +90,8 @@ public class CarritoController {
             precioTotalCarrito += (cp.getPrecio_producto() * cp.getCantidad_producto());
         }
         
+        precioTotalCarrito = Math.round(precioTotalCarrito * 100.0) / 100.0;
+        
         model.addAttribute("carritoProductos", carritoProductos);
         model.addAttribute("carrito", carrito);
         model.addAttribute("precioTotalCarrito", precioTotalCarrito);
@@ -123,7 +125,7 @@ public class CarritoController {
     
     
     @PostMapping("/carrito/comprar")
-    public String comprarCarrito(@RequestParam long idCarrito) {
+    public String comprarCarrito(@RequestParam long idCarrito, @RequestParam double precioTotalCarrito) {
         boolean stocksValidos, compraExitosa;
         String redireccion;
         
@@ -134,7 +136,7 @@ public class CarritoController {
             stocksValidos = carritoProductoService.stocksDeCarritoValidosParaCompra(idCarrito);
             
             if(stocksValidos) {
-                carritoProductoService.comprarCarritoEntero(idCarrito);
+                carritoProductoService.comprarCarritoEntero(idCarrito, precioTotalCarrito);
                 compraExitosa = true;
             }      
         } catch (IllegalArgumentException ilae) {
