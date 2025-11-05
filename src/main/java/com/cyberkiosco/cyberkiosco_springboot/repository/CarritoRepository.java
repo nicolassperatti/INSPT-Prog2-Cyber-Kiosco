@@ -14,4 +14,5 @@ public interface CarritoRepository extends JpaRepository<Carrito, Long> {
     
     //para obtener carritos abiertos y no cerrados
     List<Carrito> findAllByUsuarioAndFechaCompraIsNull(Usuario usuario);
+    List<Carrito> findAllByUsuarioAndFechaCompraIsNotNull(Usuario usuario);
 }

@@ -1,0 +1,17 @@
+<div th:fragment="carrito_items" class="carrito_items">
+    <div th:if="${#lists.isEmpty(compras)}" class="carrito_items_vacio">
+        <h2>No hay compras previas</h2>
+        <p>Cuando realices una compra aparecera aqui</p>
+    </div>
+    <div th:unless="${#lists.isEmpty(compras)}" >
+        <h2>Compras</h2>
+        <ul>
+            <li th:each="compra : ${compras}" class="carrito_items">
+                <h3 th:text="|Orden de compra: ${compra.id}|">ID</h3>
+                <p th:text="${compra.fechaCompra}">Fecha de Compra</p>
+                <p th:text="${compra.precioTotal}">Precio Total</p>
+                <a th:href="@{/carrito/detalle_compra/${compra.id}}" class="btn-detalle-compra">Ver Detalle</a>
+            </li>
+        </ul>
+    </div>
+</div>

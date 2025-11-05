@@ -152,4 +152,13 @@ public class CarritoController {
         return redireccion;
     }
     
+    @GetMapping("/carrito/lista_compras")
+    public String listadoCompras(Model model) {
+        Usuario usr = usuarioService.encontrarPorId(1L);
+        List<Carrito> compras = carritoService.obtenerTodosLosCarritosCompradosPorUsuario(usr);
+        
+        model.addAttribute("compras", compras);
+        
+        return "lista_carrito";
+    }
 }

@@ -93,5 +93,8 @@ public class CarritoService {
         
         return carritoAbierto;
     }
-    
+
+    public List<Carrito> obtenerTodosLosCarritosCompradosPorUsuario(Usuario usr) {
+        return carritoRepository.findAllByUsuarioAndFechaCompraIsNotNull(usr);
+    }
 }
