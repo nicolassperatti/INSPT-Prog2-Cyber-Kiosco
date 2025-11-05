@@ -166,8 +166,15 @@ public class CarritoController {
     @GetMapping("/carrito/detalle_compra/{id}")
     public String getDetallesCarrito(@PathVariable long id, Model model) {
         List<CarritoProducto> carritoProductos = this.carritoProductoService.listaDeCarritoProductoPorId_carrito(id);
-        model.addAttribute("carritoProductos",carritoProductos);
-        return "carrito_detalle";
+        String redireccion;
+        if(carritoProductos != null && !carritoProductos.isEmpty()){
+            model.addAttribute("carritoProductos",carritoProductos);
+            redireccion = "carrito_detalle";
+        }
+        else{
+            redireccion = "redirect:/carrito/lista_compras";
+        }
+        return redireccion;
     }
     
 }
