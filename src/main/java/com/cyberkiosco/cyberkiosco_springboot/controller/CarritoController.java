@@ -16,6 +16,7 @@ import com.cyberkiosco.cyberkiosco_springboot.service.UsuarioService;
 import java.util.List;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -161,4 +162,12 @@ public class CarritoController {
         
         return "lista_carrito";
     }
+
+    @GetMapping("/carrito/detalle_compra/{id}")
+    public String getDetallesCarrito(@PathVariable long id, Model model) {
+        List<CarritoProducto> carritoProductos = this.carritoProductoService.listaDeCarritoProductoPorId_carrito(id);
+        model.addAttribute("carritoProductos",carritoProductos);
+        return "carrito_detalle";
+    }
+    
 }

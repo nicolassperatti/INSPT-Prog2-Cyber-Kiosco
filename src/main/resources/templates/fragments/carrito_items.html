@@ -8,9 +8,9 @@
         <ul>
             <li th:each="compra : ${compras}" class="carrito_items">
                 <h3 th:text="|Orden de compra: ${compra.id}|">ID</h3>
-                <p th:text="${compra.fechaCompra}">Fecha de Compra</p>
-                <p th:text="${compra.precioTotal}">Precio Total</p>
-                <a th:href="@{/carrito/detalle_compra/${compra.id}}" class="btn-detalle-compra">Ver Detalle</a>
+                <p th:text="|Fecha de la compra: ${compra.fechaCompra}|">Fecha de Compra</p>
+                <p th:text="|Precio total: $${compra.precioTotal}|">Precio Total</p>
+                <a th:href="@{|/carrito/detalle_compra/${compra.id}|}" class="btn-detalle-compra">Ver Detalle</a>
             </li>
         </ul>
     </div>
