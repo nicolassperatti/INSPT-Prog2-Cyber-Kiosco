@@ -13,7 +13,9 @@
              th:alt="|Imagen de ${cp.producto.nombre} no disponible|">
                         
         <div class="carrito-prod-card-info">
-            <p th:text="${cp.producto.nombre}" class="nombre-producto">Nombre del Producto</p>
+            <p class="nombre-producto">
+                <a th:href="@{|/productos?nombre=${cp.producto.nombre}|}" th:text="${cp.producto.nombre}">Nombre del Producto</a>
+            </p>
             <p th:text="'Precio: $' + ${cp.precio_producto}" class="precio">Precio</p>
             <p th:text="|Unidades: ${cp.cantidad_producto}|">Unidades</p>
             <p th:text="'Total: $' + ${#numbers.formatDecimal(cp.cantidad_producto * cp.precio_producto, 1, 2)}">Total</p>
