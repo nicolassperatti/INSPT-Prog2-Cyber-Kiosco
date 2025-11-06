@@ -27,6 +27,9 @@
             <p th:text="'Categoria: ' + ${producto.categoria.nombre}" class="prod-atributo">Categoria</p>
             
             <p th:text="'Marca: ' + ${producto.marca.nombre}" class="prod-atributo">Marca</p>
+            <p class="prod-atributo">
+                <a th:href = "@{|/productos?idmarca=${producto.marca.id}|}" th:text="'Marca: ' + ${producto.marca.nombre}">Marca</a>
+            </p>
             
             <p th:text="'Precio: $' + ${producto.precio}" class="prod-atributo">Precio</p>
 

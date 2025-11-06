@@ -2,9 +2,10 @@
 package com.cyberkiosco.cyberkiosco_springboot.controller;
 
 
+import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
+import com.cyberkiosco.cyberkiosco_springboot.service.MarcaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,17 +23,24 @@ public class ProductosController {
     
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private MarcaService marcaService;
     
     @GetMapping("/productos") // significa: Este metodo del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
     public String verSeccionProductos(Model model,
             @PageableDefault(size = 9, sort = "id", 
             direction = Sort.Direction.ASC) Pageable pageable,
-            @RequestParam(required = false) String nombre) { 
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) Long idmarca) { 
         
         Page<Producto> paginaProductos;
         
-        if((nombre == null) || (nombre.trim().isBlank())) { //si no hay nombre de producto para busqueda
+        if(((nombre == null) || nombre.trim().isBlank()) && ((idmarca == null) || (idmarca <= 0))) { //si no hay nombre ni marca
             paginaProductos = productoService.obtenerTodosLosProductos(pageable);
+        } else if((nombre == null || nombre.trim().isBlank()) &&(idmarca != null && idmarca > 0)){
+            Marca marca = marcaService.encontrarPorId(idmarca);
+            paginaProductos = productoService.obtenerProductosPorMarca(marca, pageable);
         } else {
             paginaProductos = productoService.obetenerProductosQueContinienen(nombre, pageable);
         }
