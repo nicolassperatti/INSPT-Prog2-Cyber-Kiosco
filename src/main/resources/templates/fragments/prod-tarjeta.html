@@ -25,7 +25,6 @@
             </p>
 
             
-            <p th:text="'Categoria: ' + ${producto.categoria.nombre}" class="prod-atributo">Categoria</p>
             <p class="prod-atributo">
                 <a th:href = "@{|/productos_por_categoria?idcategoria=${producto.categoria.id}|}" th:text="'Categoria: ' + ${producto.categoria.nombre}">Categoria</a>
             </p>
