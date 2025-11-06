@@ -36,16 +36,12 @@ public class ProductosController {
     public String verSeccionProductos(Model model,
             @PageableDefault(size = 9, sort = "id", 
             direction = Sort.Direction.ASC) Pageable pageable,
-            @RequestParam(required = false) String nombre,
-            @RequestParam(required = false) Long idmarca) { 
+            @RequestParam(required = false) String nombre) { 
         
         Page<Producto> paginaProductos;
         
-        if(((nombre == null) || nombre.trim().isBlank()) && ((idmarca == null) || (idmarca <= 0))) { //si no hay nombre ni marca
+        if((nombre == null) || (nombre.trim().isBlank())) { //si no hay nombre de producto para busqueda
             paginaProductos = productoService.obtenerTodosLosProductos(pageable);
-        } else if((nombre == null || nombre.trim().isBlank()) &&(idmarca != null && idmarca > 0)){
-            Marca marca = marcaService.encontrarPorId(idmarca);
-            paginaProductos = productoService.obtenerProductosPorMarca(marca, pageable);
         } else {
             paginaProductos = productoService.obetenerProductosQueContinienen(nombre, pageable);
         }
@@ -58,8 +54,24 @@ public class ProductosController {
         return "index";
     }
 
+    @GetMapping("/productos_por_marca")
+    public String getProductosPorMarca(Model model, @PageableDefault(size = 9, sort = "id", 
+    direction = Sort.Direction.ASC) Pageable pageable, @RequestParam Long idmarca) {
+        Page<Producto> paginaProductos;
+        String redireccion = "redirect:/productos";
+        if(idmarca != null && idmarca > 0){
+            Marca marca = this.marcaService.encontrarPorId(idmarca);
+            if(marca != null){
+                paginaProductos = this.productoService.obtenerProductosPorMarca(marca, pageable);
+                model.addAttribute("paginaProductos",paginaProductos);
+                redireccion = "index";
+            }
+        } 
+        return redireccion;
+    }
+
     @GetMapping("/productos_por_categoria")
-    public String getMethodName(Model model, @PageableDefault(size = 9, sort = "id", 
+    public String getProductosPorCategoria(Model model, @PageableDefault(size = 9, sort = "id", 
     direction = Sort.Direction.ASC) Pageable pageable, @RequestParam Long idcategoria) {
         Page<Producto> paginaProductos;
         String redireccion = "redirect:/productos";

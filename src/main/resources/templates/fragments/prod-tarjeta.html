@@ -31,7 +31,7 @@
             </p>
 
             <p class="prod-atributo">
-                <a th:href = "@{|/productos?idmarca=${producto.marca.id}|}" th:text="'Marca: ' + ${producto.marca.nombre}">Marca</a>
+                <a th:href = "@{|/productos_por_marca?idmarca=${producto.marca.id}|}" th:text="'Marca: ' + ${producto.marca.nombre}">Marca</a>
             </p>
             
             <p th:text="'Precio: $' + ${producto.precio}" class="prod-atributo">Precio</p>
