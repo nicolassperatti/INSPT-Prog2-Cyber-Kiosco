@@ -164,16 +164,19 @@ public class CarritoController {
     }
 
     @GetMapping("/carrito/detalle_compra/{id}")
-    public String getDetallesCarrito(@PathVariable long id, Model model) {
-        List<CarritoProducto> carritoProductos = this.carritoProductoService.listaDeCarritoProductoPorId_carrito(id);
-        String redireccion;
-        if(carritoProductos != null && !carritoProductos.isEmpty()){
-            model.addAttribute("carritoProductos",carritoProductos);
-            redireccion = "carrito_detalle";
+    public String getDetallesCarrito(@PathVariable Long id, Model model) {
+        Usuario usario = this.usuarioService.encontrarPorId(1L);
+        Carrito carrito = this.carritoService.obtenerCarritoPorUsuarioYCarrito(id, usario);
+        String redireccion = "redirect:/carrito/lista_compras";
+        List<CarritoProducto> carritoProductos;
+        if (carrito != null) {
+            carritoProductos = this.carritoProductoService.listaDeCarritoProductoPorId_carrito(id);
+            if(carritoProductos != null && !carritoProductos.isEmpty()){
+                model.addAttribute("carritoProductos",carritoProductos);
+                redireccion = "carrito_detalle";
+            }
         }
-        else{
-            redireccion = "redirect:/carrito/lista_compras";
-        }
+        
         return redireccion;
     }
     

@@ -97,4 +97,8 @@ public class CarritoService {
     public List<Carrito> obtenerTodosLosCarritosCompradosPorUsuario(Usuario usr) {
         return carritoRepository.findAllByUsuarioAndFechaCompraIsNotNull(usr);
     }
+
+    public Carrito obtenerCarritoPorUsuarioYCarrito(Long id, Usuario usuario){
+        return carritoRepository.findByIdAndUsuario(id, usuario).orElse(null);
+    }
 }
