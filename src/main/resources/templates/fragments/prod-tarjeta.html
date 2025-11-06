@@ -24,9 +24,12 @@
                 No hay descripcion disponible para este producto.
             </p>
 
-            <p th:text="'Categoria: ' + ${producto.categoria.nombre}" class="prod-atributo">Categoria</p>
             
-            <p th:text="'Marca: ' + ${producto.marca.nombre}" class="prod-atributo">Marca</p>
+            <p th:text="'Categoria: ' + ${producto.categoria.nombre}" class="prod-atributo">Categoria</p>
+            <p class="prod-atributo">
+                <a th:href = "@{|/productos_por_categoria?idcategoria=${producto.categoria.id}|}" th:text="'Categoria: ' + ${producto.categoria.nombre}">Categoria</a>
+            </p>
+
             <p class="prod-atributo">
                 <a th:href = "@{|/productos?idmarca=${producto.marca.id}|}" th:text="'Marca: ' + ${producto.marca.nombre}">Marca</a>
             </p>

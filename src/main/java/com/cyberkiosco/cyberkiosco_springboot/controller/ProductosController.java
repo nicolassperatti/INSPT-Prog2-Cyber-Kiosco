@@ -2,8 +2,10 @@
 package com.cyberkiosco.cyberkiosco_springboot.controller;
 
 
+import com.cyberkiosco.cyberkiosco_springboot.entity.Categoria;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
+import com.cyberkiosco.cyberkiosco_springboot.service.CategoriaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.MarcaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ProductosController {
 
     @Autowired
     private MarcaService marcaService;
+
+    @Autowired
+    private CategoriaService categoriaService;
     
     @GetMapping("/productos") // significa: Este metodo del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
     public String verSeccionProductos(Model model,
@@ -52,6 +57,23 @@ public class ProductosController {
         
         return "index";
     }
+
+    @GetMapping("/productos_por_categoria")
+    public String getMethodName(Model model, @PageableDefault(size = 9, sort = "id", 
+    direction = Sort.Direction.ASC) Pageable pageable, @RequestParam Long idcategoria) {
+        Page<Producto> paginaProductos;
+        String redireccion = "redirect:/productos";
+        if(idcategoria != null && idcategoria > 0){
+            Categoria categoria = this.categoriaService.encontrarPorId(idcategoria);
+            if(categoria != null){
+                paginaProductos = this.productoService.obtenerProductosPorCategoria(categoria, pageable);
+                model.addAttribute("paginaProductos",paginaProductos);
+                redireccion = "index";
+            }
+        } 
+        return redireccion;
+    }
+    
     
     @GetMapping("/producto_detalle/{id}")
     public String verProducto(@PathVariable Long id, Model model) {
