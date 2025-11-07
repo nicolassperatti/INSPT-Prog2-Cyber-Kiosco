@@ -14,7 +14,7 @@
                         
         <div class="carrito-prod-card-info">
             <p class="nombre-producto">
-                <a th:href="@{|/productos?nombre=${cp.producto.nombre}|}" th:text="${cp.producto.nombre}">Nombre del Producto</a>
+                <a th:href="@{|/producto_detalle/${cp.producto.id}|}" th:text="${cp.producto.nombre}">Nombre del Producto</a>
             </p>
             <p th:text="'Precio: $' + ${cp.precio_producto}" class="precio">Precio</p>
             <p th:text="|Unidades: ${cp.cantidad_producto}|">Unidades</p>
