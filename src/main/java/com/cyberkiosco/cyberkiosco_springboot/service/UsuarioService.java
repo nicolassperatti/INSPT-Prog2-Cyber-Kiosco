@@ -3,6 +3,7 @@ package com.cyberkiosco.cyberkiosco_springboot.service;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Rol;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
+import com.cyberkiosco.cyberkiosco_springboot.entity.auxiliar.Validacion;
 import com.cyberkiosco.cyberkiosco_springboot.repository.UsuarioRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,14 @@ public class UsuarioService {
     
     public List<Usuario> obtenerUsuariosPorRol(Rol rol) {
         return this.obtenerUsuariosPorRol_id(rol.getId());
+    }
+    
+    public Usuario obtenerPorMailYPassword(String email, String password) {
+        
+        Validacion.validarString(email, "email");
+        Validacion.validarString(password, "password");
+        
+        return usuarioRepository.findByMailIgnoreCaseAndPassword(email, password);
     }
     
 }

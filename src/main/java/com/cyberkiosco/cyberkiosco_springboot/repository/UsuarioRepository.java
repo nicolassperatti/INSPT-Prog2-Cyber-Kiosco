@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     List<Usuario> findByRol_Id(Long id_rol);
+    Usuario findByMailIgnoreCaseAndPassword(String email, String password);
 
 }

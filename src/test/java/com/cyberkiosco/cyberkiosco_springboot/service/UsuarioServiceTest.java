@@ -145,4 +145,15 @@ public class UsuarioServiceTest {
         assertEquals(usrsAdmin.size(), 2);
     }
     
+    @Test
+    void testObtenerPorMailYPassword() {
+        Usuario usr1, usr2;
+        
+        usr1 = usuarioService.obtenerPorMailYPassword("admin@example.com", "admin123");
+        usr2 = usuarioService.obtenerPorMailYPassword("usuarioInexistente@email.com", "abc123");
+        
+        assertEquals(usr1, usuarioService.encontrarPorId(1L)); //se encontro al admin
+        assertNull(usr2);
+    }
+    
 }
