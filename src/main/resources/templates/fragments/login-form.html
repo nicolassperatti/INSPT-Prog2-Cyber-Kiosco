@@ -1,0 +1,27 @@
+
+<form th:fragment="login-form"
+    class="login-form" 
+    th:action="@{/usuario/login/credenciales}" 
+    method="post">    
+
+    <label for="mail">Email</label>
+    <input type="email" 
+           name="mail"
+           minlength="5"
+           maxlength="255"
+           required
+        >
+    
+    <label for="password">Password:</label>
+    <input type="password" 
+           name="password" 
+           minlength="5"
+           maxlength="255" 
+           required
+        >
+    
+    <button type="submit" class="btn-logIn">Iniciar Sesión</button>
+    
+</form>
+
+
