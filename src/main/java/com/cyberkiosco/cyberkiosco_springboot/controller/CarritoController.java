@@ -13,6 +13,7 @@ import com.cyberkiosco.cyberkiosco_springboot.service.CarritoProductoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,19 +38,24 @@ public class CarritoController {
     
     
     @PostMapping("/carrito/agregar")
-    public String agregarProducto(@RequestParam long idProducto, @RequestParam int cantidad) {
+    public String agregarProducto(
+            @RequestParam long idProducto, 
+            @RequestParam int cantidad,
+            HttpSession sesion
+        ) {
         
         String redireccion = "redirect:/productos";
         boolean valido = false;
+        //obtiene el usuario de la sesion
+        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
         
         Producto producto = productoService.encontrarPorId(idProducto);
-        //usuario hardcodeado
-        Usuario usr = usuarioService.encontrarPorId(1L); 
+
         //obtiene o crea el carrito abierto
         Carrito carrito = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
         //obtiene el CarritoProducto si ya existe, sino null
         CarritoProducto carritoProducto = carritoProductoService.encontrarPorId(carrito.getId(), producto.getId());
-                
+
         try {
             //si el producto ya estaba en el carrito sumar la nueva cantidad
             if(carritoProducto != null) {
@@ -57,7 +63,7 @@ public class CarritoController {
             } else {
                 carritoProductoService.guardar(carrito, producto, cantidad, producto.getPrecio());
             }
-            
+
             valido = true;
         } catch (IllegalArgumentException ilae) {
             System.out.println("ERROR: " + ilae.getMessage());
@@ -66,7 +72,7 @@ public class CarritoController {
         } catch (Exception e) {
             System.out.println("Error desconocido");
         }
-        
+
         // si no se pudo agregar a carrito quedarse en la pagina
         if (!valido) {
             redireccion = "redirect:/producto_detalle/" + producto.getId();
@@ -77,27 +83,32 @@ public class CarritoController {
     
     
     @GetMapping("/carrito") // significa: Este metodo del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
-    public String verCarrito(Model model) {
+    public String verCarrito(
+            Model model,
+            HttpSession sesion
+        ) {
+        
         double precioTotalCarrito = 0.0;
         
-        // usuario hardcodeado
-        Usuario usr = usuarioService.encontrarPorId(1);
+        String redireccion = "carrito";
         
+        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
+
         Carrito carrito = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
-        
+
         List<CarritoProducto> carritoProductos = carritoProductoService.listaDeCarritoProductoPorId_carrito(carrito.getId());
-        
+
         for(CarritoProducto cp : carritoProductos) {
             precioTotalCarrito += (cp.getPrecio_producto() * cp.getCantidad_producto());
         }
-        
+
         precioTotalCarrito = Math.round(precioTotalCarrito * 100.0) / 100.0;
-        
+
         model.addAttribute("carritoProductos", carritoProductos);
         model.addAttribute("carrito", carrito);
         model.addAttribute("precioTotalCarrito", precioTotalCarrito);
         
-        return "carrito";
+        return redireccion;
     }
     
     
@@ -153,9 +164,11 @@ public class CarritoController {
         return redireccion;
     }
     
+    
     @GetMapping("/carrito/lista_compras")
-    public String listadoCompras(Model model) {
-        Usuario usr = usuarioService.encontrarPorId(1L);
+    public String listadoCompras(Model model, HttpSession sesion) {
+        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
+        
         List<Carrito> compras = carritoService.obtenerTodosLosCarritosCompradosPorUsuario(usr);
         
         model.addAttribute("compras", compras);
@@ -163,10 +176,13 @@ public class CarritoController {
         return "lista_carrito";
     }
 
+    
     @GetMapping("/carrito/detalle_compra/{id}")
-    public String getDetallesCarrito(@PathVariable Long id, Model model) {
-        Usuario usario = this.usuarioService.encontrarPorId(1L);
-        Carrito carrito = this.carritoService.obtenerCarritoPorUsuarioYCarrito(id, usario);
+    public String getDetallesCarrito(@PathVariable Long id, Model model, HttpSession sesion) {
+        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
+        
+        Carrito carrito = this.carritoService.obtenerCarritoPorUsuarioYCarrito(id, usr);
+        
         String redireccion = "redirect:/carrito/lista_compras";
         List<CarritoProducto> carritoProductos;
         if (carrito != null) {
@@ -179,5 +195,6 @@ public class CarritoController {
         
         return redireccion;
     }
+    
     
 }
