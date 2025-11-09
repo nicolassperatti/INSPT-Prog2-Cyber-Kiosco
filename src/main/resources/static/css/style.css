@@ -535,3 +535,49 @@ nav a:hover {
 .carrito_items_vacio h2{
     color: red;
 }
+
+
+/*
+    Pagina de Login:
+*/
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-secundario);
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.login-input-container {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-terciario);
+    margin-bottom: 2.5rem;
+    font-size: 1.5rem;
+}
+
+.login-input-container label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.login-input-container input {
+    font-size: 1.25rem;
+    padding: 0.2rem;
+}
+
+.login-form .btn-logIn {
+    font-size: 1.5rem;
+    padding: 0.25rem;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: var(--color-principal);
+    color: var(--color-secundario);
+}
+
+
+
+
+
+
