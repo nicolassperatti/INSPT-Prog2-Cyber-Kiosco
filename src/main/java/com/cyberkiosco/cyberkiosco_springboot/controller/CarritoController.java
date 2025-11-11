@@ -185,7 +185,7 @@ public class CarritoController {
         
         String redireccion = "redirect:/carrito/lista_compras";
         List<CarritoProducto> carritoProductos;
-        if (carrito != null) {
+        if (carrito != null && carrito.getFechaCompra() != null) {
             carritoProductos = this.carritoProductoService.listaDeCarritoProductoPorId_carrito(id);
             if(carritoProductos != null && !carritoProductos.isEmpty()){
                 model.addAttribute("carritoProductos",carritoProductos);
