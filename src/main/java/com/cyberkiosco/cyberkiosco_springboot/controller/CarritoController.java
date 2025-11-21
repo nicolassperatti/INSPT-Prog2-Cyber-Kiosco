@@ -1,6 +1,7 @@
 package com.cyberkiosco.cyberkiosco_springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -9,6 +10,7 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.CarritoProducto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
 import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.StockInsuficienteException;
+import com.cyberkiosco.cyberkiosco_springboot.security.UserDetailsImpl;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoProductoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
@@ -41,13 +43,14 @@ public class CarritoController {
     public String agregarProducto(
             @RequestParam long idProducto, 
             @RequestParam int cantidad,
-            HttpSession sesion
+            @AuthenticationPrincipal UserDetailsImpl userDetails
         ) {
         
         String redireccion = "redirect:/productos";
         boolean valido = false;
         //obtiene el usuario de la sesion
-        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
+        Usuario usr = userDetails.getUsuarioReal();
+        System.out.println(usr);
         
         Producto producto = productoService.encontrarPorId(idProducto);
 
@@ -85,14 +88,14 @@ public class CarritoController {
     @GetMapping("/carrito") // significa: Este metodo del controlador debe ejecutarse cuando alguien haga una petición GET a esta URL
     public String verCarrito(
             Model model,
-            HttpSession sesion
+            @AuthenticationPrincipal UserDetailsImpl userDetails
         ) {
         
         double precioTotalCarrito = 0.0;
         
         String redireccion = "carrito";
         
-        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
+        Usuario usr = userDetails.getUsuarioReal();
 
         Carrito carrito = carritoService.obtenerCarritoAbiertoPorUsuario(usr);
 
@@ -166,8 +169,8 @@ public class CarritoController {
     
     
     @GetMapping("/carrito/lista_compras")
-    public String listadoCompras(Model model, HttpSession sesion) {
-        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
+    public String listadoCompras(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Usuario usr = (Usuario) userDetails.getUsuarioReal();
         
         List<Carrito> compras = carritoService.obtenerTodosLosCarritosCompradosPorUsuario(usr);
         
@@ -178,8 +181,8 @@ public class CarritoController {
 
     
     @GetMapping("/carrito/detalle_compra/{id}")
-    public String getDetallesCarrito(@PathVariable Long id, Model model, HttpSession sesion) {
-        Usuario usr = (Usuario) sesion.getAttribute("usrLogueado");
+    public String getDetallesCarrito(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Usuario usr = (Usuario) userDetails.getUsuarioReal();
         
         Carrito carrito = this.carritoService.obtenerCarritoPorUsuarioYCarrito(id, usr);
         

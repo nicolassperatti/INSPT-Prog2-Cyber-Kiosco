@@ -34,7 +34,7 @@ public class WebSecurityConfig {
             // Configuración de autorización de rutas
             .authorizeHttpRequests((requests) -> requests
                 // Rutas públicas (recursos estáticos, login, home pública)
-                .requestMatchers("/css/**", "/images/**", "/js/**", "/usuario/login", "/usuario/registro","/contacto").permitAll()
+                .requestMatchers("/css/**", "/images/**", "/js/**", "/usuario/login","/contacto").permitAll()
                 .requestMatchers("/").permitAll()
                 // Rutas que requieren rol específico (ejemplo)
                 // .requestMatchers("/admin/**").hasAuthority("Administrador") 
@@ -43,7 +43,7 @@ public class WebSecurityConfig {
             )
             // Configuración del formulario de Login
             .formLogin((form) -> form
-                .loginPage("/usuario/login") // Tu URL actual para mostrar el HTML
+                .loginPage("/usuario/login") // URL actual para mostrar el HTML
                 .loginProcessingUrl("/login_process") // URL interna que procesa el POST (Spring lo hace solo)
                 .usernameParameter("mail") // El 'name' del input en tu HTML es 'mail'
                 .passwordParameter("password") // El 'name' del input en tu HTML es 'password'
