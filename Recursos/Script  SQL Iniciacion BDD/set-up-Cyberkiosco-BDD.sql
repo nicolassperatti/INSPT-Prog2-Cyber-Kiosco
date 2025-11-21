@@ -146,9 +146,9 @@ INSERT INTO rol (nombre) VALUES
 
 
 INSERT INTO usuario (nombre, apellido, mail, password, fondos, id_rol) VALUES
-('adminuser', 'Gómez', 'admin@example.com', 'admin123', 1000.00, 1),
-('Jose', 'Pérez', 'jose.perez@example.com', 'jose123', 500.00, 2),
-('Maria', 'López', 'maria.lopez@example.com', 'maria123', 200.00, 2),
+('adminuser', 'Gómez', 'admin@example.com', '$2a$12$wkp/m0M1paPEccApW7yvI.i1acu3rXaJOuNYlw3IeRAiy7vKR0O8O', 1000.00, 1),
+('Jose', 'Pérez', 'jose.perez@example.com', '$2a$12$/Ajy9di1bvKeytY7yAel5ev4GtSoPMp.cfYBqQOFxF1T5tmjNNBHG', 500.00, 2),
+('Maria', 'López', 'maria.lopez@example.com', '$2a$12$qsDnp8ALqDebdfGofdqM1.q38raqWTymhsByv8baY6n5n7xC0CKIO', 200.00, 2),
 ('Carlos', 'Ruiz', 'carlos.ruiz@example.com', 'carlos123', 300.00, 2),
 ('Ana', 'Martínez', 'ana.martinez@example.com', 'ana123', 150.00, 2),
 ('Luis', 'Fernández', 'luis.fernandez@example.com', 'luis123', 400.00, 2),

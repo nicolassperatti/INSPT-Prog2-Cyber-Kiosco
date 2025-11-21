@@ -1,32 +1,24 @@
-
 <form th:fragment="login-form"
-    th:action="@{/usuario/login/credenciales}" 
-    method="post"
-    class="login-form"
-    >
+      th:action="@{/login_process}"
+      method="post"
+      class="login-form">
+
+    <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
+        Usuario o contraseña incorrectos.
+    </div>
+    <div th:if="${param.logout}" style="color: green; margin-bottom: 10px;">
+        Has cerrado sesión exitosamente.
+    </div>
 
     <div class="login-input-container">
         <label for="mail">Email</label>
-        <input type="email" 
-               name="mail"
-               minlength="5"
-               maxlength="255"
-               required
-            >
-    </div>
-    
+        <input type="email" id="mail" name="mail" required> </div>
+
     <div class="login-input-container">
         <label for="password">Password</label>
-        <input type="password" 
-               name="password" 
-               minlength="5"
-               maxlength="255" 
-               required
-            >
+        <input type="password" id="password" name="password" required>
     </div>
-    
-    <button type="submit" class="btn-logIn">Iniciar Sesión</button>
-    
-</form>
 
+    <button type="submit" class="btn-logIn">Iniciar Sesión</button>
+</form>
 
