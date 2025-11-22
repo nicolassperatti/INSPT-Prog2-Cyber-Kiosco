@@ -14,8 +14,6 @@ import com.cyberkiosco.cyberkiosco_springboot.security.UserDetailsImpl;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoProductoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
-import com.cyberkiosco.cyberkiosco_springboot.service.UsuarioService;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +32,6 @@ public class CarritoController {
 
     @Autowired
     private CarritoProductoService carritoProductoService;
-
-    @Autowired
-    private UsuarioService usuarioService;
     
     
     @PostMapping("/carrito/agregar")
