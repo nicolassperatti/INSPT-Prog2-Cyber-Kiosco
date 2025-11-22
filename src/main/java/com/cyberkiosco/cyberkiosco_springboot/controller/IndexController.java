@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 @Controller
 public class IndexController {
     
@@ -19,5 +20,11 @@ public class IndexController {
     public String verPaginaContacto(Model model) {
         return "contacto";
     }
+
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        return "redirect:/admin/productos";
+    }
+    
 }
 
