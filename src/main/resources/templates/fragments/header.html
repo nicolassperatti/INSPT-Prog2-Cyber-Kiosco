@@ -21,6 +21,9 @@
             <li sec:authorize="hasAuthority('Usuario')">
                 <a href="/contacto">Contacto</a>
             </li>
+            <li sec:authorize="hasAuthority('Administrador')">
+                <a href="/admin/marcas"> Menu Marcas</a>
+            </li>
             
             <li sec:authorize="!isAuthenticated()">
                 <a th:href="@{/usuario/login}">Iniciar Sesión</a>

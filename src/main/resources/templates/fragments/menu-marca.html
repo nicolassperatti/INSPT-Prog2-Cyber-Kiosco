@@ -1,0 +1,28 @@
+<div th:fragment= "menu-marca"> 
+    <table>
+        <thead>
+            <tr>
+                <th scope="rowgroup"> Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each= "marca:${marcas}">
+                <td>
+                    <p th:text="${marca.nombre}"> nombre</p>
+                    
+                </td>
+                <td>
+                    <a href="#"> agregar</a>
+                    
+                    
+                </td>
+                <td>
+                    <a href="#"> modificar</a>
+                </td>
+                <td>
+                    <a href="#"> eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

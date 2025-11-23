@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MarcaController {
     @Autowired MarcaService marcaService;
 
-    @GetMapping("/admin/marca")
+    @GetMapping("/admin/marcas")
     public String getMethodName(Model model) {
-        model.addAttribute("marca", marcaService.obtenerTodos());
+        model.addAttribute("marcas", marcaService.obtenerTodos());
         model.addAttribute("menuMarca", true);
-        return new String();
+        return "admin";
     }
     
 }

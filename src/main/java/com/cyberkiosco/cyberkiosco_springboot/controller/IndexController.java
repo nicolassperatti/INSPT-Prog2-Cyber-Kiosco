@@ -23,7 +23,7 @@ public class IndexController {
 
     @GetMapping("/admin")
     public String admin(Model model) {
-        return "redirect:/admin/productos";
+        return "redirect:/admin/marcas";
     }
     
 }
