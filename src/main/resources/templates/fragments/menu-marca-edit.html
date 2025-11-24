@@ -1,0 +1,10 @@
+<div th:fragment="menu-marca-edit">
+    <form th:action="@{/admin/marca/editarpost/{id}(id=${id})}"
+          th:object="${marcaEditarDTO}"
+          method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}">
+        <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+        <input type="submit" value="submit">
+    </form>
+</div>

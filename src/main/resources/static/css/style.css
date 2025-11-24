@@ -578,6 +578,32 @@ nav a:hover {
 
 
 
+.table-menu table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid purple;
+    background-color: antiquewhite;
+}
+
+.table-menu th{
+    color: white;
+    background-color: black;
+}
+
+.table-menu td{
+    color: black;
+}
+
+.btn-agregar {
+    background-color: aqua;
+    border-style: solid;
+    border-radius: 1%;
+}
+
+
+
+
 
 
 
