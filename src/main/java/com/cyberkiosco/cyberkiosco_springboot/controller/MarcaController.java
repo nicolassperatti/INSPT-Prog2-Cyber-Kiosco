@@ -36,15 +36,23 @@ public class MarcaController {
 
     @GetMapping("/admin/marca/editar/{id}")
     public String getEditar(Model model, @PathVariable int id) {
-        model.addAttribute("marcaeditar", true);
-        MarcaEditarDTO marcaEditarDTO = new MarcaEditarDTO();
-        marcaEditarDTO.setNombre(marcaService.encontrarPorId(id).getNombre());
-        model.addAttribute(marcaEditarDTO);
-        model.addAttribute("id", id);
-        return "admin";
+        
+        String path = "admin";
+        Marca marca = marcaService.encontrarPorId(id);
+        if(marca != null){
+            MarcaEditarDTO marcaEditarDTO = new MarcaEditarDTO();
+            marcaEditarDTO.setNombre(marca.getNombre());
+            model.addAttribute("marcaeditar", true);
+            model.addAttribute(marcaEditarDTO);
+            model.addAttribute("id", id);
+        }
+        else{
+            path = "redirect:/admin/marcas";
+        }
+        return path;
     }
 
-    @PostMapping("/admin/marca/editarpost/{id}")
+    @PostMapping("/admin/marca/editar/{id}")
     public String postMethodName(@Valid @ModelAttribute("marcaEditarDTO") MarcaEditarDTO marcaEditarDTO, BindingResult bindingResult, @PathVariable int id, Model model) {
         //TODO: process POST request
         String path = "redirect:/admin/marcas";
