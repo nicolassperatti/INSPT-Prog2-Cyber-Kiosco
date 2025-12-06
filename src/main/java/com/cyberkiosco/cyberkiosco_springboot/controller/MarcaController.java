@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class MarcaController {
@@ -83,12 +82,17 @@ public class MarcaController {
             return "redirect:/admin/marca/editar/" + id;
         }
 
-        // 2. Si todo está bien
+        // 2. Verificar que la marca existe
         Marca marca = this.marcaService.encontrarPorId(id);
-        if (marca != null) {
-            marca.setNombre(marcaDTO.getNombre());
-            marcaService.guardar(marca);
+        if (marca == null) {
+            // La marca no existe, informar al usuario
+            redirectAttributes.addFlashAttribute("error", "La marca que intenta editar no existe.");
+            return "redirect:/admin/marcas";
         }
+
+        // 3. Si todo está bien, actualizar la marca
+        marca.setNombre(marcaDTO.getNombre());
+        marcaService.guardar(marca);
 
         // Éxito: volvemos a la lista general
         return "redirect:/admin/marcas";
