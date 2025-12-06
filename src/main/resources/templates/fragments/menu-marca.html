@@ -1,5 +1,5 @@
 <div th:fragment= "menu-marca" class="table-menu"> 
-    <a href="#" class="btn-agregar">agregar marca</a>
+    <a th:href="@{/admin/marca/crear}" class="btn-agregar">agregar marca</a>
     <table>
         <thead>
             <tr th:each= "column:${columns}">
@@ -15,7 +15,7 @@
                     <a th:href= "@{|/admin/marca/editar/${row.id}|}"> modificar</a>
                 </td>
                 <td>
-                    <a href="#"> eliminar</a>
+                    <a th:href="@{|/admin/marca/eliminar/${row.id}|}"> eliminar</a>
                 </td>
             </tr>
         </tbody>

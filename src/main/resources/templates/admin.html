@@ -14,13 +14,16 @@
         
         <main>
             <div class="container">
-            <div th:unless= "${marcaeditar}">
+            <div th:if= "${menuMarca}">
                     <div th:replace= "fragments/menu-marca :: menu-marca"></div>
             </div>
 
             <div th:if= "${marcaeditar}">
                     <div th:replace= "fragments/menu-marca-edit :: menu-marca-edit"></div>
             </div>
+
+            <div th:if= "${marcacrear}">
+                <div th:replace= "fragments/menu-marca-create :: menu-marca-create"></div>
             </div>
             
         </main>

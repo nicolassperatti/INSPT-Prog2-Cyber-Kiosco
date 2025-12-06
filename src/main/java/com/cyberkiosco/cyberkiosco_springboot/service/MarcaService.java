@@ -1,5 +1,6 @@
 package com.cyberkiosco.cyberkiosco_springboot.service;
 
+import com.cyberkiosco.cyberkiosco_springboot.dtos.MarcaDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.repository.MarcaRepository;
 import java.util.List;
@@ -35,6 +36,21 @@ public class MarcaService {
     
     public long contar() {
         return marcaRepository.count();
+    }
+
+    public MarcaDTO convertirAMarcaDTO(long id) {
+        Marca marca = encontrarPorId(id);
+        MarcaDTO marcaDTO = new MarcaDTO();
+        marcaDTO.setNombre(marca.getNombre());
+        return marcaDTO;
+    }
+
+    public boolean existePorNombre(String nombre) {
+        return marcaRepository.existsByNombre(nombre);
+    }
+
+    public boolean existeNombreEnOtraMarca(String nombre, Long id) {
+        return marcaRepository.existsByNombreAndIdNot(nombre, id);
     }
        
 }

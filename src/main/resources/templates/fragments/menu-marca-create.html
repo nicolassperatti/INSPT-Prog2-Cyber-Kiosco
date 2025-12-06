@@ -1,5 +1,5 @@
-<div th:fragment="menu-marca-edit">
-    <form th:action="@{/admin/marca/editar/{id}(id=${id})}"
+<div th:fragment="menu-marca-create">
+    <form th:action= "@{/admin/marca/crear}"
           th:object="${marcaDTO}"
           method="post">
         <label for="nombre">Nombre:</label>
