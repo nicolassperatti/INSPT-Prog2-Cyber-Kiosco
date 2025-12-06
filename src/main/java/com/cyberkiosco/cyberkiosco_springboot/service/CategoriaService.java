@@ -1,5 +1,6 @@
 package com.cyberkiosco.cyberkiosco_springboot.service;
 
+import com.cyberkiosco.cyberkiosco_springboot.dtos.CategoriaDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Categoria;
 import com.cyberkiosco.cyberkiosco_springboot.repository.CategoriaRepository;
 import java.util.List;
@@ -35,6 +36,24 @@ public class CategoriaService {
     
     public long contar() {
         return categoriaRepository.count();
+    }
+
+    public CategoriaDTO convertirACategoriaDTO(long id) {
+        Categoria categoria = encontrarPorId(id);
+        CategoriaDTO categoriaDTO = null;
+        if (categoria != null) {
+            categoriaDTO = new CategoriaDTO();
+            categoriaDTO.setNombre(categoria.getNombre());
+        }
+        return categoriaDTO;
+    }
+
+    public boolean existePorNombre(String nombre) {
+        return categoriaRepository.existsByNombre(nombre);
+    }
+
+    public boolean existeNombreEnOtraCategoria(String nombre, Long id) {
+        return categoriaRepository.existsByNombreAndIdNot(nombre, id);
     }
        
 }

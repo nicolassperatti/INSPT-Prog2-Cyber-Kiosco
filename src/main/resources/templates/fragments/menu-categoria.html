@@ -1,0 +1,27 @@
+<div th:fragment= "menu-categoria" class="table-menu"> 
+    <a th:href="@{/admin/categoria/crear}" class="btn-agregar">agregar categoria</a>
+    <table>
+        <thead>
+            <tr th:each= "column:${columns}">
+                <th> Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each= "row:${rows}">
+                <td th:text="${row.nombre}">
+                    nombre
+                </td>
+                <td>
+                    <a th:href= "@{|/admin/categoria/editar/${row.id}|}"> modificar</a>
+                </td>
+                <td>
+                    <a th:href="@{|/admin/categoria/eliminar/${row.id}|}"> eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:if="${error}" class="alerta-error">
+        <p th:text="${error}">Mensaje de error</p>
+    </div>
+</div>
+

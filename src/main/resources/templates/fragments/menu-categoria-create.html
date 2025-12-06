@@ -1,0 +1,13 @@
+<div th:fragment="menu-categoria-create">
+    <form th:action= "@{/admin/categoria/crear}"
+          th:object="${categoriaDTO}"
+          method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}">
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"> 
+            error
+        </span>
+        <input type="submit" value="submit">
+    </form>
+</div>
+

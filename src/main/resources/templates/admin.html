@@ -25,6 +25,18 @@
             <div th:if= "${marcacrear}">
                 <div th:replace= "fragments/menu-marca-create :: menu-marca-create"></div>
             </div>
+
+            <div th:if= "${menuCategoria}">
+                    <div th:replace= "fragments/menu-categoria :: menu-categoria"></div>
+            </div>
+
+            <div th:if= "${categoriaeditar}">
+                    <div th:replace= "fragments/menu-categoria-edit :: menu-categoria-edit"></div>
+            </div>
+
+            <div th:if= "${categoriacrear}">
+                <div th:replace= "fragments/menu-categoria-create :: menu-categoria-create"></div>
+            </div>
             
         </main>
         

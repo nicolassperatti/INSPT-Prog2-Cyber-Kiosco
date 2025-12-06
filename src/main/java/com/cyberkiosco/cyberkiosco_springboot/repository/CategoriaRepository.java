@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-    
+    boolean existsByNombreAndIdNot(String nombre, Long id);
+    boolean existsByNombre(String nombre);
 }
