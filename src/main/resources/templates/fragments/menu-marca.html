@@ -20,4 +20,7 @@
             </tr>
         </tbody>
     </table>
+    <div th:if="${error}" class="alerta-error">
+        <p th:text="${error}">Mensaje de error</p>
+    </div>
 </div>

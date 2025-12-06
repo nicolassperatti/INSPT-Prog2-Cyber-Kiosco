@@ -602,8 +602,342 @@ nav a:hover {
 }
 
 
+/* Estilo para Alertas de Error 
+*/
+.alerta-error {
+    background-color: #ffe6e6; /* Un rojo muy suave que combina con tu paleta calida */
+    color: #cc0000;            /* Rojo oscuro para el texto */
+    border: 2px solid #ffcccc; /* Borde rojo suave */
+    border-radius: 10px;       /* Mismo radio que tus .prod-card y otros elementos */
+    padding: 1rem;
+    margin-bottom: 1.5rem;     /* Espacio antes de la tabla */
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sutil sombra para que destaque */
+}
 
+.alerta-error p {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+}
 
+/* =========================================
+   RESPONSIVE DESIGN (Adaptación a Móviles)
+   ========================================= */
 
+/* Ajuste general para que el contenido no toque los bordes en celulares */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        width: auto; /* Deja que el ancho se adapte, quitando el ancho fijo si lo hubiera */
+    }
+}
 
+/* Navegación: En pantallas pequeñas, apilamos los enlaces o permitimos que fluyan
+*/
+@media (max-width: 600px) {
+    header {
+        padding: 1rem 0;
+    }
 
+    nav ul {
+        display: flex;
+        flex-direction: column; /* Apila los enlaces verticalmente */
+        gap: 10px; /* Espacio entre enlaces */
+        padding: 0;
+    }
+
+    nav li {
+        margin: 0; /* Quitamos el margen lateral para centrar bien */
+        display: block;
+        width: 100%;
+    }
+
+    nav a {
+        display: block; /* Hace que toda la franja sea clickeable, mejor para dedos */
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.3); /* Un fondo sutil para distinguir botones */
+    }
+}
+
+/* Tarjetas de Detalle (Producto y Contacto)
+   Cambio de 2 columnas a 1 columna vertical 
+*/
+@media (max-width: 850px) {
+    /* Unificamos selectores ya que ambos se comportan parecido */
+    .prod-tarjeta, 
+    .contacto-tarjeta {
+        grid-template-columns: 1fr; /* Una sola columna que ocupa todo */
+        height: auto; /* Altura automática según el contenido */
+        overflow: hidden; /* Para asegurar que nada se salga */
+    }
+
+    /* Ajustamos la imagen para que quede arriba y no al costado */
+    .prod-tarjeta img, 
+    .contacto-tarjeta img {
+        width: 100%;
+        max-width: 100%; /* Que no se pase del ancho de la pantalla */
+        height: 250px;   /* Altura fija para que no ocupe toda la pantalla del cel */
+        object-fit: cover; /* Recorta la imagen para que llene el espacio sin deformarse */
+        border-radius: 10px 10px 0 0; /* Bordes redondeados solo arriba */
+    }
+
+    /* Ajuste de los paneles de información */
+    .prod-tarjeta-panel,
+    .contacto-tarjeta-panel {
+        width: 100%;
+        padding: 1.5rem;
+        box-sizing: border-box; /* Para que el padding no agrande el ancho total */
+    }
+    
+    /* Centramos el texto en móviles para mejor estética */
+    .prod-tarjeta-info,
+    .contacto-tarjeta-info {
+        text-align: center;
+    }
+
+    /* En contacto, ponemos las redes en columna o ajustamos el flex */
+    .contacto-tarjeta-info {
+        gap: 1rem;
+    }
+    
+    .red-contacto {
+        justify-content: center; /* Centrar iconos y texto */
+    }
+}
+
+/* Carrito de Compras Responsive 
+*/
+@media (max-width: 768px) {
+    .seccion-carrito {
+        min-width: 0; /* Anula el min-width de 700px que tenías antes que rompe el mobile */
+        width: 100%;
+    }
+
+    .carrito-prod-card {
+        flex-direction: column; /* Apila imagen e info verticalmente */
+        height: auto; /* Altura flexible */
+        align-items: center;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .carrito-prod-card img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1rem; /* Separa la imagen del texto */
+    }
+
+    .carrito-prod-card-info {
+        /* Cambiamos de 4 columnas a 1 sola para que se lea bien */
+        grid-template-columns: 1fr; 
+        gap: 0.5rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Ajustes de texto para móvil */
+    .carrito-prod-card-info .nombre-producto {
+        font-size: 1.5rem; /* Un poco más chico para que quepa */
+    }
+
+    .carrito-prod-card-info p {
+        font-size: 1rem;
+        padding: 0; /* Quitamos padding lateral innecesario */
+    }
+
+    /* Botón de eliminar */
+    .btn-sacar-form {
+        width: 100%;
+        justify-content: center; /* Centrar el tacho de basura */
+        margin-top: 1rem;
+        height: auto;
+    }
+
+    /* Panel de compra total */
+    .compra-carrito-panel {
+        flex-direction: column; /* Apila total y botón comprar */
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .compra-carrito-panel p {
+        margin-right: 0; /* Quitamos margen derecho */
+        font-size: 1.5rem;
+    }
+}
+
+/* =========================================
+   MEJORAS EN FORMULARIOS Y BOTONES (Mobile & Desktop)
+   ========================================= */
+
+/* Solución al problema "entrecortado" en el detalle del producto.
+   Quitamos la altura fija y usamos Flexbox para alinear input y botón.
+*/
+.tarjeta-menu-compra {
+    height: auto; /* Dejamos que crezca según el contenido */
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+}
+
+.tarjeta-menu-compra form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que el botón baje si no hay espacio */
+    gap: 10px;       /* Espacio entre el input de cantidad y el botón */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* El input de cantidad (número) */
+.tarjeta-menu-compra form input {
+    height: 3rem; /* Más alto para facilitar el toque en móvil (aprox 48px) */
+    width: 4rem;  /* Ancho fijo para el número */
+    font-size: 1.5rem;
+    border: 2px solid var(--color-terciario); /* Borde consistente con tu tema */
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* El botón de "Agregar al carrito" */
+.tarjeta-menu-compra form button {
+    height: 3rem; /* Igual altura que el input */
+    padding: 0 1.5rem; /* Relleno lateral */
+    flex: 1; /* Ocupa el espacio restante disponible */
+    min-width: 150px; /* Ancho mínimo para que el texto no se rompa */
+    max-width: 300px; /* Ancho máximo para que no se vea gigante en desktop */
+    
+    /* Mantenemos tu estética */
+    background-color: var(--color-principal);
+    color: var(--color-secundario);
+    border: 2px solid var(--color-terciario);
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.tarjeta-menu-compra form button:active {
+    transform: scale(0.98); /* Efecto visual de "click" */
+}
+
+/* Barra de Búsqueda (Header)
+   La hacemos un poco más alta para móviles
+*/
+.search-bar {
+    height: 40px; /* Aumentamos un poco la altura original de 35px */
+    max-width: 100%; /* Permitimos que ocupe el ancho en móviles */
+    padding: 0 1rem; /* Margen lateral para que no toque los bordes */
+    box-sizing: border-box;
+}
+
+.search-bar input {
+    width: 100%; /* Que ocupe todo el espacio menos el botón */
+    border-radius: 10px 0 0 10px;
+    border: 1px solid var(--gris-oscuro);
+    padding-left: 10px;
+}
+
+.boton-busqueda {
+    background-color: white; /* Aseguramos fondo blanco */
+    border: 1px solid var(--gris-oscuro);
+    border-left: none; /* Quitamos borde duplicado */
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+}
+
+/* Formulario de Login Responsive
+*/
+@media (max-width: 600px) {
+    .login-form {
+        width: 90%; /* En móviles ocupa casi todo el ancho */
+        padding: 1.5rem; /* Reducimos un poco el padding */
+        box-sizing: border-box; /* Evita que el padding agrande el ancho total */
+    }
+
+    .login-input-container input {
+        height: 3rem; /* Inputs más altos para dedos */
+    }
+
+    .login-form .btn-logIn {
+        height: 3.5rem; /* Botón grande y fácil de tocar */
+        margin-top: 1rem;
+    }
+}
+
+/* =========================================
+   MEJORAS ESPECÍFICAS PARA CONTACTO
+   ========================================= */
+
+/* 1. Contenedor de la lista de contactos
+   Cambiamos 'space-between' por 'center' con 'gap'.
+   Esto evita que si la tarjeta es muy alta, los ítems se separen km entre sí.
+*/
+.contacto-tarjeta-info {
+    justify-content: center; 
+    gap: 1.5rem; /* Espacio uniforme entre cada medio de contacto */
+    padding: 1rem 0; /* Margen interno arriba y abajo */
+}
+
+/* 2. Cada fila de contacto individual (Icono + Texto) */
+.red-contacto {
+    display: flex;
+    align-items: center; /* CRUCIAL: Centra verticalmente el icono con el texto */
+    gap: 15px;           /* Separa el icono del texto para que no se peguen */
+    padding: 10px;       /* Área de respiro */
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s;
+    width: fit-content;  /* El ancho se adapta al contenido, no ocupa todo el bloque */
+}
+
+/* Un pequeño detalle estético: al pasar el mouse, se ilumina sutilmente */
+.red-contacto:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente */
+    transform: translateX(5px); /* Pequeño movimiento a la derecha */
+    cursor: default;
+}
+
+/* 3. Ajuste de los Iconos */
+.contacto-tarjeta-panel img {
+    width: 35px;  /* Tamaño fijo y un poco más grande */
+    height: 35px;
+    object-fit: contain; /* Asegura que el icono no se deforme */
+    flex-shrink: 0;      /* Evita que el icono se aplaste si hay poco espacio */
+    margin: 0;           /* Quitamos márgenes extraños */
+}
+
+/* 4. Ajuste del Texto */
+.contacto-tarjeta-panel p {
+    margin: 0; /* El espaciado lo maneja el 'gap' del padre */
+    font-size: 1.2rem; /* Tamaño legible pero elegante */
+    line-height: 1.2;
+    color: var(--color-terciario);
+}
+
+/* AJUSTES RESPONSIVE PARA CONTACTO
+   (Se suman a los que ya pusimos antes)
+*/
+@media (max-width: 850px) {
+    /* En celular, queremos que todo esté centrado */
+    .contacto-tarjeta-info {
+        align-items: center; /* Centra las filas horizontalmente */
+        width: 100%;
+    }
+
+    .red-contacto {
+        width: 100%; 
+        justify-content: center; /* Centra el icono y texto dentro de la fila */
+        max-width: 350px; /* Límite para que no se vea eterno en tablets */
+    }
+
+    /* Quitamos el efecto hover de movimiento en táctil porque puede ser confuso */
+    .red-contacto:hover {
+        transform: none;
+    }
+}
