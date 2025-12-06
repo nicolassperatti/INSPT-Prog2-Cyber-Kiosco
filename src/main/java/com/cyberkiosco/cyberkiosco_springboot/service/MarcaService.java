@@ -40,8 +40,11 @@ public class MarcaService {
 
     public MarcaDTO convertirAMarcaDTO(long id) {
         Marca marca = encontrarPorId(id);
-        MarcaDTO marcaDTO = new MarcaDTO();
-        marcaDTO.setNombre(marca.getNombre());
+        MarcaDTO marcaDTO = null;
+        if (marca != null) {
+            marcaDTO = new MarcaDTO();
+            marcaDTO.setNombre(marca.getNombre());
+        }
         return marcaDTO;
     }
 
