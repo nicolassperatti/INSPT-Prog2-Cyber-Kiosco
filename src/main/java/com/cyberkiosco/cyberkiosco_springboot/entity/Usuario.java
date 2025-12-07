@@ -1,119 +1,86 @@
-
 package com.cyberkiosco.cyberkiosco_springboot.entity;
 
-import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.FondosInsuficientesException;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
+/**
+ * Clase base abstracta para todos los tipos de usuarios.
+ * Utiliza estrategia JOINED: cada subclase tiene su propia tabla,
+ * pero comparten los campos comunes en la tabla 'usuario'.
+ * 
+ * La columna 'tipo_usuario' actúa como discriminador para identificar
+ * qué tipo de usuario es cada registro (ADMIN o FINAL).
+ */
 @Entity
+@Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
 @Getter
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Usuario {
+public abstract class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "id_rol")
-    private Rol rol;
-   
     private String nombre;
     private String apellido;
     private String mail;
     private String password;
-    private double fondos;
     
+    // NOTA: 'fondos' NO está aquí porque solo Final lo tiene
+    // Admin no necesita fondos, por eso usamos JOINED strategy
     
-    public void setRol(Rol rol) {
-        if(rol == null) {
-            throw new IllegalArgumentException("El rol del usuario no puede ser null.");
-        }
-        this.rol = rol;
-    }
-    
-    
+    /**
+     * Valida que un string no sea null ni vacío.
+     * Método auxiliar reutilizable para validaciones.
+     */
     private void validarString(String str, String nombreAtributo) {
         if (str == null) {
-            throw new IllegalArgumentException( nombreAtributo + " no puede ser null.");
+            throw new IllegalArgumentException(nombreAtributo + " no puede ser null.");
         }
         
-        if(str.trim().isEmpty()) {
+        if (str.trim().isEmpty()) {
             // .trim() elimina los espacios en blanco al principio y al final del string
-            throw new IllegalArgumentException( nombreAtributo + " no puede estar vacio/a.");
+            throw new IllegalArgumentException(nombreAtributo + " no puede estar vacio/a.");
         }
     }
-    
     
     public void setNombre(String nombre) {
-       validarString(nombre, "nombre");
-       this.nombre = nombre;
+        validarString(nombre, "nombre");
+        this.nombre = nombre;
     }
-    
     
     public void setApellido(String apellido) {
-       validarString(apellido, "apellido");
-       this.apellido = apellido;
+        validarString(apellido, "apellido");
+        this.apellido = apellido;
     }
-    
     
     public void setMail(String mail) {
-       validarString(mail, "mail");
-       this.mail = mail;
+        validarString(mail, "mail");
+        this.mail = mail;
     }
-    
     
     public void setPassword(String password) {
-       validarString(password, "password");
-       this.password = password;
+        validarString(password, "password");
+        this.password = password;
     }
-    
-    
-    public void setFondos(double fondos) {
-        if (fondos < 0) {
-            throw new IllegalArgumentException("Los fondos del usuario no pueden ser menores a 0");
-        }
-        this.fondos = fondos;
-    }
-    
-    
-    public void sumarFondos (double fondosSumados) {
-        if (fondosSumados <= 0) {
-            throw new IllegalArgumentException("Los fondos a sumar deben ser mayores a cero.");
-        }
-        this.fondos += fondosSumados;
-    }
-    
-    
-    public void restarFondos(double fondosRestados) {
-        double fondosRestantes;
-        if (fondos <= 0) {
-            throw new IllegalArgumentException("Los fondos a restar deben ser mayores a cero.");
-        } else {
-            fondosRestantes = this.fondos - fondosRestados;
-            
-            if(fondosRestantes < 0) {
-                throw new FondosInsuficientesException("No se cuenta con fondos suficientes para la operacion.");                
-            }
-        }
-        
-        this.fondos = fondosRestantes;
-    }
-    
 
     @Override
     public boolean equals(Object obj) {
@@ -127,9 +94,6 @@ public class Usuario {
             return false;
         }
         final Usuario other = (Usuario) obj;
-        if (Double.doubleToLongBits(this.fondos) != Double.doubleToLongBits(other.fondos)) {
-            return false;
-        }
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
@@ -142,11 +106,11 @@ public class Usuario {
         if (!Objects.equals(this.password, other.password)) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return Objects.equals(this.rol, other.rol);
+        return Objects.equals(this.id, other.id);
     }
-
     
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, apellido, mail, password);
+    }
 }

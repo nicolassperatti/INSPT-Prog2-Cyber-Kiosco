@@ -1,6 +1,7 @@
 package com.cyberkiosco.cyberkiosco_springboot.security;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
+import com.cyberkiosco.cyberkiosco_springboot.entity.Admin;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-// Esta clase envuelve tu entidad Usuario para que Spring Security la entienda
+/**
+ * Implementación de UserDetails para integrar Usuario con Spring Security.
+ * 
+ * Esta clase envuelve tu entidad Usuario (que puede ser Admin o Final)
+ * para que Spring Security la entienda y pueda usarla para autenticación.
+ */
 public class UserDetailsImpl implements UserDetails {
 
     private final Usuario usuario;
@@ -17,13 +23,30 @@ public class UserDetailsImpl implements UserDetails {
         this.usuario = usuario;
     }
 
-    // Devuelve la colección de roles/permisos.
-    // Convertimos tu entidad 'Rol' a un 'GrantedAuthority' que Spring entiende.
+    /**
+     * Devuelve la colección de roles/permisos.
+     * 
+     * Con la nueva estructura, determinamos el rol basándonos en el tipo
+     * de instancia (Admin o Final) en lugar de una relación con Rol.
+     * 
+     * Spring Security usa estos authorities para determinar qué rutas
+     * puede acceder el usuario.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Asumimos que tu Rol tiene un nombre como "Administrador" o "Usuario"
-        // Spring Security suele usar el prefijo "ROLE_", pero funcionará con el string directo si configuramos 'hasAuthority'
-        return Collections.singletonList(new SimpleGrantedAuthority(usuario.getRol().getNombre()));
+        // Determinamos el rol basándonos en el tipo de instancia
+        String authority;
+        
+        if (usuario instanceof Admin) {
+            authority = "Administrador";
+        } else {
+            // Si no es Admin, asumimos que es Final (Usuario)
+            authority = "Usuario";
+        }
+        
+        // Spring Security suele usar el prefijo "ROLE_", pero funcionará
+        // con el string directo si configuramos 'hasAuthority' en lugar de 'hasRole'
+        return Collections.singletonList(new SimpleGrantedAuthority(authority));
     }
 
     @Override
@@ -38,18 +61,29 @@ public class UserDetailsImpl implements UserDetails {
 
     // Métodos de control de cuenta (puedes dejarlos en true si no manejas expiración/bloqueo)
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isEnabled() { return true; }
+    public boolean isEnabled() {
+        return true;
+    }
 
-    // Getter extra para poder acceder al objeto Usuario real desde el controlador si hace falta
+    /**
+     * Getter extra para poder acceder al objeto Usuario real desde el controlador si hace falta.
+     * Útil cuando necesitas acceder a propiedades específicas como fondos (si es Final).
+     */
     public Usuario getUsuarioReal() {
         return this.usuario;
     }

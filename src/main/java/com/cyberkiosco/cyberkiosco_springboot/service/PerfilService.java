@@ -3,7 +3,6 @@ package com.cyberkiosco.cyberkiosco_springboot.service;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Perfil;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
-import com.cyberkiosco.cyberkiosco_springboot.entity.auxiliar.Validacion;
 import com.cyberkiosco.cyberkiosco_springboot.repository.PerfilRepository;
 import java.util.List;
 import java.util.Optional;
@@ -54,7 +53,7 @@ public class PerfilService {
     }
     
     public Perfil encontrarPorUsuario(Usuario usr) {
-        Optional perfil = perfilRepository.findByUsuario(usr);
+        Optional<Perfil> perfil = perfilRepository.findByUsuario(usr);
         
         if(perfil.isEmpty()) {
             throw new IllegalArgumentException("El perfil a buscar no existe.");
