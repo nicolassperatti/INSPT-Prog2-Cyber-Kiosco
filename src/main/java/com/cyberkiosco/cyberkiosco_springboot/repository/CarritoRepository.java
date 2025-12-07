@@ -2,7 +2,7 @@
 package com.cyberkiosco.cyberkiosco_springboot.repository;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
-import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
+import com.cyberkiosco.cyberkiosco_springboot.entity.Final;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,10 +12,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CarritoRepository extends JpaRepository<Carrito, Long> {
-    List<Carrito> findByUsuario(Usuario usuario);
+    // Buscamos por la variable 'usuarioFinal'
+    List<Carrito> findByUsuarioFinal(Final usuarioFinal);
     
-    //para obtener carritos abiertos y no cerrados
-    List<Carrito> findAllByUsuarioAndFechaCompraIsNull(Usuario usuario);
-    List<Carrito> findAllByUsuarioAndFechaCompraIsNotNull(Usuario usuario);
-    Optional<Carrito> findByIdAndUsuario(Long id, Usuario usuario);
+    // Para obtener carritos abiertos
+    List<Carrito> findAllByUsuarioFinalAndFechaCompraIsNull(Final usuarioFinal);
+
+    // Para el historial de compras
+    List<Carrito> findAllByUsuarioFinalAndFechaCompraIsNotNull(Final usuarioFinal);
+    
+    Optional<Carrito> findByIdAndUsuarioFinal(Long id, Final usuarioFinal);
 }

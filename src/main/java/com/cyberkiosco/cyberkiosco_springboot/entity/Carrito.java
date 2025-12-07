@@ -36,7 +36,7 @@ public class Carrito {
     
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    private Final usuarioFinal;
     
     
     public void setId(long id) {
@@ -61,14 +61,14 @@ public class Carrito {
         this.fechaCompra = fechaCompra;
     }
 
-    public void setUsuario(Usuario usuario) {
-        Validacion.validarNotNull(usuario, "usuario");
-        this.usuario = usuario;
+    public void setUsuarioFinal(Final usuarioFinal) {
+        Validacion.validarNotNull(usuarioFinal, "usuarioFinal");
+        this.usuarioFinal = usuarioFinal;
     }
 
     @Override
     public String toString() {
-        return "Carrito{" + "id=" + id + ", precioTotal=" + precioTotal + ", fechaCompra=" + fechaCompra + ", usuario=" + usuario + '}';
+        return "Carrito{" + "id=" + id + ", precioTotal=" + precioTotal + ", fechaCompra=" + fechaCompra + ", usuario=" + usuarioFinal + '}';
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Carrito {
         if (!Objects.equals(this.fechaCompra, other.fechaCompra)) {
             return false;
         }
-        return Objects.equals(this.usuario, other.usuario);
+        return Objects.equals(this.usuarioFinal, other.usuarioFinal);
     }
 
 }

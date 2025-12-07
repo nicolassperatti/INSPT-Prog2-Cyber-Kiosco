@@ -2,6 +2,7 @@
 package com.cyberkiosco.cyberkiosco_springboot.service;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
+import com.cyberkiosco.cyberkiosco_springboot.entity.Final;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
 import com.cyberkiosco.cyberkiosco_springboot.repository.CarritoRepository;
 import java.util.List;
@@ -59,15 +60,23 @@ public class CarritoService {
     }
     
     public List<Carrito> encontrarPorUsuario(Usuario usr) {
-        List<Carrito> listaCarritos = carritoRepository.findByUsuario(usr);
+        // 1. VALIDACIÓN: ¿Es un usuario tipo Final?
+        if (!(usr instanceof Final)) {
+            // Si es Admin, lanzamos error.
+            throw new IllegalArgumentException("El usuario ingresado no es de tipo Final y no puede comprar.");
+        }
+
+        // 2. CASTING: Convertimos Usuario a Final
+        Final usuarioFinal = (Final) usr;
+        List<Carrito> listaCarritos = carritoRepository.findByUsuarioFinal(usuarioFinal);
 
         return listaCarritos;
     }
     
     //es privada para que solo sea llamada cuando no exista otro carrito abierto
-    private Carrito abrirCarritoParaUsuario(Usuario usr) {
+    private Carrito abrirCarritoParaUsuarioFinal(Final usuarioFinal) {
         Carrito carrito = new Carrito();
-        carrito.setUsuario(usr);
+        carrito.setUsuarioFinal(usuarioFinal);
         
         carritoRepository.save(carrito);
         
@@ -75,11 +84,19 @@ public class CarritoService {
     }
     
     public Carrito obtenerCarritoAbiertoPorUsuario (Usuario usr) {
-        List<Carrito> listaCarritos = carritoRepository.findAllByUsuarioAndFechaCompraIsNull(usr);
+        // 1. VALIDACIÓN: ¿Es un usuario tipo Final?
+        if (!(usr instanceof Final)) {
+            // Si es Admin, lanzamos error.
+            throw new IllegalArgumentException("El usuario ingresado no es de tipo Final y no puede comprar.");
+        }
+
+        // 2. CASTING: Convertimos Usuario a Final
+        Final usuarioFinal = (Final) usr;
+        List<Carrito> listaCarritos = carritoRepository.findAllByUsuarioFinalAndFechaCompraIsNull(usuarioFinal);
         Carrito carritoAbierto;
         
         if(listaCarritos.isEmpty()) {
-            carritoAbierto = this.abrirCarritoParaUsuario(usr);
+            carritoAbierto = this.abrirCarritoParaUsuarioFinal(usuarioFinal);
         } else {
             carritoAbierto = listaCarritos.get(0);
             
@@ -95,10 +112,26 @@ public class CarritoService {
     }
 
     public List<Carrito> obtenerTodosLosCarritosCompradosPorUsuario(Usuario usr) {
-        return carritoRepository.findAllByUsuarioAndFechaCompraIsNotNull(usr);
+        // 1. VALIDACIÓN: ¿Es un usuario tipo Final?
+        if (!(usr instanceof Final)) {
+            // Si es Admin, lanzamos error.
+            throw new IllegalArgumentException("El usuario ingresado no es de tipo Final y no puede comprar.");
+        }
+
+        // 2. CASTING: Convertimos Usuario a Final
+        Final usuarioFinal = (Final) usr;
+        return carritoRepository.findAllByUsuarioFinalAndFechaCompraIsNotNull(usuarioFinal);
     }
 
     public Carrito obtenerCarritoPorUsuarioYCarrito(Long id, Usuario usuario){
-        return carritoRepository.findByIdAndUsuario(id, usuario).orElse(null);
+        // 1. VALIDACIÓN: ¿Es un usuario tipo Final?
+        if (!(usuario instanceof Final)) {
+            // Si es Admin, lanzamos error.
+            throw new IllegalArgumentException("El usuario ingresado no es de tipo Final y no puede comprar.");
+        }
+
+        // 2. CASTING: Convertimos Usuario a Final
+        Final usuarioFinal = (Final) usuario;
+        return carritoRepository.findByIdAndUsuarioFinal(id, usuarioFinal).orElse(null);
     }
 }
