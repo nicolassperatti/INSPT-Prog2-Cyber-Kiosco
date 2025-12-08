@@ -1,9 +1,14 @@
 <header th:fragment="header-nav" xmlns:th="http://www.thymeleaf.org" 
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     
-    <a th:href="@{/}">
-        <img class="img-logo" th:src="@{/images/logo.png}" alt="Logo de Cyberkiosco">
-    </a>
+    <div>
+        <a th:href="@{/}"sec:authorize="!hasAuthority('Administrador')">
+            <img class="img-logo" th:src="@{/images/logo.png}" alt="Logo de Cyberkiosco">
+        </a>
+        <a th:href="@{/admin}" sec:authorize="hasAuthority('Administrador')">
+            <img class="img-logo" th:src="@{/images/logo.png}" alt="Logo de Cyberkiosco">
+        </a>
+    </div>
     
     <nav>
         <ul>

@@ -136,6 +136,7 @@ public class ProductoService {
         producto.setDescripcion(productoDTO.getDescripcion());
         producto.setMarca(marcaService.encontrarPorId(productoDTO.getIdmarca()));
         producto.setCategoria(categoriaService.encontrarPorId(productoDTO.getIdcategoria()));
+        producto.setImagen(productoDTO.getImagen());
         guardarProducto(producto);
     }
 

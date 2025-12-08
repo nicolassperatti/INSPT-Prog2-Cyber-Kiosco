@@ -134,6 +134,7 @@ public class ProductosController {
         }
 
         ProductoDTO productoDTO = productoService.convertirAProductoDTO(id);
+        System.out.println("test: " + productoDTO);
         if(productoDTO != null){
             model.addAttribute("productoDTO", productoDTO);
             model.addAttribute("productoEditar", true);
@@ -169,6 +170,7 @@ public class ProductosController {
         }
         Producto producto = productoService.encontrarPorId(id);
         productoDTO.setImagen(producto.getImagen());
+        System.out.println(producto.getImagen());
         productoService.guardarProducto(productoDTO,id);
         return "redirect:/admin/productos";
     }
