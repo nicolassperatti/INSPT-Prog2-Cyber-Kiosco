@@ -1,0 +1,26 @@
+<div th:fragment="menu-producto-edit">
+    <form th:action="@{/admin/producto/editar/{id}(id=${id})}"
+          th:object="${productoDTO}"
+          method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}">
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"> 
+            error
+        </span>
+        <label for="precio"> precio</label>
+        <input type="number" id="precio" th:field="*{precio}">
+        <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"> 
+            error
+        </span>
+        <label for="stock"> stock </label>
+        <input type="number" id="precio" th:field="*{stock}">
+        <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"> 
+            error
+        </span>
+        <input type="text" id="nombre" th:field="*{descripcion}">
+        <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"> 
+            error
+        </span>
+        <input type="submit" value="submit">
+    </form>
+</div>

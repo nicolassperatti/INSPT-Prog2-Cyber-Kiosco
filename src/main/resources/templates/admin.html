@@ -37,6 +37,15 @@
             <div th:if= "${categoriacrear}">
                 <div th:replace= "fragments/menu-categoria-create :: menu-categoria-create"></div>
             </div>
+
+            <div th:if= "${menuProducto}">
+                <div th:replace= "fragments/menu-producto :: menu-producto"></div>
+            </div>
+
+            <div th:if= "${productoEditar}">
+                <div th:replace= "fragments/menu-producto-edit :: menu-producto-edit"></div>
+            </div>
+
             </div>
             
         </main>

@@ -2,12 +2,16 @@
 package com.cyberkiosco.cyberkiosco_springboot.controller;
 
 
+import com.cyberkiosco.cyberkiosco_springboot.dtos.ProductoDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Categoria;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.service.CategoriaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.MarcaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
+
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -103,11 +106,34 @@ public class ProductosController {
         return redireccion;
     }
 
-    @ResponseBody
     @GetMapping("/admin/productos")
-    public String getMethodName() {
-        return "hola mundo";
+    public String getMenuProductos(Model model) {
+        model.addAttribute("rows",productoService.obtenerTodosLosProductos());
+        model.addAttribute("columns", Arrays.asList("nombre"));
+        model.addAttribute("menuProducto", true);
+        return "admin";
     }
+
+    @GetMapping("/admin/producto/editar/{id}")
+    public String getEditForm(@PathVariable Long id, Model model) {
+        if (model.containsAttribute("productoDTO")) {
+            model.addAttribute("productoEditar", true);
+            model.addAttribute("id", id);
+            return "admin";
+        }
+
+        ProductoDTO productoDTO = productoService.convertirAProductoDTO(id);
+        if(productoDTO != null){
+            model.addAttribute("productoDTO", productoDTO);
+            model.addAttribute("productoEditar", true);
+            model.addAttribute("id", id);
+            return "admin";
+        }
+        else{
+            return "redirect:7admin/productos";
+        }
+    }
+    
     
 }
 

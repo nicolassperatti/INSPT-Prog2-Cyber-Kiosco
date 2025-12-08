@@ -27,6 +27,9 @@
             <li sec:authorize="hasAuthority('Administrador')">
                 <a href="/admin/categorias"> Menu Categorias</a>
             </li>
+            <li sec:authorize="hasAuthority('Administrador')">
+                <a href="/admin/productos"> Menu Productos</a>
+            </li>
             
             <li sec:authorize="!isAuthenticated()">
                 <a th:href="@{/usuario/login}">Iniciar Sesión</a>

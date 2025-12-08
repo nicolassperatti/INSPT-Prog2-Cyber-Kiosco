@@ -1,6 +1,7 @@
 
 package com.cyberkiosco.cyberkiosco_springboot.service;
 
+import com.cyberkiosco.cyberkiosco_springboot.dtos.ProductoDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Categoria;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
@@ -108,5 +109,20 @@ public class ProductoService {
         Categoria categoria = categoriaService.encontrarPorId(id_categoria);
         Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
         return productoRepository.findByCategoria(categoria,pageable);
+    }
+
+    public ProductoDTO convertirAProductoDTO(Long id){
+        Producto producto = encontrarPorId(id);
+        ProductoDTO productoDTO = null;
+        if(producto != null){
+            productoDTO = new ProductoDTO();
+            productoDTO.setNombre(producto.getNombre());
+            productoDTO.setPrecio(producto.getPrecio());
+            productoDTO.setStock(producto.getStock());
+            productoDTO.setDescripcion(producto.getDescripcion());
+            productoDTO.setId_marca(producto.getMarca().getId());
+            productoDTO.setId_categoria(producto.getCategoria().getId());
+        }
+        return productoDTO;
     }
 }
