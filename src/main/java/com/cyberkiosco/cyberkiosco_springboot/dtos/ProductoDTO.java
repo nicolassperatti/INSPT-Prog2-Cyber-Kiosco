@@ -1,6 +1,7 @@
 package com.cyberkiosco.cyberkiosco_springboot.dtos;
 
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ public class ProductoDTO {
     private Integer stock; // Integer es mejor que int para validar nulos
 
     @NotNull(message = "Debes ingresar un precio")
-    @Min(value = 1, message = "El precio debe ser mayor a 0") 
+    @DecimalMin(value = "0.5", message = "El precio debe ser mayor a 0.5") 
     // Ojo: @Min funciona bien con Double. 
     // Si necesitas validar decimales (ej: 0.50), usa @DecimalMin("0.1")
     private Double precio; 
