@@ -29,8 +29,10 @@ public class ProductoDTO {
     private String descripcion;
 
     @NotNull(message = "La marca es obligatoria")
-    private Long id_marca;
+    private Long idmarca;
 
     @NotNull(message = "La categoría es obligatoria")
-    private Long id_categoria;
+    private Long idcategoria;
+
+    private String imagen;
 }

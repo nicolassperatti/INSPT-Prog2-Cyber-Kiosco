@@ -10,6 +10,8 @@ import com.cyberkiosco.cyberkiosco_springboot.service.CategoriaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.MarcaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
 
+import jakarta.validation.Valid;
+
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -116,9 +124,12 @@ public class ProductosController {
 
     @GetMapping("/admin/producto/editar/{id}")
     public String getEditForm(@PathVariable Long id, Model model) {
+        
         if (model.containsAttribute("productoDTO")) {
             model.addAttribute("productoEditar", true);
             model.addAttribute("id", id);
+            model.addAttribute("marcas", marcaService.obtenerTodos());
+            model.addAttribute("categorias", categoriaService.obtenerTodos());
             return "admin";
         }
 
@@ -127,11 +138,39 @@ public class ProductosController {
             model.addAttribute("productoDTO", productoDTO);
             model.addAttribute("productoEditar", true);
             model.addAttribute("id", id);
+            model.addAttribute("marcas", marcaService.obtenerTodos());
+            model.addAttribute("categorias", categoriaService.obtenerTodos());
             return "admin";
         }
         else{
-            return "redirect:7admin/productos";
+            return "redirect:/admin/productos";
         }
+    }
+
+    @PostMapping("/admin/producto/editar/{id}")
+    public String postMethodName(@Valid @ModelAttribute("productoDTO") ProductoDTO productoDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable Long id ) {
+        System.out.println(productoDTO.toString());
+        if(productoService.existeProductoConMarcaSinId(productoDTO, id)){
+            bindingResult.rejectValue("idmarca", "unique", "Ya existe un producto con ese nombre y esa marca");
+        }
+
+        if(!marcaService.existePorId(productoDTO.getIdmarca())){
+            bindingResult.rejectValue("idmarca", "notfound", "No existe esa marca");
+        }
+
+        if(!categoriaService.existePorId(productoDTO.getIdcategoria())){
+            bindingResult.rejectValue("idcategoria", "notfound", "no existe esa categoria");
+        }
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("productoDTO", productoDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productoDTO", bindingResult);
+            return "redirect:/admin/producto/editar/" + id;
+        }
+        Producto producto = productoService.encontrarPorId(id);
+        productoDTO.setImagen(producto.getImagen());
+        productoService.guardarProducto(productoDTO,id);
+        return "redirect:/admin/productos";
     }
     
     

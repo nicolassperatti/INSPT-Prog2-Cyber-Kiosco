@@ -8,7 +8,7 @@
             error
         </span>
         <label for="precio"> precio</label>
-        <input type="number" id="precio" th:field="*{precio}">
+        <input type="number" id="precio" step="0.01" th:field="*{precio}">
         <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"> 
             error
         </span>
@@ -19,6 +19,22 @@
         </span>
         <input type="text" id="nombre" th:field="*{descripcion}">
         <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"> 
+            error
+        </span>
+        <label for="marca"> Marca: </label>
+        <select th:field="*{idmarca}">
+            <option th:each= "marca:${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
+            <option value="5"> test </option>
+        </select>
+        <span th:if="${#fields.hasErrors('idmarca')}" th:errors="*{idmarca}"> 
+            error
+        </span>
+        <label for="categoria"> Categoria: </label>
+        <select th:field="*{idcategoria}">
+            <option th:each= "categoria:${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+            <option value="3"> test </option>
+        </select>
+        <span th:if="${#fields.hasErrors('idcategoria')}" th:errors="*{idcategoria}"> 
             error
         </span>
         <input type="submit" value="submit">

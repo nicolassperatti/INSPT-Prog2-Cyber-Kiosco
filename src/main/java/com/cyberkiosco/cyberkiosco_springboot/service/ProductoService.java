@@ -120,9 +120,27 @@ public class ProductoService {
             productoDTO.setPrecio(producto.getPrecio());
             productoDTO.setStock(producto.getStock());
             productoDTO.setDescripcion(producto.getDescripcion());
-            productoDTO.setId_marca(producto.getMarca().getId());
-            productoDTO.setId_categoria(producto.getCategoria().getId());
+            productoDTO.setIdmarca(producto.getMarca().getId());
+            productoDTO.setIdcategoria(producto.getCategoria().getId());
+            productoDTO.setImagen(producto.getImagen());
         }
         return productoDTO;
+    }
+
+    public void guardarProducto(ProductoDTO productoDTO, long id){
+        Producto producto = new Producto();
+        producto.setId(id);
+        producto.setNombre(productoDTO.getNombre());
+        producto.setPrecio(productoDTO.getPrecio());
+        producto.setStock(productoDTO.getStock());
+        producto.setDescripcion(productoDTO.getDescripcion());
+        producto.setMarca(marcaService.encontrarPorId(productoDTO.getIdmarca()));
+        producto.setCategoria(categoriaService.encontrarPorId(productoDTO.getIdcategoria()));
+        guardarProducto(producto);
+    }
+
+    public boolean existeProductoConMarcaSinId(ProductoDTO productoDTO, Long id){
+        Marca marca = this.marcaService.encontrarPorId(productoDTO.getIdmarca());
+        return this.productoRepository.existsByNombreAndMarcaAndIdNot(productoDTO.getNombre(), marca, id);
     }
 }
