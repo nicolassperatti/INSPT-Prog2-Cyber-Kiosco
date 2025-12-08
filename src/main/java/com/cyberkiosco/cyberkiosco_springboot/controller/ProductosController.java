@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -172,6 +171,44 @@ public class ProductosController {
         productoDTO.setImagen(producto.getImagen());
         System.out.println(producto.getImagen());
         productoService.guardarProducto(productoDTO,id);
+        return "redirect:/admin/productos";
+    }
+
+    @GetMapping("/admin/producto/crear")
+    public String devolverFormCrear(Model model) {
+        if(!model.containsAttribute("productoDTO")) {
+            ProductoDTO productoDTO = new ProductoDTO();
+            model.addAttribute("productoDTO", productoDTO);
+        }
+        model.addAttribute("productoCrear", true);
+        model.addAttribute("marcas", marcaService.obtenerTodos());
+        model.addAttribute("categorias", categoriaService.obtenerTodos());
+        return "admin";
+    }
+
+    @PostMapping("/admin/producto/crear")
+    public String postCrear(Model model, @Valid @ModelAttribute("productoDTO") ProductoDTO productoDTO,
+            BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        
+        if(productoService.existeProductoConMarca(productoDTO)){
+            bindingResult.rejectValue("idmarca", "unique", "Ya existe un producto con ese nombre y esa marca");
+        }
+
+        if(!marcaService.existePorId(productoDTO.getIdmarca())){
+            bindingResult.rejectValue("idmarca", "notfound", "No existe esa marca");
+        }
+
+        if(!categoriaService.existePorId(productoDTO.getIdcategoria())){
+            bindingResult.rejectValue("idcategoria", "notfound", "no existe esa categoria");
+        }
+
+        if(bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("productoDTO", productoDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productoDTO", bindingResult);
+            return "redirect:/admin/producto/crear";
+        }
+        
+        productoService.guardarProductoNuevo(productoDTO);
         return "redirect:/admin/productos";
     }
     

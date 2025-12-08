@@ -46,6 +46,10 @@
                 <div th:replace= "fragments/menu-producto-edit :: menu-producto-edit"></div>
             </div>
 
+            <div th:if= "${productoCrear}">
+                <div th:replace= "fragments/menu-producto-create :: menu-producto-create"></div>
+            </div>
+
             </div>
             
         </main>

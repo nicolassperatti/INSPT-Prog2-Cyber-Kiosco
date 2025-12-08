@@ -144,4 +144,22 @@ public class ProductoService {
         Marca marca = this.marcaService.encontrarPorId(productoDTO.getIdmarca());
         return this.productoRepository.existsByNombreAndMarcaAndIdNot(productoDTO.getNombre(), marca, id);
     }
+
+    public boolean existeProductoConMarca(ProductoDTO productoDTO){
+        Marca marca = this.marcaService.encontrarPorId(productoDTO.getIdmarca());
+        return this.productoRepository.existsByNombreAndMarca(productoDTO.getNombre(), marca);
+    }
+
+    public void guardarProductoNuevo(ProductoDTO productoDTO){
+        Producto producto = new Producto();
+        producto.setNombre(productoDTO.getNombre());
+        producto.setPrecio(productoDTO.getPrecio());
+        producto.setStock(productoDTO.getStock());
+        producto.setDescripcion(productoDTO.getDescripcion());
+        producto.setMarca(marcaService.encontrarPorId(productoDTO.getIdmarca()));
+        producto.setCategoria(categoriaService.encontrarPorId(productoDTO.getIdcategoria()));
+        // Hardcodeamos el nombre de la imagen terminando en .jpg
+        producto.setImagen("producto_placeholder.jpg");
+        guardarProducto(producto);
+    }
 }
