@@ -6,6 +6,8 @@ import com.cyberkiosco.cyberkiosco_springboot.dtos.ProductoDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Categoria;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
+import com.cyberkiosco.cyberkiosco_springboot.service.CarritoProductoService;
+import com.cyberkiosco.cyberkiosco_springboot.service.CarritoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.CategoriaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.MarcaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
@@ -39,6 +41,12 @@ public class ProductosController {
 
     @Autowired
     private MarcaService marcaService;
+
+    @Autowired 
+    private CarritoService carritoService;
+    
+    @Autowired
+    private CarritoProductoService carritoProductoService;
 
     @Autowired
     private CategoriaService categoriaService;
@@ -212,6 +220,14 @@ public class ProductosController {
         return "redirect:/admin/productos";
     }
     
+    @GetMapping("/admin/producto/eliminar/{id}")
+    public String getEliminar(Model model, @PathVariable Long id) {
+        String path = "redirect:/admin/productos";
+        if (productoService.existePorId(id)) {
+            productoService.eliminarProductoPorId(id);
+        }
+        return path;
+    }
     
 }
 
