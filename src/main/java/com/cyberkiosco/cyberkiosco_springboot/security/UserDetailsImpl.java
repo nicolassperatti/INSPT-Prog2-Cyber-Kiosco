@@ -26,7 +26,7 @@ public class UserDetailsImpl implements UserDetails {
     /**
      * Devuelve la colección de roles/permisos.
      * 
-     * determinamos el rol basándonos en el tipo
+     * determino el rol basándonos en el tipo
      * de instancia (Admin o Final).
      * 
      * Spring Security usa estos authorities para determinar qué rutas
