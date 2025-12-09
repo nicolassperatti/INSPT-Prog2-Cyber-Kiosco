@@ -25,7 +25,7 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // El proveedor que conecta tu servicio de base de datos con la seguridad
+    // El proveedor que conecta el servicio de base de datos con la seguridad
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
@@ -38,7 +38,7 @@ public class WebSecurityConfig {
         http
             // Configuración de autorización de rutas
             .authorizeHttpRequests((requests) -> requests
-                // Rutas públicas (recursos estáticos, login, home pública)
+                // Rutas públicas
                 .requestMatchers("/css/**", "/images/**", "/js/**", "/usuario/login","/logout").permitAll()
                 .requestMatchers("/").permitAll()
                 //rutas para usuarios con rol de usuario
@@ -52,8 +52,8 @@ public class WebSecurityConfig {
             .formLogin((form) -> form
                 .loginPage("/usuario/login") // URL actual para mostrar el HTML
                 .loginProcessingUrl("/login_process") // URL interna que procesa el POST (Spring lo hace solo)
-                .usernameParameter("mail") // El 'name' del input en tu HTML es 'mail'
-                .passwordParameter("password") // El 'name' del input en tu HTML es 'password'
+                .usernameParameter("mail") // El 'name' del input en el HTML es 'mail'
+                .passwordParameter("password") // El 'name' del input en el HTML es 'password'
                 .successHandler(manejadorDeLoginExitoso)
                 .failureUrl("/usuario/login?error=true") // A donde ir si falla
                 .permitAll()

@@ -76,9 +76,6 @@ public class Final extends Usuario {
     /**
      * Resta fondos del saldo actual del usuario.
      * Valida que haya fondos suficientes antes de restar.
-     * 
-     * @param fondosRestados Cantidad a restar
-     * @throws FondosInsuficientesException Si no hay fondos suficientes
      */
     public void restarFondos(double fondosRestados) {
         if (fondosRestados <= 0) {

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
-@Component // La marcamos como componente para poder inyectarla luego
+@Component // La marco como componente para poder inyectarla luego
 public class ManejadorDeLoginExitoso implements AuthenticationSuccessHandler {
 
     @Override
@@ -33,7 +33,7 @@ public class ManejadorDeLoginExitoso implements AuthenticationSuccessHandler {
             }
         }
         
-        // 4. Redirigimos al usuario a la URL calculada
+        // 4. Redirigo al usuario a la URL calculada
         response.sendRedirect(direccionDestino);
     }
 }

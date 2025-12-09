@@ -35,26 +35,23 @@ public class CategoriaController {
     @GetMapping("/admin/categoria/editar/{id}")
     public String getEditar(Model model, @PathVariable Long id) {
 
-        // CASO 1: ¿Viene rebotado de un error? (Tiene Flash Attributes)
-        if (model.containsAttribute("categoriaDTO")) {
-            // Genial, Spring ya puso el DTO con lo que escribió el usuario y los errores.
-            // Solo nos falta activar el modal.
-            model.addAttribute("categoriaeditar", true);
-            model.addAttribute("id", id); // Aseguramos el ID para el action del form
 
-            return "admin"; // Devolvemos la vista (NO redirect)
+        if (model.containsAttribute("categoriaDTO")) {
+            model.addAttribute("categoriaeditar", true);
+            model.addAttribute("id", id);
+
+            return "admin"; 
         }
 
-        // CASO 2: Es una petición nueva (El usuario hizo clic en "Editar")
         CategoriaDTO categoriaDTO = categoriaService.convertirACategoriaDTO(id);
 
         if (categoriaDTO != null) {
             model.addAttribute("categoriaDTO", categoriaDTO);
             model.addAttribute("id", id);
-            model.addAttribute("categoriaeditar", true); // Activamos el modal
-            return "admin"; // Devolvemos la vista
+            model.addAttribute("categoriaeditar", true);
+            return "admin"; 
         } else {
-            // ID no existe, ahí sí redirigimos
+            
             return "redirect:/admin/categorias";
         }
     }
@@ -69,31 +66,25 @@ public class CategoriaController {
             bindingResult.rejectValue("nombre", "unique", "Ya existe una categoria con este nombre");
         }
 
-        // 1. Si hay errores
-        if (bindingResult.hasErrors()) {
-            // Guardamos los datos "sucios" para que no tenga que escribir de nuevo
-            redirectAttributes.addFlashAttribute("categoriaDTO", categoriaDTO);
-            // Guardamos los errores (LA CLAVE DEBE SER EXACTA)
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoriaDTO",
-                    bindingResult);
 
-            // VOLVEMOS a la ruta de editar (al GET de arriba)
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("categoriaDTO", categoriaDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoriaDTO",bindingResult);
             return "redirect:/admin/categoria/editar/" + id;
         }
 
-        // 2. Verificar que la categoria existe
+
         Categoria categoria = this.categoriaService.encontrarPorId(id);
         if (categoria == null) {
-            // La categoria no existe, informar al usuario
             redirectAttributes.addFlashAttribute("error", "La categoria que intenta editar no existe.");
             return "redirect:/admin/categorias";
         }
 
-        // 3. Si todo está bien, actualizar la categoria
+
         categoria.setNombre(categoriaDTO.getNombre());
         categoriaService.guardar(categoria);
 
-        // Éxito: volvemos a la lista general
+
         return "redirect:/admin/categorias";
     }
 

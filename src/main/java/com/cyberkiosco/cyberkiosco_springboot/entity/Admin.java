@@ -15,8 +15,6 @@ import lombok.ToString;
  * La tabla 'admin' solo contiene el id_usuario (FK a usuario),
  * ya que Admin no tiene campos adicionales propios.
  * 
- * Si en el futuro necesitas agregar campos específicos de Admin
- * (ej: nivelAcceso, permisosEspeciales), los agregas aquí.
  */
 @Entity
 @Table(name = "admin")
@@ -27,9 +25,6 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class Admin extends Usuario {
     
-    // Por ahora Admin no tiene campos adicionales
-    // Si necesitas agregar campos específicos de Admin, los pones aquí
-    // Ejemplo: private String nivelAcceso;
     
     /**
      * Constructor que permite crear un Admin con los datos básicos.

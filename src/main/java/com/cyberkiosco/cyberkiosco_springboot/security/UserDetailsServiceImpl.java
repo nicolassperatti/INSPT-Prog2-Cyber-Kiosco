@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByMail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + username));
 
-        // Devolvemos la implementación que creamos
+        // Devuelvo la implementación que cree
         // UserDetailsImpl determinará si es Admin o Final y asignará el authority correspondiente
         return new UserDetailsImpl(usuario);
     }

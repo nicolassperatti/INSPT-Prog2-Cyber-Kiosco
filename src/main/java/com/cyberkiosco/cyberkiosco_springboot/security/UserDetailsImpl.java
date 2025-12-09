@@ -12,7 +12,7 @@ import java.util.Collections;
 /**
  * Implementación de UserDetails para integrar Usuario con Spring Security.
  * 
- * Esta clase envuelve tu entidad Usuario (que puede ser Admin o Final)
+ * Esta clase envuelve la entidad Usuario (que puede ser Admin o Final)
  * para que Spring Security la entienda y pueda usarla para autenticación.
  */
 public class UserDetailsImpl implements UserDetails {
@@ -26,40 +26,37 @@ public class UserDetailsImpl implements UserDetails {
     /**
      * Devuelve la colección de roles/permisos.
      * 
-     * Con la nueva estructura, determinamos el rol basándonos en el tipo
-     * de instancia (Admin o Final) en lugar de una relación con Rol.
+     * determinamos el rol basándonos en el tipo
+     * de instancia (Admin o Final).
      * 
      * Spring Security usa estos authorities para determinar qué rutas
      * puede acceder el usuario.
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Determinamos el rol basándonos en el tipo de instancia
+        // Determino el rol basándome en el tipo de instancia
         String authority;
         
         if (usuario instanceof Admin) {
             authority = "Administrador";
         } else {
-            // Si no es Admin, asumimos que es Final (Usuario)
+            // Si no es Admin, asumo que es Final (Usuario)
             authority = "Usuario";
         }
-        
-        // Spring Security suele usar el prefijo "ROLE_", pero funcionará
-        // con el string directo si configuramos 'hasAuthority' en lugar de 'hasRole'
         return Collections.singletonList(new SimpleGrantedAuthority(authority));
     }
 
     @Override
     public String getPassword() {
-        return usuario.getPassword(); // Devuelve la contraseña (idealmente encriptada) de la BD
+        return usuario.getPassword(); // Devuelve la contraseña de la BD
     }
 
     @Override
     public String getUsername() {
-        return usuario.getMail(); // Usamos el mail como "nombre de usuario" para el login
+        return usuario.getMail(); // Usa el mail como "nombre de usuario" para el login
     }
 
-    // Métodos de control de cuenta (puedes dejarlos en true si no manejas expiración/bloqueo)
+    // Métodos de control de cuenta
     @Override
     public boolean isAccountNonExpired() {
         return true;

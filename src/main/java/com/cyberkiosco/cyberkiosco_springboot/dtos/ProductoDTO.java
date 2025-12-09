@@ -16,12 +16,9 @@ public class ProductoDTO {
 
     @NotNull(message = "Debes ingresar un stock")
     @Min(value = 0, message = "El stock no puede ser negativo")
-    private Integer stock; // Integer es mejor que int para validar nulos
-
+    private Integer stock;
     @NotNull(message = "Debes ingresar un precio")
     @DecimalMin(value = "0.5", message = "El precio debe ser mayor a 0.5") 
-    // Ojo: @Min funciona bien con Double. 
-    // Si necesitas validar decimales (ej: 0.50), usa @DecimalMin("0.1")
     private Double precio; 
 
     @NotBlank(message = "La descripción es obligatoria")
