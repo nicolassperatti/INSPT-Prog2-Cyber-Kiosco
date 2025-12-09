@@ -90,18 +90,18 @@ CREATE TABLE `final` (
 -- Foreign Keys de otras tablas
 -- ============================================
 ALTER TABLE `producto`
-ADD FOREIGN KEY(`id_categoria`) REFERENCES `categoria`(`id_categoria`),
-ADD FOREIGN KEY(`id_marca`) REFERENCES `marca`(`id_marca`);
+ADD FOREIGN KEY(`id_categoria`) REFERENCES `categoria`(`id_categoria`) ON DELETE CASCADE,
+ADD FOREIGN KEY(`id_marca`) REFERENCES `marca`(`id_marca`) ON DELETE CASCADE;
 
 ALTER TABLE `carrito`
-ADD FOREIGN KEY(`id_usuario`) REFERENCES `final`(`id_usuario`);
+ADD FOREIGN KEY(`id_usuario`) REFERENCES `final`(`id_usuario`) ON DELETE CASCADE;
 
 ALTER TABLE `carrito_producto`
-ADD FOREIGN KEY(`id_carrito`) REFERENCES `carrito`(`id_carrito`),
-ADD FOREIGN KEY(`id_producto`) REFERENCES `producto`(`id_producto`);
+ADD FOREIGN KEY(`id_carrito`) REFERENCES `carrito`(`id_carrito`) ON DELETE CASCADE,
+ADD FOREIGN KEY(`id_producto`) REFERENCES `producto`(`id_producto`) ON DELETE CASCADE;
 
 ALTER TABLE `perfil`
-ADD FOREIGN KEY(`id_usuario`) REFERENCES `usuario`(`id_usuario`);
+ADD FOREIGN KEY(`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE;
 
 -- ============================================
 -- Datos de ejemplo
