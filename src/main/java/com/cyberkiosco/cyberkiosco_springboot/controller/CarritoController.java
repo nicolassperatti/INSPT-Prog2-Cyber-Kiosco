@@ -14,6 +14,8 @@ import com.cyberkiosco.cyberkiosco_springboot.security.UserDetailsImpl;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoProductoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
+import com.cyberkiosco.cyberkiosco_springboot.service.UsuarioService;
+
 import java.util.List;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,9 @@ public class CarritoController {
 
     @Autowired
     private CarritoService carritoService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private CarritoProductoService carritoProductoService;
@@ -131,16 +136,16 @@ public class CarritoController {
     
     
     @PostMapping("/carrito/comprar")
-    public String comprarCarrito(@RequestParam long idCarrito, @RequestParam double precioTotalCarrito) {
+    public String comprarCarrito(@RequestParam long idCarrito, @RequestParam double precioTotalCarrito, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         boolean stocksValidos, compraExitosa;
         String redireccion;
-        
+        Usuario usuario = userDetailsImpl.getUsuarioReal();
         compraExitosa = false;
         redireccion = "redirect:/carrito";
         
         try {
             stocksValidos = carritoProductoService.stocksDeCarritoValidosParaCompra(idCarrito);
-            
+            usuarioService.restarFondos(usuario, precioTotalCarrito);
             if(stocksValidos) {
                 carritoProductoService.comprarCarritoEntero(idCarrito, precioTotalCarrito);
                 compraExitosa = true;

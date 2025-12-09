@@ -25,7 +25,7 @@ public class ProductoDTO {
     private Double precio; 
 
     @NotBlank(message = "La descripción es obligatoria")
-    @Size(min = 1, max = 40, message = "La descripción debe tener entre 1 y 40 caracteres")
+    @Size(min = 1, max = 100, message = "La descripción debe tener entre 1 y 100 caracteres")
     private String descripcion;
 
     @NotNull(message = "La marca es obligatoria")

@@ -4,6 +4,8 @@ import com.cyberkiosco.cyberkiosco_springboot.security.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+//import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+//import org.springframework.security.config.Customizer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -62,6 +64,17 @@ public class WebSecurityConfig {
                 .logoutSuccessUrl("/usuario/login?logout")
                 .permitAll()
             );
+
+            /*
+            http.logout(new Customizer<LogoutConfigurer<HttpSecurity>>() {
+                @Override
+                public void customize(LogoutConfigurer<HttpSecurity> logout) {
+                    logout.logoutUrl("/logout");
+                    logout.logoutSuccessUrl("/usuario/login?logout");
+                    logout.permitAll();
+                }
+            });
+            */
 
         return http.build();
     }
