@@ -1,13 +1,14 @@
 <div th:fragment="menu-categoria-edit">
-    <form th:action="@{/admin/categoria/editar/{id}(id=${id})}"
-          th:object="${categoriaDTO}"
-          method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" th:field="*{nombre}">
-        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"> 
-            error
-        </span>
+    <form th:action="@{/admin/categoria/editar/{id}(id=${id})}" th:object="${categoriaDTO}" method="post"
+        class="login-form">
+        <div class="login-input-container">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" th:field="*{nombre}">
+            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                error
+            </span>
+        </div>
+
         <input type="submit" value="submit">
     </form>
 </div>
-
