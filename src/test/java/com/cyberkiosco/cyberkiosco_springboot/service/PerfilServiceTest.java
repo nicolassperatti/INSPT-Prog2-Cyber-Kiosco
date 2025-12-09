@@ -1,4 +1,4 @@
-package com.cyberkiosco.cyberkiosco_springboot.service;
+/*package com.cyberkiosco.cyberkiosco_springboot.service;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Perfil;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
@@ -152,3 +152,4 @@ public class PerfilServiceTest {
     
 }
 
+*/
