@@ -6,8 +6,6 @@ import com.cyberkiosco.cyberkiosco_springboot.dtos.ProductoDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Categoria;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
-import com.cyberkiosco.cyberkiosco_springboot.service.CarritoProductoService;
-import com.cyberkiosco.cyberkiosco_springboot.service.CarritoService;
 import com.cyberkiosco.cyberkiosco_springboot.service.CategoriaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.MarcaService;
 import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
@@ -41,12 +39,6 @@ public class ProductosController {
 
     @Autowired
     private MarcaService marcaService;
-
-    @Autowired 
-    private CarritoService carritoService;
-    
-    @Autowired
-    private CarritoProductoService carritoProductoService;
 
     @Autowired
     private CategoriaService categoriaService;

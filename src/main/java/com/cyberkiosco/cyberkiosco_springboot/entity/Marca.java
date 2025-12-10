@@ -25,6 +25,9 @@ public class Marca {
     private Long id;
     
     private String nombre;
+
+    @Column(columnDefinition = "boolean default true")
+    private boolean activo;
     
     
     public void setId(long id) {
@@ -37,6 +40,10 @@ public class Marca {
     public void setNombre(String nombre) {
         Validacion.validarString(nombre, "nombre de marca");
         this.nombre = nombre;
+    }
+
+    public void setActivo(boolean activo){
+        this.activo = activo;
     }
 
     @Override

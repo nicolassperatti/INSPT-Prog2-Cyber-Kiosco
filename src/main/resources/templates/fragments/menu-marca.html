@@ -15,7 +15,11 @@
                     <a th:href= "@{|/admin/marca/editar/${row.id}|}"> modificar</a>
                 </td>
                 <td>
-                    <a th:href="@{|/admin/marca/eliminar/${row.id}|}"> eliminar</a>
+                    <div>
+                        <a th:if= "${!row.activo}" th:href="@{|/admin/marca/alta/${row.id}|}"> dar de alta</a>
+                        <a th:if= "${row.activo}" th:href="@{|/admin/marca/baja/${row.id}|}"> dar de baja </a>
+                    </div>
+                    
                 </td>
             </tr>
         </tbody>

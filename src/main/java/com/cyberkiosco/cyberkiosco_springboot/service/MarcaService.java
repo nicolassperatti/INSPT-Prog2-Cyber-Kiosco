@@ -31,7 +31,19 @@ public class MarcaService {
     }
     
     public void eliminarPorId(long id) {
-        marcaRepository.deleteById(id);
+        Marca marca = marcaRepository.findById(id).get();
+        if(marca != null){
+            marca.setActivo(false);
+            marcaRepository.save(marca);
+        }
+    }
+
+    public void activarPorId(long id){
+        Marca marca = marcaRepository.findById(id).get();
+        if(marca != null){
+            marca.setActivo(true);
+            marcaRepository.save(marca);
+        }
     }
     
     public long contar() {

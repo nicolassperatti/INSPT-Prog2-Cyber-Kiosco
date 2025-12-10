@@ -115,11 +115,20 @@ public class MarcaController {
         return "redirect:/admin/marcas";
     }
 
-    @GetMapping("/admin/marca/eliminar/{id}")
-    public String getEliminar(Model model, @PathVariable Long id) {
+    @GetMapping("/admin/marca/baja/{id}")
+    public String getDarDeBaja(Model model, @PathVariable Long id) {
         String path = "redirect:/admin/marcas";
         if (marcaService.existePorId(id)) {
             marcaService.eliminarPorId(id);
+        }
+        return path;
+    }
+
+    @GetMapping("/admin/marca/alta/{id}")
+    public String getDarDeAlta(Model model, @PathVariable Long id) {
+        String path = "redirect:/admin/marcas";
+        if (marcaService.existePorId(id)) {
+            marcaService.activarPorId(id);
         }
         return path;
     }

@@ -11,12 +11,14 @@ USE cyberkiosco;
 CREATE TABLE `categoria` (
     `id_categoria` INTEGER NOT NULL AUTO_INCREMENT,
     `nombre` VARCHAR(50) NOT NULL UNIQUE,
+    `activo` BOOLEAN NOT NULL DEFAULT TRUE,
     PRIMARY KEY(`id_categoria`)
 );
 
 CREATE TABLE `marca` (
     `id_marca` INTEGER NOT NULL AUTO_INCREMENT,
     `nombre` VARCHAR(255) NOT NULL UNIQUE,
+    `activo` BOOLEAN NOT NULL DEFAULT TRUE,
     PRIMARY KEY(`id_marca`)
 );
 
@@ -26,7 +28,8 @@ CREATE TABLE `producto` (
     `stock` INTEGER NOT NULL,
     `precio` DOUBLE NOT NULL,
     `imagen` VARCHAR(255) DEFAULT NULL,
-    `descripcion` VARCHAR(255) DEFAULT NULL,
+    `descripcion` VARCHAR(100) DEFAULT NULL,
+    `activo` BOOLEAN NOT NULL DEFAULT TRUE,
     `id_categoria` INTEGER NOT NULL,
     `id_marca` INTEGER NOT NULL,
     PRIMARY KEY(`id_producto`)
