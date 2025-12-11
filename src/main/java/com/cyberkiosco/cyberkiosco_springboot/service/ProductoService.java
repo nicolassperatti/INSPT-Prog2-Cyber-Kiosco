@@ -162,4 +162,18 @@ public class ProductoService {
         producto.setImagen("producto_placeholder.jpg");
         guardarProducto(producto);
     }
+
+    public void darDeBajaOAltaSegunMarca(long idmarca, boolean estadoAlto){
+        List<Producto> productos = null;
+        Marca marca = marcaService.encontrarPorId(idmarca);
+        if(marca != null){
+            productos = this.productoRepository.findAllByMarca(marca);
+            for (Producto producto : productos) {
+                producto.setActivo(estadoAlto);
+                System.out.println("producto: " +producto.toString());
+            }
+            productoRepository.saveAll(productos);
+        }
+         
+    }
 }

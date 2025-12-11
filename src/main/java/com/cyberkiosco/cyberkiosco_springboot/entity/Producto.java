@@ -40,6 +40,9 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
+
+    @Column(columnDefinition = "boolean default true")
+    private boolean activo;
     
     
     public void setNombre(String nombre) {
@@ -78,6 +81,10 @@ public class Producto {
             throw new IllegalArgumentException("El stock no puede ser menor a cero.");
         }
         this.stock = stock;
+    }
+
+    public void setActivo(boolean activo){
+        this.activo = activo;
     }
     
     public void setPrecio (double precio) {

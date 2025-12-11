@@ -22,4 +22,5 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     Page<Producto> findByNombreLikeIgnoreCase(String nombre, Pageable pageable);
     boolean existsByNombreAndMarcaAndIdNot(String nombre, Marca marca, Long id );
     boolean existsByNombreAndMarca(String nombre, Marca marca);
+    List<Producto> findAllByMarca(Marca marca);
 }

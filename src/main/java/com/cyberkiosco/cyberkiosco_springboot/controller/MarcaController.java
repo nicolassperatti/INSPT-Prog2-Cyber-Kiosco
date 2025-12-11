@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import com.cyberkiosco.cyberkiosco_springboot.dtos.MarcaDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.service.MarcaService;
+import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
 
 import jakarta.validation.Valid;
 
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MarcaController {
     @Autowired
     MarcaService marcaService;
+
+    @Autowired
+    ProductoService productoService;
 
     @GetMapping("/admin/marcas")
     public String getMethodName(Model model) {
@@ -120,6 +124,9 @@ public class MarcaController {
         String path = "redirect:/admin/marcas";
         if (marcaService.existePorId(id)) {
             marcaService.eliminarPorId(id);
+            System.out.println("marca hola");
+            productoService.darDeBajaOAltaSegunMarca(id,false);
+            System.out.println("marca adios");
         }
         return path;
     }
@@ -129,6 +136,7 @@ public class MarcaController {
         String path = "redirect:/admin/marcas";
         if (marcaService.existePorId(id)) {
             marcaService.activarPorId(id);
+            productoService.darDeBajaOAltaSegunMarca(id,true);
         }
         return path;
     }
