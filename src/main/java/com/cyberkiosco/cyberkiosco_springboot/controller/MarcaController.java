@@ -119,24 +119,14 @@ public class MarcaController {
         return "redirect:/admin/marcas";
     }
 
-    @GetMapping("/admin/marca/baja/{id}")
-    public String getDarDeBaja(Model model, @PathVariable Long id) {
+    @GetMapping("/admin/marca/cambiar_estado/{id}/{estado}")
+    public String getDarDeBaja(Model model, @PathVariable Long id, @PathVariable Boolean estado) {
         String path = "redirect:/admin/marcas";
-        if (marcaService.existePorId(id)) {
-            marcaService.eliminarPorId(id);
+        if (marcaService.existePorId(id) && estado != null) {
+            marcaService.cambiarEstadoPorId(id,estado);
             System.out.println("marca hola");
-            productoService.darDeBajaOAltaSegunMarca(id,false);
+            productoService.darDeBajaOAltaSegunMarca(id,estado);
             System.out.println("marca adios");
-        }
-        return path;
-    }
-
-    @GetMapping("/admin/marca/alta/{id}")
-    public String getDarDeAlta(Model model, @PathVariable Long id) {
-        String path = "redirect:/admin/marcas";
-        if (marcaService.existePorId(id)) {
-            marcaService.activarPorId(id);
-            productoService.darDeBajaOAltaSegunMarca(id,true);
         }
         return path;
     }

@@ -16,8 +16,8 @@
                 </td>
                 <td>
                     <div>
-                        <a th:if= "${!row.activo}" th:href="@{|/admin/marca/alta/${row.id}|}"> dar de alta</a>
-                        <a th:if= "${row.activo}" th:href="@{|/admin/marca/baja/${row.id}|}"> dar de baja </a>
+                        <a th:if= "${!row.activo}" th:href="@{|/admin/marca/cambiar_estado/${row.id}/${true}|}"> dar de alta</a>
+                        <a th:if= "${row.activo}" th:href="@{|/admin/marca/cambiar_estado/${row.id}/${false}|}"> dar de baja </a>
                     </div>
                     
                 </td>

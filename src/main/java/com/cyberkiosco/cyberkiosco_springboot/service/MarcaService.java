@@ -30,18 +30,10 @@ public class MarcaService {
         marcaRepository.save(marca); //guarda y actualiza si ya existe
     }
     
-    public void eliminarPorId(long id) {
+    public void cambiarEstadoPorId(long id, boolean estado) {
         Marca marca = marcaRepository.findById(id).get();
         if(marca != null){
-            marca.setActivo(false);
-            marcaRepository.save(marca);
-        }
-    }
-
-    public void activarPorId(long id){
-        Marca marca = marcaRepository.findById(id).get();
-        if(marca != null){
-            marca.setActivo(true);
+            marca.setActivo(estado);
             marcaRepository.save(marca);
         }
     }
