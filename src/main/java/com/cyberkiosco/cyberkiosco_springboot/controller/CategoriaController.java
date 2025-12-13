@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import com.cyberkiosco.cyberkiosco_springboot.dtos.CategoriaDTO;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Categoria;
 import com.cyberkiosco.cyberkiosco_springboot.service.CategoriaService;
-
+import com.cyberkiosco.cyberkiosco_springboot.service.ProductoService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class CategoriaController {
+
+    private final ProductoService productoService;
     @Autowired
     CategoriaService categoriaService;
+
+    CategoriaController(ProductoService productoService) {
+        this.productoService = productoService;
+    }
 
     @GetMapping("/admin/categorias")
     public String getMethodName(Model model) {
@@ -115,11 +121,12 @@ public class CategoriaController {
         return "redirect:/admin/categorias";
     }
 
-    @GetMapping("/admin/categoria/eliminar/{id}")
-    public String getEliminar(Model model, @PathVariable Long id) {
+    @GetMapping("/admin/categoria/cambiar_estado/{id}/{estado}")
+    public String getEliminar(Model model, @PathVariable Long id, @PathVariable Boolean estado) {
         String path = "redirect:/admin/categorias";
         if (categoriaService.existePorId(id)) {
-            categoriaService.eliminarPorId(id);
+            categoriaService.cambiarEstadoPorId(id, estado);
+            productoService.darDeBajaOAltaSegunCategoria(id, estado);
         }
         return path;
     }

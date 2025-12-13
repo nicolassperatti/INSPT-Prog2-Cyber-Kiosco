@@ -30,8 +30,12 @@ public class CategoriaService {
         categoriaRepository.save(categoria); //guarda y actualiza si ya existe
     }
     
-    public void eliminarPorId(long id) {
-        categoriaRepository.deleteById(id);
+    public void cambiarEstadoPorId(long id, boolean estado) {
+        if(categoriaRepository.existsById(id)){
+            Categoria categoria = categoriaRepository.findById(id).get();
+            categoria.setActivo(estado);
+            categoriaRepository.save(categoria);
+        }
     }
     
     public long contar() {

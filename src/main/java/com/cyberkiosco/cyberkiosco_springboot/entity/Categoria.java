@@ -25,6 +25,8 @@ public class Categoria {
     private Long id;
     
     private String nombre;
+    @Column(columnDefinition = "boolean default true")
+    private boolean activo;
     
     
     public void setId(long id) {
@@ -32,6 +34,10 @@ public class Categoria {
             throw new IllegalArgumentException("El id_categoria no puede ser menor a cero.");
         }
         this.id = id;
+    }
+
+    public void setActivo(boolean activo){
+        this.activo = activo;
     }
     
     public void setNombre(String nombre) {

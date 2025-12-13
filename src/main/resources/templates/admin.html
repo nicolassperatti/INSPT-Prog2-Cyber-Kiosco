@@ -43,11 +43,11 @@
             </div>
 
             <div th:if= "${productoEditar}">
-                <div th:replace= "fragments/menu-producto-edit :: menu-producto-edit"></div>
+                <div th:replace="~{fragments/menu-producto-form :: form(@{/admin/producto/editar/{id}(id=${id})})}"></div>
             </div>
 
             <div th:if= "${productoCrear}">
-                <div th:replace= "fragments/menu-producto-create :: menu-producto-create"></div>
+                <div th:replace="~{fragments/menu-producto-form :: form(@{/admin/producto/crear})}"></div>
             </div>
 
             </div>

@@ -208,15 +208,15 @@ public class ProductosController {
             return "redirect:/admin/producto/crear";
         }
         
-        productoService.guardarProductoNuevo(productoDTO);
+        productoService.guardarProducto(productoDTO,0);
         return "redirect:/admin/productos";
     }
     
-    @GetMapping("/admin/producto/eliminar/{id}")
-    public String getEliminar(Model model, @PathVariable Long id) {
+    @GetMapping("/admin/producto/cambiar_estado/{id}/{estado}")
+    public String getEliminar(Model model, @PathVariable Long id, @PathVariable Boolean estado) {
         String path = "redirect:/admin/productos";
         if (productoService.existePorId(id)) {
-            productoService.eliminarProductoPorId(id);
+            productoService.cambiarEstadoPorId(id,estado);
         }
         return path;
     }

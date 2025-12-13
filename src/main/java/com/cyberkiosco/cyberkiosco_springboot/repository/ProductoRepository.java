@@ -23,4 +23,5 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     boolean existsByNombreAndMarcaAndIdNot(String nombre, Marca marca, Long id );
     boolean existsByNombreAndMarca(String nombre, Marca marca);
     List<Producto> findAllByMarca(Marca marca);
+    List<Producto> findAllByCategoria(Categoria categoria);
 }

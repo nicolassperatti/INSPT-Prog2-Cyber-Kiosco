@@ -55,8 +55,12 @@ public class ProductoService {
         // si se elimina un producto y se ingresa uno con la misma id da error !!!
     }
     
-    public void eliminarProductoPorId(long id) {
-        productoRepository.deleteById(id);
+    public void cambiarEstadoPorId(long id, boolean estado) {
+        Producto producto = productoRepository.findById(id).get();
+        if(producto != null){
+            producto.setActivo(estado);
+            guardarProducto(producto);
+        }
     }
     
     public long contarProductos() {
@@ -128,15 +132,22 @@ public class ProductoService {
     }
 
     public void guardarProducto(ProductoDTO productoDTO, long id){
-        Producto producto = new Producto();
-        producto.setId(id);
+        Producto producto = null;
+        if(productoRepository.existsById(id)){
+            producto = productoRepository.findById(id).get();
+            producto.setId(id);
+            producto.setImagen(productoDTO.getImagen());
+        }
+        else{
+            producto = new Producto();
+            producto.setImagen("producto_placeholder.jpg");
+        }
         producto.setNombre(productoDTO.getNombre());
         producto.setPrecio(productoDTO.getPrecio());
         producto.setStock(productoDTO.getStock());
         producto.setDescripcion(productoDTO.getDescripcion());
         producto.setMarca(marcaService.encontrarPorId(productoDTO.getIdmarca()));
         producto.setCategoria(categoriaService.encontrarPorId(productoDTO.getIdcategoria()));
-        producto.setImagen(productoDTO.getImagen());
         guardarProducto(producto);
     }
 
@@ -150,7 +161,7 @@ public class ProductoService {
         return this.productoRepository.existsByNombreAndMarca(productoDTO.getNombre(), marca);
     }
 
-    public void guardarProductoNuevo(ProductoDTO productoDTO){
+    /*public void guardarProductoNuevo(ProductoDTO productoDTO){
         Producto producto = new Producto();
         producto.setNombre(productoDTO.getNombre());
         producto.setPrecio(productoDTO.getPrecio());
@@ -159,21 +170,33 @@ public class ProductoService {
         producto.setMarca(marcaService.encontrarPorId(productoDTO.getIdmarca()));
         producto.setCategoria(categoriaService.encontrarPorId(productoDTO.getIdcategoria()));
         // Hardcodeamos el nombre de la imagen terminando en .jpg
-        producto.setImagen("producto_placeholder.jpg");
+        
         guardarProducto(producto);
+    }*/
+
+    public void darDeBajaVariosProductos(List<Producto> productos, boolean estado){
+        for (Producto producto : productos) {
+            producto.setActivo(estado);
+        }
+        productoRepository.saveAll(productos);
     }
 
-    public void darDeBajaOAltaSegunMarca(long idmarca, boolean estadoAlto){
+    public void darDeBajaOAltaSegunMarca(long idmarca, boolean estado){
         List<Producto> productos = null;
         Marca marca = marcaService.encontrarPorId(idmarca);
         if(marca != null){
             productos = this.productoRepository.findAllByMarca(marca);
-            for (Producto producto : productos) {
-                producto.setActivo(estadoAlto);
-                System.out.println("producto: " +producto.toString());
-            }
-            productoRepository.saveAll(productos);
+            darDeBajaVariosProductos(productos, estado);
         }
          
+    }
+
+    public void darDeBajaOAltaSegunCategoria(long idcategoria, boolean estado){
+        List<Producto> productos = null;
+        Categoria categoria = categoriaService.encontrarPorId(idcategoria);
+        if(categoria != null){
+            productos = this.productoRepository.findAllByCategoria(categoria);
+            darDeBajaVariosProductos(productos, estado);
+        }
     }
 }

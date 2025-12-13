@@ -1,0 +1,48 @@
+<div th:fragment="form(accion)">
+    <form th:action="${accion}" th:object="${productoDTO}" method="post" class="login-form">
+
+        <div class="login-input-container">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" th:field="*{nombre}">
+            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">error</span>
+        </div>
+
+        <div class="login-input-container">
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" step="0.01" th:field="*{precio}">
+            <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}">error</span>
+        </div>
+
+        <div class="login-input-container">
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" th:field="*{stock}">
+            <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}">error</span>
+        </div>
+
+        <div class="login-input-container">
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" th:field="*{descripcion}">
+            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">error</span>
+        </div>
+
+        <div class="login-input-container">
+            <label for="marca">Marca:</label>
+            <select th:field="*{idmarca}">
+                <option th:value="${-1}">Elige una opción</option>
+                <option th:each="marca:${marcas}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('idmarca')}" th:errors="*{idmarca}">error</span>
+        </div>
+
+        <div class="login-input-container">
+            <label for="categoria">Categoría:</label>
+            <select th:field="*{idcategoria}">
+                <option th:value="${-1}">Elige una opción</option>
+                <option th:each="categoria:${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('idcategoria')}" th:errors="*{idcategoria}">error</span>
+        </div>
+
+        <input type="submit" th:value="submit">
+    </form>
+</div>

@@ -15,7 +15,10 @@
                     <a th:href= "@{|/admin/categoria/editar/${row.id}|}"> modificar</a>
                 </td>
                 <td>
-                    <a th:href="@{|/admin/categoria/eliminar/${row.id}|}"> eliminar</a>
+                    <div>
+                        <a th:if= "${!row.activo}" th:href="@{|/admin/categoria/cambiar_estado/${row.id}/${true}|}"> dar de alta</a>
+                        <a th:if= "${row.activo}" th:href="@{|/admin/categoria/cambiar_estado/${row.id}/${false}|}"> dar de baja</a>
+                    </div>
                 </td>
             </tr>
         </tbody>
