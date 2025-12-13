@@ -56,6 +56,10 @@ public class CarritoProductoService {
         if(cantidad_producto > producto.getStock()) {
             throw new StockInsuficienteException("La cantidad demandada del producto es mayor al stock.");
         }
+
+        if(cantidad_producto <= 0){
+            throw new IllegalArgumentException("la cantidad demandada debe ser mayor a cero");
+        }
         
         CarritoProductoKey key = new CarritoProductoKey(carrito.getId(), producto.getId());
         
@@ -194,8 +198,8 @@ public class CarritoProductoService {
     public void sumarCantidad_producto (CarritoProducto carritoProducto, int cantidadExtra) {
         int nuevaCantidad, cantidadStockProd;
         
-        if(cantidadExtra < 0) {
-            throw new IllegalArgumentException("La cantidad_producto no puede ser menor a cero.");
+        if(cantidadExtra <= 0) {
+            throw new IllegalArgumentException("La cantidad_producto no puede ser menor o igual a cero.");
         }
 
         if(carritoProducto == null) {

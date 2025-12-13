@@ -43,6 +43,7 @@
                 <input type="hidden" name="idProducto" th:value="${producto.id}"/>
                 <input type="number" name="cantidad" min="1" step="1" value="1" th:max="${producto.stock}" required>
                 <button type="submit" class="boton-agregar">Agregar al carrito</button>
+                <span th:if= "${not #strings.isEmpty(mensajeError)}" th:text="${mensajeError}" style="color: red;"> error</span>
             </form>
         </div>
         

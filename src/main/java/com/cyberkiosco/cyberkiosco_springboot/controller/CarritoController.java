@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
 import com.cyberkiosco.cyberkiosco_springboot.entity.CarritoProducto;
@@ -43,10 +44,12 @@ public class CarritoController {
     public String agregarProducto(
             @RequestParam long idProducto, 
             @RequestParam int cantidad,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            RedirectAttributes redirectAttributes
         ) {
         
         String redireccion = "redirect:/productos";
+        String mensaje = null;
         boolean valido = false;
         //obtiene el usuario de la sesion
         Usuario usr = userDetails.getUsuarioReal();
@@ -69,8 +72,10 @@ public class CarritoController {
 
             valido = true;
         } catch (IllegalArgumentException ilae) {
+            mensaje = ilae.getMessage();
             System.out.println("ERROR: " + ilae.getMessage());
         } catch (StockInsuficienteException sie) {
+            mensaje = sie.getMessage();
             System.out.println("ERROR: " + sie.getMessage());
         } catch (Exception e) {
             System.out.println("Error desconocido");
@@ -78,6 +83,7 @@ public class CarritoController {
 
         // si no se pudo agregar a carrito quedarse en la pagina
         if (!valido) {
+            redirectAttributes.addFlashAttribute("mensajeError", mensaje);
             redireccion = "redirect:/producto_detalle/" + producto.getId();
         } 
         
