@@ -41,10 +41,24 @@ public class WebSecurityConfig {
                 // Rutas públicas
                 .requestMatchers("/css/**", "/images/**", "/js/**", "/usuario/login","/logout").permitAll()
                 .requestMatchers("/").permitAll()
-                //rutas para usuarios con rol de usuario
-                .requestMatchers("/productos","/carrito/**","/contacto").hasAuthority("Usuario")
-                //rutas para usuarios con rol de administrador
-                .requestMatchers("/admin/**").hasAuthority("Administrador") 
+                //autorizacion para usuarios finales (clientes)
+                //primero configuramos la autorizacion a productos
+                .requestMatchers("/productos","/producto_detalle/**","/producto_por_marca","/producto_por_categoria").hasAuthority("Usuario")
+                //luego la de carritos
+                .requestMatchers("/carrito","/carrito/agregar","/carrito/sacar","/carrito/comprar").hasAuthority("Usuario")
+                .requestMatchers("/carrito/lista_compras","/carrito/detalle_compra/**").hasAuthority("Usuario")
+                //por ultimo contactos
+                .requestMatchers("/contactos").hasAuthority("Usuario")
+
+                //autorizacion para usuarios admin (administradores)
+                //quien puede ver los menus de admin
+                .requestMatchers("/admin","/admin/marcas","/admin/productos","/admin/categorias").hasAuthority("Administrador") 
+                //quien puede editar las marcas, categorias y productos
+                .requestMatchers("/admin/marca/editar/**","/admin/categoria/editar/**","/admin/producto/editar/**").hasAuthority("Administrador")
+                //quien puede crear las marcas, categorias y productos
+                .requestMatchers("/admin/marca/crear/**","/admin/categoria/crear/**","/admin/producto/crear/**").hasAuthority("Administrador")
+                //quien puede cambiar el estado de las marcas, categorias y productos
+                .requestMatchers("/admin/marca/cambiar_estado/**","/admin/categoria/cambiar_estado/**","/admin/producto/cambiar_estado/**").hasAuthority("Administrador")
                 // Cualquier otra ruta requiere estar autenticado
                 .anyRequest().authenticated()
             )
