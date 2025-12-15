@@ -5,6 +5,7 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
 import com.cyberkiosco.cyberkiosco_springboot.entity.CarritoProducto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.embeddable.CarritoProductoKey;
+import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.ProductoDesactivadoException;
 import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.StockInsuficienteException;
 import com.cyberkiosco.cyberkiosco_springboot.repository.CarritoProductoRepository;
 import java.time.LocalDateTime;
@@ -36,6 +37,15 @@ public class CarritoProductoService {
         }
         
         return carrito;
+    }
+
+    public boolean verificarProductosDescontinuados(long id_carrito){
+        List<Producto> productos = listaDeProductosDeListaCarritoProducto(listaDeCarritoProductoPorId_carrito(id_carrito));
+        boolean resultado = productoService.hayProductosDescontinuados(productos);
+        if(resultado){
+            throw new ProductoDesactivadoException("uno o mas productos fueorn descontinuados/n no se puede continuar la compra");
+        }
+        return resultado;
     }
     
     

@@ -52,7 +52,7 @@ public class ProductosController {
         Page<Producto> paginaProductos;
         
         if((nombre == null) || (nombre.trim().isBlank())) { //si no hay nombre de producto para busqueda
-            paginaProductos = productoService.obtenerTodosLosProductos(pageable);
+            paginaProductos = productoService.obtenerTodosLosProductosActivos(pageable);
         } else {
             paginaProductos = productoService.obetenerProductosQueContinienen(nombre, pageable);
         }
@@ -99,7 +99,7 @@ public class ProductosController {
     
     
     @GetMapping("/producto_detalle/{id}")
-    public String verProducto(@PathVariable Long id, Model model) {
+    public String verProducto(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Producto producto = productoService.encontrarPorId(id);
         String redireccion;
 

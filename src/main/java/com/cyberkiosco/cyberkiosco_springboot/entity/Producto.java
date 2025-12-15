@@ -2,6 +2,7 @@
 package com.cyberkiosco.cyberkiosco_springboot.entity;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.auxiliar.Validacion;
+import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.ProductoDesactivadoException;
 import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.StockInsuficienteException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -67,6 +68,13 @@ public class Producto {
         }
         
         this.stock = stockRestante;
+    }
+
+    public boolean disponibleParaComprar(){
+        if(!this.activo){
+            throw new ProductoDesactivadoException("El producto no se encuentra disponible");
+        }
+        return this.activo;
     }
     
     public void agregarStock (int cantidad) {

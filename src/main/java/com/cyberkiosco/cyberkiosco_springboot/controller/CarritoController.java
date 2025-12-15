@@ -10,6 +10,7 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.Carrito;
 import com.cyberkiosco.cyberkiosco_springboot.entity.CarritoProducto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
+import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.ProductoDesactivadoException;
 import com.cyberkiosco.cyberkiosco_springboot.entity.exceptions.StockInsuficienteException;
 import com.cyberkiosco.cyberkiosco_springboot.security.UserDetailsImpl;
 import com.cyberkiosco.cyberkiosco_springboot.service.CarritoProductoService;
@@ -63,12 +64,15 @@ public class CarritoController {
         CarritoProducto carritoProducto = carritoProductoService.encontrarPorId(carrito.getId(), producto.getId());
 
         try {
+            boolean verificar = producto.disponibleParaComprar();
             //si el producto ya estaba en el carrito sumar la nueva cantidad
             if(carritoProducto != null) {
                 carritoProductoService.sumarCantidad_producto(carritoProducto, cantidad);
             } else {
                 carritoProductoService.guardar(carrito, producto, cantidad, producto.getPrecio());
             }
+
+            
 
             valido = true;
         } catch (IllegalArgumentException ilae) {
@@ -77,8 +81,10 @@ public class CarritoController {
         } catch (StockInsuficienteException sie) {
             mensaje = sie.getMessage();
             System.out.println("ERROR: " + sie.getMessage());
-        } catch (Exception e) {
-            System.out.println("Error desconocido");
+        }catch(ProductoDesactivadoException pException){
+            mensaje = pException.getMessage();
+        } catch(Exception e){
+            System.out.println("hubo un error desconocido");
         }
 
         // si no se pudo agregar a carrito quedarse en la pagina
@@ -143,16 +149,17 @@ public class CarritoController {
     
     @PostMapping("/carrito/comprar")
     public String comprarCarrito(@RequestParam long idCarrito, @RequestParam double precioTotalCarrito, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
-        boolean stocksValidos, compraExitosa;
+        boolean stocksValidos, compraExitosa,productosNoDescontinuados;
         String redireccion;
         Usuario usuario = userDetailsImpl.getUsuarioReal();
         compraExitosa = false;
         redireccion = "redirect:/carrito";
         
         try {
+            productosNoDescontinuados = carritoProductoService.verificarProductosDescontinuados(idCarrito);
             stocksValidos = carritoProductoService.stocksDeCarritoValidosParaCompra(idCarrito);
             usuarioService.restarFondos(usuario, precioTotalCarrito);
-            if(stocksValidos) {
+            if(stocksValidos && !productosNoDescontinuados) {
                 carritoProductoService.comprarCarritoEntero(idCarrito, precioTotalCarrito);
                 compraExitosa = true;
             }      
@@ -160,7 +167,9 @@ public class CarritoController {
             System.out.println("ERROR: " + ilae.getMessage());
         }  catch (StockInsuficienteException sie) {
             System.out.println("ERROR: " + sie.getMessage());
-        } catch (RuntimeException re) {
+        } catch (ProductoDesactivadoException pException){
+            System.out.println(pException.getMessage());
+        }catch (RuntimeException re) {
             System.out.println("ERROR: " + re.getMessage());
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());

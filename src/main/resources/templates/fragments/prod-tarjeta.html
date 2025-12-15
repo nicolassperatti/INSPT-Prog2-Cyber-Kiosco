@@ -38,13 +38,18 @@
             <p th:text="|Stock: ${producto.stock}|" class="prod-atributo">Stock</p>
         </div>
         
-        <div class="tarjeta-menu-compra">
-            <form th:action="@{/carrito/agregar}" method="post">
-                <input type="hidden" name="idProducto" th:value="${producto.id}"/>
-                <input type="number" name="cantidad" min="1" step="1" value="1" th:max="${producto.stock}" required>
-                <button type="submit" class="boton-agregar">Agregar al carrito</button>
-                <span th:if= "${not #strings.isEmpty(mensajeError)}" th:text="${mensajeError}" style="color: red;"> error</span>
-            </form>
+        <div>
+            <div th:if= "${producto.activo}" class="tarjeta-menu-compra">
+                <form th:action="@{/carrito/agregar}" method="post">
+                    <input type="hidden" name="idProducto" th:value="${producto.id}"/>
+                    <input type="number" name="cantidad" min="1" step="1" value="1" th:max="${producto.stock}" required>
+                    <button type="submit" class="boton-agregar">Agregar al carrito</button>
+                    <span th:if= "${not #strings.isEmpty(mensajeError)}" th:text="${mensajeError}" style="color: red;"> error</span>
+                </form>
+            </div>
+            <div th:unless= "${producto.activo}">
+                <p style="color: red;"> No se puede agregar actualmente este producto, esta descontinuado</p>
+            </div>
         </div>
         
     </div>

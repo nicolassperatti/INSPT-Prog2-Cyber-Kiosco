@@ -7,6 +7,8 @@ import com.cyberkiosco.cyberkiosco_springboot.entity.Marca;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Producto;
 import com.cyberkiosco.cyberkiosco_springboot.entity.auxiliar.Validacion;
 import com.cyberkiosco.cyberkiosco_springboot.repository.ProductoRepository;
+
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -29,13 +31,13 @@ public class ProductoService {
     private CategoriaService categoriaService;
     
     
-    public Page<Producto> obtenerTodosLosProductos(int page, int size) {
+    public Page<Producto> obtenerTodosLosProductosActivos(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return obtenerTodosLosProductos(pageable);
+        return obtenerTodosLosProductosActivos(pageable);
     }
     
-    public Page<Producto> obtenerTodosLosProductos(Pageable pageable){
-        return this.productoRepository.findAll(pageable);
+    public Page<Producto> obtenerTodosLosProductosActivos(Pageable pageable){
+        return this.productoRepository.findAllByActivoTrue(pageable);
     }
     
     public List<Producto> obtenerTodosLosProductos() {
@@ -78,10 +80,10 @@ public class ProductoService {
     }
 
     public Page<Producto> obtenerProductosPorMarca(Marca marca, Pageable pageable){
-        return this.productoRepository.findByMarca(marca, pageable);
+        return this.productoRepository.findByMarcaAndActivoTrue(marca, pageable);
     }
     public Page<Producto> obtenerProductosPorCategoria(Categoria categoria, Pageable pageable){
-        return this.productoRepository.findByCategoria(categoria, pageable);
+        return this.productoRepository.findByCategoriaAndActivoTrue(categoria, pageable);
     }
 
     public List<Producto> obetenerProductosQueContinienen(String nombre){
@@ -89,7 +91,7 @@ public class ProductoService {
     }
     
     public Page<Producto> obetenerProductosQueContinienen(String nombre, Pageable pageable){
-        return this.productoRepository.findByNombreLikeIgnoreCase("%" + nombre + "%", pageable);
+        return this.productoRepository.findByNombreLikeIgnoreCaseAndActivoTrue("%" + nombre + "%", pageable);
     }
     
     public Page<Producto> obetenerProductosQueContinienen(String nombre, int page, int size) {
@@ -106,13 +108,13 @@ public class ProductoService {
     public Page<Producto> obtenerProductosPorCategoria(Categoria categoria, int page, int size) {
         Validacion.validarNotNull(categoria, "Categoria");
         Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
-        return productoRepository.findByCategoria(categoria,pageable);
+        return productoRepository.findByCategoriaAndActivoTrue(categoria,pageable);
     }
     
     public Page<Producto> obtenerProductosPorCategoria_Id(Long id_categoria, int page, int size) {
         Categoria categoria = categoriaService.encontrarPorId(id_categoria);
         Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
-        return productoRepository.findByCategoria(categoria,pageable);
+        return productoRepository.findByCategoriaAndActivoTrue(categoria,pageable);
     }
 
     public ProductoDTO convertirAProductoDTO(Long id){
@@ -159,6 +161,19 @@ public class ProductoService {
     public boolean existeProductoConMarca(ProductoDTO productoDTO){
         Marca marca = this.marcaService.encontrarPorId(productoDTO.getIdmarca());
         return this.productoRepository.existsByNombreAndMarca(productoDTO.getNombre(), marca);
+    }
+
+    public boolean hayProductosDescontinuados(List<Producto> productos){
+        boolean resultado = false;
+        int i = 0;
+        while(i < productos.size() && !resultado){
+            Producto producto = productos.get(i);
+            if(!producto.isActivo()){
+                resultado = true;
+            }
+            i++;
+        }
+        return resultado;
     }
 
     /*public void guardarProductoNuevo(ProductoDTO productoDTO){
