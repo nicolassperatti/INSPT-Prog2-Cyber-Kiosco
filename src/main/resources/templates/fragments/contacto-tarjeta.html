@@ -6,7 +6,7 @@
         th:src="|/images/logo2.png|"
         th:alt="'Logo de Cyberkiosco'">
     
-    <div class="contacto-tarjeta-panel">
+    <!-- <div class="contacto-tarjeta-panel">
         <div class="contacto-tarjeta-info">
             
             <div class="red-contacto">
@@ -30,7 +30,34 @@
             </div>
             
         </div>
-    </div>
+    </div> -->
+    <form th:action= "@{/contacto/{idusuario}(idusuario=${idusuario})}" method="post" th:object="${quejaDTO}" class="login-form">
+        <p style="color: black; font-weight: bold; text-align: center;">formulario de queja</p>
+        <div class="login-input-container">
+            <label for="Causa">Causa </label>
+            <select th:field="*{razonQueja}">
+                <option value=""> Elige una opcion </option>
+                <option th:each= "causa:${causas}" th:value="${causa}" th:text="${causa}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('razonQueja')}" th:errors="*{razonQueja}">error</span>
+        </div>
+        <div class="login-input-container">
+            <label for="Queja"> Queja </label>
+            <input type="text" name="queja" id="queja">
+            <span th:if="${#fields.hasErrors('queja')}" th:errors="*{queja}">error</span>
+        </div>
+
+        <div class="login-input-container">
+            <label for="compra">Compra </label>
+            <select th:field="*{idcarrito}">
+                <option th:value="${-1}"> Elige una opcion </option>
+                <option th:each= "compra:${compras}" th:value="${compra.id}" th:text=" 'Compra numero: $' + ${compra.id} + 'Dinero gastado: $' + ${compra.precioTotal}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('idcarrito')}" th:errors="*{idcarrito}">error</span>
+        </div>
+        <input type="submit" th:value="submit">
+        <span th:if= "${mensaje != null}" th:text="${mensaje}" style="color: black; font-weight: bold;"></span>
+    </form>
     
 </div>
 
