@@ -80,6 +80,11 @@ CREATE TABLE `admin` (
     FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE
 );
 
+CREATE TABLE `lector` (
+    `id_usuario` INTEGER NOT NULL PRIMARY KEY,
+    FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE
+);
+
 -- ============================================
 -- NUEVA ESTRUCTURA: Tabla Final
 -- ============================================
@@ -137,21 +142,15 @@ INSERT INTO `admin` (`id_usuario`) VALUES (LAST_INSERT_ID());
 -- Insertar Usuarios Finales
 INSERT INTO `usuario` (`nombre`, `apellido`, `mail`, `password`, `tipo_usuario`) VALUES
 ('Jose', 'Pérez', 'jose.perez@example.com', '$2a$12$/Ajy9di1bvKeytY7yAel5ev4GtSoPMp.cfYBqQOFxF1T5tmjNNBHG', 'FINAL'),
-('Maria', 'López', 'maria.lopez@example.com', '$2a$12$qsDnp8ALqDebdfGofdqM1.q38raqWTymhsByv8baY6n5n7xC0CKIO', 'FINAL');
+('Maria', 'López', 'maria.lopez@example.com', '$2a$12$qsDnp8ALqDebdfGofdqM1.q38raqWTymhsByv8baY6n5n7xC0CKIO', 'FINAL'),
+('Lector', 'Lector', 'lector@example.com', '$2a$12$6sPyzHD3x2rhM9QXEFaSwu1RAn/RUGrvPJnh2UJ.Mb7WOVNorf0zi', 'LECTOR');
 
 -- Insertar en tabla final con fondos
 INSERT INTO `final` (`id_usuario`, `fondos`) VALUES
 (2, 500.00),
 (3, 200.00);
 
--- Insertar más usuarios finales
-INSERT INTO `usuario` (`nombre`, `apellido`, `mail`, `password`, `tipo_usuario`) VALUES
-('Carlos', 'Ruiz', 'carlos.ruiz@example.com', 'carlos123', 'FINAL'),
-('Ana', 'Martínez', 'ana.martinez@example.com', 'ana123', 'FINAL');
-
-INSERT INTO `final` (`id_usuario`, `fondos`) VALUES
-(4, 300.00),
-(5, 150.00);
+INSERT INTO `lector` (`id_usuario`) VALUES (4);
 
 -- Insertar perfiles
 INSERT INTO `perfil` (`nombre_perfil`, `foto`, `id_usuario`) VALUES

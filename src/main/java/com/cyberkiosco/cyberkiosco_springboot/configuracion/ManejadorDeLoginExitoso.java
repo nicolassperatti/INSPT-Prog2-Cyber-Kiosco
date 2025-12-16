@@ -23,12 +23,10 @@ public class ManejadorDeLoginExitoso implements AuthenticationSuccessHandler {
         Collection<? extends GrantedAuthority> autoridades = authentication.getAuthorities();
         String direccionDestino = "/productos";
         Iterator<? extends GrantedAuthority> iterador = autoridades.iterator();
-        boolean esAdmin = false;
-        while (iterador.hasNext() && !esAdmin) {
+        while (iterador.hasNext() && direccionDestino.equalsIgnoreCase("/productos")) {
             GrantedAuthority autoridad = iterador.next();
             
-            if (autoridad.getAuthority().equals("Administrador")) {
-                esAdmin = true;
+            if (autoridad.getAuthority().equals("Administrador") || autoridad.getAuthority().equals("Lector")) {
                 direccionDestino = "/admin";
             }
         }

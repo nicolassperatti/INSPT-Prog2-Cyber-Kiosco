@@ -2,6 +2,8 @@ package com.cyberkiosco.cyberkiosco_springboot.security;
 
 import com.cyberkiosco.cyberkiosco_springboot.entity.Usuario;
 import com.cyberkiosco.cyberkiosco_springboot.entity.Admin;
+import com.cyberkiosco.cyberkiosco_springboot.entity.Lector;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,8 +41,10 @@ public class UserDetailsImpl implements UserDetails {
         
         if (usuario instanceof Admin) {
             authority = "Administrador";
-        } else {
+        } else if(usuario instanceof Lector) {
             // Si no es Admin, asumo que es Final (Usuario)
+            authority = "Lector";
+        }else{
             authority = "Usuario";
         }
         return Collections.singletonList(new SimpleGrantedAuthority(authority));

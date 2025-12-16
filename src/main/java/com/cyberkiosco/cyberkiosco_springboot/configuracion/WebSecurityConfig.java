@@ -52,7 +52,7 @@ public class WebSecurityConfig {
 
                 //autorizacion para usuarios admin (administradores)
                 //quien puede ver los menus de admin
-                .requestMatchers("/admin","/admin/marcas","/admin/productos","/admin/categorias").hasAuthority("Administrador") 
+                .requestMatchers("/admin","/admin/marcas","/admin/productos","/admin/categorias").hasAnyAuthority("Administrador","Lector") 
                 //quien puede editar las marcas, categorias y productos
                 .requestMatchers("/admin/marca/editar/**","/admin/categoria/editar/**","/admin/producto/editar/**").hasAuthority("Administrador")
                 //quien puede crear las marcas, categorias y productos
