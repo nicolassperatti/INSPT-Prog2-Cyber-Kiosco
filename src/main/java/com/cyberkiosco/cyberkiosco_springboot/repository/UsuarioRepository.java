@@ -28,20 +28,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
      */
     Usuario findByMailIgnoreCaseAndPassword(String email, String password);
     
-    /**
-     * Obtiene todos los usuarios de tipo Admin.
-     * Usa una consulta polimórfica que filtra por el discriminador.
-     */
-    @Query("SELECT u FROM Usuario u WHERE TYPE(u) = Admin")
-    List<Usuario> findAllAdmins();
     
-    /**
-     * Obtiene todos los usuarios de tipo Final.
-     * Usa una consulta polimórfica que filtra por el discriminador.
-     */
-    @Query("SELECT u FROM Usuario u WHERE TYPE(u) = Final")
-    List<Usuario> findAllFinales();
-    
-    // NOTA: Eliminamos findByRol_Id porque ya no existe Rol
-    // Si necesitas buscar por tipo, usa los métodos anteriores
 }
