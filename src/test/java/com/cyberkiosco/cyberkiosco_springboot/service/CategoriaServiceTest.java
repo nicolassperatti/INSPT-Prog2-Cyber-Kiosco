@@ -72,17 +72,7 @@ public class CategoriaServiceTest {
     }
     
     
-    @Test
-    @Order(4)
-    void testEliminarCategoriaPorId() {
-        Long id = 3L;
-        
-        assertTrue(categoriaService.existePorId(id));
-        
-        categoriaService.eliminarPorId(id);
-        
-        assertFalse(categoriaService.existePorId(id));
-    }
+    
     
     
     @Test

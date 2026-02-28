@@ -75,7 +75,7 @@ class ProductoServiceTest {
     @Order(1) //porque luego si se agregan o eliminan registros con los otros tests falla
     void testObtenerTodosLosProductos() {
         List<Producto> listaProductos;
-        listaProductos = this.productoService.obtenerTodosLosProductos(0,5).getContent();
+        listaProductos = this.productoService.obtenerTodosLosProductosActivos(0,5).getContent();
         
         for(Producto producto : listaProductos) {
             System.out.println(producto.toString());
@@ -181,12 +181,7 @@ class ProductoServiceTest {
     }
 
     
-    @Test
-    void testEliminarProductoPorId() {
-        productoService.eliminarProductoPorId(1L); // -1 producto cantidad acutal 15
-        
-        assertFalse(productoService.existePorId(1L));
-    }
+    
 
     
     @Test

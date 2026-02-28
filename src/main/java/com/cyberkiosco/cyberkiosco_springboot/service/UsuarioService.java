@@ -64,19 +64,7 @@ public class UsuarioService {
         return usuarioRepository.count();
     }
     
-    /**
-     * Obtiene todos los usuarios de tipo Admin.
-     */
-    public List<Usuario> obtenerTodosAdmins() {
-        return usuarioRepository.findAllAdmins();
-    }
-    
-    /**
-     * Obtiene todos los usuarios de tipo Final.
-     */
-    public List<Usuario> obtenerTodosFinales() {
-        return usuarioRepository.findAllFinales();
-    }
+   
     
     /**
      * Busca un usuario por email.

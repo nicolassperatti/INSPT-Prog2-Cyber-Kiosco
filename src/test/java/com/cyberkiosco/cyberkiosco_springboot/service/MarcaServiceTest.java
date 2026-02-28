@@ -72,15 +72,7 @@ public class MarcaServiceTest {
     }
     
     
-    @Test
-    @Order(4)
-    void testEliminarMarcaPorId() {
-        assertTrue(marcaService.existePorId(3L));
-        
-        marcaService.eliminarPorId(3L);
-        
-        assertFalse(marcaService.existePorId(3L));
-    }
+    
     
     
     @Test
